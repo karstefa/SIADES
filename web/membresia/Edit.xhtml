@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MembresiaEditDlg" widgetVar="MembresiaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="MembresiaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{membresiaController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditMembresiaLabel_idMembresia}" for="idMembresia" />
+                        <h:outputText id="idMembresia" value="#{membresiaController.selected.idMembresia}" />
+
+                        <p:outputLabel value="#{idioma.EditMembresiaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{membresiaController.selected.nombre}" title="#{idioma.EditMembresiaTitle_nombre}" required="true" requiredMessage="#{idioma.EditMembresiaRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditMembresiaLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{membresiaController.selected.fechaInicio}" title="#{idioma.EditMembresiaTitle_fechaInicio}" required="true" requiredMessage="#{idioma.EditMembresiaRequiredMessage_fechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditMembresiaLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{membresiaController.selected.fechaFin}" title="#{idioma.EditMembresiaTitle_fechaFin}" required="true" requiredMessage="#{idioma.EditMembresiaRequiredMessage_fechaFin}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditMembresiaLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{membresiaController.selected.monto}" title="#{idioma.EditMembresiaTitle_monto}" required="true" requiredMessage="#{idioma.EditMembresiaRequiredMessage_monto}"/>
+
+                        <p:outputLabel value="#{idioma.EditMembresiaLabel_terminosCondiciones}" for="terminosCondiciones" />
+                        <p:inputTextarea rows="4" cols="30" id="terminosCondiciones" value="#{membresiaController.selected.terminosCondiciones}" title="#{idioma.EditMembresiaTitle_terminosCondiciones}" required="true" requiredMessage="#{idioma.EditMembresiaRequiredMessage_terminosCondiciones}"/>
+
+                        <p:outputLabel value="#{idioma.EditMembresiaLabel_idTipoMembresia}" for="idTipoMembresia" />
+                        <p:selectOneMenu id="idTipoMembresia" value="#{membresiaController.selected.idTipoMembresia}" required="true" requiredMessage="#{idioma.EditMembresiaRequiredMessage_idTipoMembresia}" converter="tipoMembresiaConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoMembresiaController.items}"
+                                           var="idTipoMembresiaItem"
+                                           itemValue="#{idTipoMembresiaItem}"
+                                           itemLabel="#{idTipoMembresiaItem.idTipoMembresia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{membresiaController.save}" value="#{idioma.Save}" update="display,:MembresiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MembresiaEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('MembresiaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{idioma.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{idioma.Maintenance}">
+                    <p:menuitem value="#{idioma.AutorizacionUsuarioEmpleadoHeading}..." outcome="/autorizacionUsuarioEmpleado/index" />
+                    <p:menuitem value="#{idioma.CargoHeading}..." outcome="/cargo/index" />
+                    <p:menuitem value="#{idioma.ConstanciaHeading}..." outcome="/constancia/index" />
+                    <p:menuitem value="#{idioma.ContactoHeading}..." outcome="/contacto/index" />
+                    <p:menuitem value="#{idioma.ContactoEmpleadoHeading}..." outcome="/contactoEmpleado/index" />
+                    <p:menuitem value="#{idioma.ContactoPersonaHeading}..." outcome="/contactoPersona/index" />
+                    <p:menuitem value="#{idioma.DepartamentoHeading}..." outcome="/departamento/index" />
+                    <p:menuitem value="#{idioma.DetalleProductoDonanteHeading}..." outcome="/detalleProductoDonante/index" />
+                    <p:menuitem value="#{idioma.DireccionHeading}..." outcome="/direccion/index" />
+                    <p:menuitem value="#{idioma.DireccionEmpleadoHeading}..." outcome="/direccionEmpleado/index" />
+                    <p:menuitem value="#{idioma.DireccionPersonaHeading}..." outcome="/direccionPersona/index" />
+                    <p:menuitem value="#{idioma.DocumentoHeading}..." outcome="/documento/index" />
+                    <p:menuitem value="#{idioma.DocumentoEmpleadoHeading}..." outcome="/documentoEmpleado/index" />
+                    <p:menuitem value="#{idioma.DocumentoSocioHeading}..." outcome="/documentoSocio/index" />
+                    <p:menuitem value="#{idioma.DonacionHeading}..." outcome="/donacion/index" />
+                    <p:menuitem value="#{idioma.DonacionMembresiaHeading}..." outcome="/donacionMembresia/index" />
+                    <p:menuitem value="#{idioma.DonanteHeading}..." outcome="/donante/index" />
+                    <p:menuitem value="#{idioma.EmpleadoHeading}..." outcome="/empleado/index" />
+                    <p:menuitem value="#{idioma.EstadoEmpleadoHeading}..." outcome="/estadoEmpleado/index" />
+                    <p:menuitem value="#{idioma.EstadoSocioHeading}..." outcome="/estadoSocio/index" />
+                    <p:menuitem value="#{idioma.EstudioHeading}..." outcome="/estudio/index" />
+                    <p:menuitem value="#{idioma.ExistenciaProductoHeading}..." outcome="/existenciaProducto/index" />
+                    <p:menuitem value="#{idioma.MembresiaHeading}..." outcome="/membresia/index" />
+                    <p:menuitem value="#{idioma.MoraHeading}..." outcome="/mora/index" />
+                    <p:menuitem value="#{idioma.MoraPagoHeading}..." outcome="/moraPago/index" />
+                    <p:menuitem value="#{idioma.MunicipioHeading}..." outcome="/municipio/index" />
+                    <p:menuitem value="#{idioma.NecesidadHeading}..." outcome="/necesidad/index" />
+                    <p:menuitem value="#{idioma.NecesidadProyectoHeading}..." outcome="/necesidadProyecto/index" />
+                    <p:menuitem value="#{idioma.OrdenHeading}..." outcome="/orden/index" />
+                    <p:menuitem value="#{idioma.OrdenDetalleHeading}..." outcome="/ordenDetalle/index" />
+                    <p:menuitem value="#{idioma.PagoHeading}..." outcome="/pago/index" />
+                    <p:menuitem value="#{idioma.PagoMembresiaHeading}..." outcome="/pagoMembresia/index" />
+                    <p:menuitem value="#{idioma.PaisHeading}..." outcome="/pais/index" />
+                    <p:menuitem value="#{idioma.PermisoHeading}..." outcome="/permiso/index" />
+                    <p:menuitem value="#{idioma.ProductoDonanteHeading}..." outcome="/productoDonante/index" />
+                    <p:menuitem value="#{idioma.ProyectoHeading}..." outcome="/proyecto/index" />
+                    <p:menuitem value="#{idioma.ProyectoSocioHeading}..." outcome="/proyectoSocio/index" />
+                    <p:menuitem value="#{idioma.RolHeading}..." outcome="/rol/index" />
+                    <p:menuitem value="#{idioma.SocioHeading}..." outcome="/socio/index" />
+                    <p:menuitem value="#{idioma.SocioMembresiaHeading}..." outcome="/socioMembresia/index" />
+                    <p:menuitem value="#{idioma.TipoConstanciaHeading}..." outcome="/tipoConstancia/index" />
+                    <p:menuitem value="#{idioma.TipoDonacionHeading}..." outcome="/tipoDonacion/index" />
+                    <p:menuitem value="#{idioma.TipoEmpleadoHeading}..." outcome="/tipoEmpleado/index" />
+                    <p:menuitem value="#{idioma.TipoMembresiaHeading}..." outcome="/tipoMembresia/index" />
+                    <p:menuitem value="#{idioma.TipoMoraHeading}..." outcome="/tipoMora/index" />
+                    <p:menuitem value="#{idioma.TipoPagoHeading}..." outcome="/tipoPago/index" />
+                    <p:menuitem value="#{idioma.TipoPermisoHeading}..." outcome="/tipoPermiso/index" />
+                    <p:menuitem value="#{idioma.TipoProyectoHeading}..." outcome="/tipoProyecto/index" />
+                    <p:menuitem value="#{idioma.TipoSocioHeading}..." outcome="/tipoSocio/index" />
+                    <p:menuitem value="#{idioma.TituloHeading}..." outcome="/titulo/index" />
+                    <p:menuitem value="#{idioma.UsuarioEmpleadoRolHeading}..." outcome="/usuarioEmpleadoRol/index" />
+                    <p:menuitem value="#{idioma.UsuarioSocioRolHeading}..." outcome="/usuarioSocioRol/index" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>

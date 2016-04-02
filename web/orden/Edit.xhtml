@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OrdenEditDlg" widgetVar="OrdenEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditOrdenTitle}" closeOnEscape="true">
+
+            <h:form id="OrdenEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ordenController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditOrdenLabel_idOrden}" for="idOrden" />
+                        <h:outputText id="idOrden" value="#{ordenController.selected.idOrden}" />
+
+                        <p:outputLabel value="#{idioma.EditOrdenLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{ordenController.selected.estado}" title="#{idioma.EditOrdenTitle_estado}" required="true" requiredMessage="#{idioma.EditOrdenRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.EditOrdenLabel_idProyecto}" for="idProyecto" />
+                        <p:selectOneMenu id="idProyecto" value="#{ordenController.selected.idProyecto}" required="true" requiredMessage="#{idioma.EditOrdenRequiredMessage_idProyecto}" converter="proyectoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{proyectoController.items}"
+                                           var="idProyectoItem"
+                                           itemValue="#{idProyectoItem}"
+                                           itemLabel="#{idProyectoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ordenController.save}" value="#{idioma.Save}" update="display,:OrdenListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OrdenEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('OrdenEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

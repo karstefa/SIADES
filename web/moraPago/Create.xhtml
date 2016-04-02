@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MoraPagoCreateDlg" widgetVar="MoraPagoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateMoraPagoTitle}" closeOnEscape="true">
+
+            <h:form id="MoraPagoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{moraPagoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateMoraPagoLabel_idMora}" for="idMora" />
+                        <p:selectOneMenu id="idMora" value="#{moraPagoController.selected.idMora}" required="true" requiredMessage="#{idioma.CreateMoraPagoRequiredMessage_idMora}" converter="moraConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{moraController.items}"
+                                           var="idMoraItem"
+                                           itemValue="#{idMoraItem}"
+                                           itemLabel="#{idMoraItem.idMora.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.CreateMoraPagoLabel_idPago}" for="idPago" />
+                        <p:selectOneMenu id="idPago" value="#{moraPagoController.selected.idPago}" required="true" requiredMessage="#{idioma.CreateMoraPagoRequiredMessage_idPago}" converter="pagoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{pagoController.items}"
+                                           var="idPagoItem"
+                                           itemValue="#{idPagoItem}"
+                                           itemLabel="#{idPagoItem.idPago.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{moraPagoController.saveNew}" value="#{idioma.Save}" update="display,:MoraPagoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MoraPagoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('MoraPagoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

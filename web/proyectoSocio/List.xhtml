@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProyectoSocioListForm">
+
+        <p:panel header="#{idioma.ListProyectoSocioTitle}">
+            <p:contextMenu id="ProyectoSocioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('ProyectoSocioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('ProyectoSocioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('ProyectoSocioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('ProyectoSocioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.ProyectoSocioMenuItem_idProyecto}" icon="ui-icon-search"  actionListener="#{proyectoSocioController.prepareIdProyecto}" update=":ProyectoViewForm" oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoSocioController.selected.idProyecto}"/>  
+                <p:menuitem value="#{idioma.ProyectoSocioMenuItem_idPersona}" icon="ui-icon-search"  actionListener="#{proyectoSocioController.prepareIdPersona}" update=":SocioViewForm" oncomplete="PF('SocioViewDialog').show()" disabled="#{empty proyectoSocioController.selected.idPersona}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{proyectoSocioController.items}"
+                         var="item"
+                         rowKey="#{item.idProyectoPersona}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{proyectoSocioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ProyectoSocioListForm:createButton :ProyectoSocioListForm:viewButton :ProyectoSocioListForm:editButton :ProyectoSocioListForm:deleteButton :ProyectoSocioListForm:ProyectoSocioDataTableContextMenu" listener="#{proyectoSocioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ProyectoSocioListForm:createButton :ProyectoSocioListForm:viewButton :ProyectoSocioListForm:editButton :ProyectoSocioListForm:deleteButton :ProyectoSocioListForm:ProyectoSocioDataTableContextMenu" listener="#{proyectoSocioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProyectoSocioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idProyectoPersona}" filterBy="#{item.idProyectoPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoSocioTitle_idProyectoPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyectoPersona}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoSocioTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idProyecto.descripcion}" filterBy="#{item.idProyecto.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoSocioTitle_idProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyecto.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPersona.idPersona}" filterBy="#{item.idPersona.idPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoSocioTitle_idPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPersona.idPersona}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{proyectoSocioController.prepareCreate}" update=":ProyectoSocioCreateForm" oncomplete="PF('ProyectoSocioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":ProyectoSocioViewForm" oncomplete="PF('ProyectoSocioViewDialog').show()" disabled="#{empty proyectoSocioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":ProyectoSocioEditForm" oncomplete="PF('ProyectoSocioEditDialog').show()" disabled="#{empty proyectoSocioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{proyectoSocioController.delete}" update=":growl,datalist" disabled="#{empty proyectoSocioController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

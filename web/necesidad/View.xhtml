@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NecesidadViewDlg" widgetVar="NecesidadViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewNecesidadTitle}" closeOnEscape="true">
+
+            <h:form id="NecesidadViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{necesidadController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewNecesidadLabel_idNecesidad}"/>
+                        <h:outputText value="#{necesidadController.selected.idNecesidad}" title="#{idioma.ViewNecesidadTitle_idNecesidad}"/>
+
+                        <h:outputText value="#{idioma.ViewNecesidadLabel_nombre}"/>
+                        <h:outputText value="#{necesidadController.selected.nombre}" title="#{idioma.ViewNecesidadTitle_nombre}"/>
+
+                        <h:outputText value="#{idioma.ViewNecesidadLabel_descripcion}"/>
+                        <h:outputText value="#{necesidadController.selected.descripcion}" title="#{idioma.ViewNecesidadTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('NecesidadViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProyectoEditDlg" widgetVar="ProyectoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="ProyectoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{proyectoController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditProyectoLabel_idProyecto}" for="idProyecto" />
+                        <h:outputText id="idProyecto" value="#{proyectoController.selected.idProyecto}" />
+
+                        <p:outputLabel value="#{idioma.EditProyectoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{proyectoController.selected.descripcion}" title="#{idioma.EditProyectoTitle_descripcion}" required="true" requiredMessage="#{idioma.EditProyectoRequiredMessage_descripcion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditProyectoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{proyectoController.selected.estado}" title="#{idioma.EditProyectoTitle_estado}" required="true" requiredMessage="#{idioma.EditProyectoRequiredMessage_estado}"/>
+
+                        <p:outputLabel value="#{idioma.EditProyectoLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{proyectoController.selected.fecha}" title="#{idioma.EditProyectoTitle_fecha}" required="true" requiredMessage="#{idioma.EditProyectoRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditProyectoLabel_archivo}" for="archivo" />
+                        <p:inputText id="archivo" value="#{proyectoController.selected.archivo}" title="#{idioma.EditProyectoTitle_archivo}" required="true" requiredMessage="#{idioma.EditProyectoRequiredMessage_archivo}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditProyectoLabel_idPersona}" for="idPersona" />
+                        <p:inputText id="idPersona" value="#{proyectoController.selected.idPersona}" title="#{idioma.EditProyectoTitle_idPersona}" required="true" requiredMessage="#{idioma.EditProyectoRequiredMessage_idPersona}"/>
+
+                        <p:outputLabel value="#{idioma.EditProyectoLabel_idTipoProyecto}" for="idTipoProyecto" />
+                        <p:selectOneMenu id="idTipoProyecto" value="#{proyectoController.selected.idTipoProyecto}" required="true" requiredMessage="#{idioma.EditProyectoRequiredMessage_idTipoProyecto}" converter="tipoProyectoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoProyectoController.items}"
+                                           var="idTipoProyectoItem"
+                                           itemValue="#{idTipoProyectoItem}"
+                                           itemLabel="#{idTipoProyectoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{proyectoController.save}" value="#{idioma.Save}" update="display,:ProyectoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProyectoEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ProyectoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

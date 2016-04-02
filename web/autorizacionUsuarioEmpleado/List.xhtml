@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AutorizacionUsuarioEmpleadoListForm">
+
+        <p:panel header="#{idioma.ListAutorizacionUsuarioEmpleadoTitle}">
+            <p:contextMenu id="AutorizacionUsuarioEmpleadoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('AutorizacionUsuarioEmpleadoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('AutorizacionUsuarioEmpleadoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('AutorizacionUsuarioEmpleadoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('AutorizacionUsuarioEmpleadoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.AutorizacionUsuarioEmpleadoMenuItem_idUsuario}" icon="ui-icon-search"  actionListener="#{autorizacionUsuarioEmpleadoController.prepareIdUsuario}" update=":UsuarioEmpleadoRolViewForm" oncomplete="PF('UsuarioEmpleadoRolViewDialog').show()" disabled="#{empty autorizacionUsuarioEmpleadoController.selected.idUsuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{autorizacionUsuarioEmpleadoController.items}"
+                         var="item"
+                         rowKey="#{item.idAutorizacionUsuarioEmpleado}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{autorizacionUsuarioEmpleadoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":AutorizacionUsuarioEmpleadoListForm:createButton :AutorizacionUsuarioEmpleadoListForm:viewButton :AutorizacionUsuarioEmpleadoListForm:editButton :AutorizacionUsuarioEmpleadoListForm:deleteButton :AutorizacionUsuarioEmpleadoListForm:AutorizacionUsuarioEmpleadoDataTableContextMenu" listener="#{autorizacionUsuarioEmpleadoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":AutorizacionUsuarioEmpleadoListForm:createButton :AutorizacionUsuarioEmpleadoListForm:viewButton :AutorizacionUsuarioEmpleadoListForm:editButton :AutorizacionUsuarioEmpleadoListForm:deleteButton :AutorizacionUsuarioEmpleadoListForm:AutorizacionUsuarioEmpleadoDataTableContextMenu" listener="#{autorizacionUsuarioEmpleadoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('AutorizacionUsuarioEmpleadoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idAutorizacionUsuarioEmpleado}" filterBy="#{item.idAutorizacionUsuarioEmpleado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListAutorizacionUsuarioEmpleadoTitle_idAutorizacionUsuarioEmpleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idAutorizacionUsuarioEmpleado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListAutorizacionUsuarioEmpleadoTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sqlEjecutar}" filterBy="#{item.sqlEjecutar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListAutorizacionUsuarioEmpleadoTitle_sqlEjecutar}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sqlEjecutar}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idUsuario.idUsuario}" filterBy="#{item.idUsuario.idUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListAutorizacionUsuarioEmpleadoTitle_idUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuario.idUsuario}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{autorizacionUsuarioEmpleadoController.prepareCreate}" update=":AutorizacionUsuarioEmpleadoCreateForm" oncomplete="PF('AutorizacionUsuarioEmpleadoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":AutorizacionUsuarioEmpleadoViewForm" oncomplete="PF('AutorizacionUsuarioEmpleadoViewDialog').show()" disabled="#{empty autorizacionUsuarioEmpleadoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":AutorizacionUsuarioEmpleadoEditForm" oncomplete="PF('AutorizacionUsuarioEmpleadoEditDialog').show()" disabled="#{empty autorizacionUsuarioEmpleadoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{autorizacionUsuarioEmpleadoController.delete}" update=":growl,datalist" disabled="#{empty autorizacionUsuarioEmpleadoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

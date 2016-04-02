@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConstanciaViewDlg" widgetVar="ConstanciaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewConstanciaTitle}" closeOnEscape="true">
+
+            <h:form id="ConstanciaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{constanciaController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewConstanciaLabel_idConstancia}"/>
+                        <h:outputText value="#{constanciaController.selected.idConstancia}" title="#{idioma.ViewConstanciaTitle_idConstancia}"/>
+
+                        <h:outputText value="#{idioma.ViewConstanciaLabel_fechaEmision}"/>
+                        <h:outputText value="#{constanciaController.selected.fechaEmision}" title="#{idioma.ViewConstanciaTitle_fechaEmision}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewConstanciaLabel_descripcion}"/>
+                        <h:outputText value="#{constanciaController.selected.descripcion}" title="#{idioma.ViewConstanciaTitle_descripcion}"/>
+
+                        <h:outputText value="#{idioma.ViewConstanciaLabel_cantidad}"/>
+                        <h:outputText value="#{constanciaController.selected.cantidad}" title="#{idioma.ViewConstanciaTitle_cantidad}"/>
+
+                        <h:outputText value="#{idioma.ViewConstanciaLabel_idTipoConstancia}"/>
+                        <h:outputText value="#{constanciaController.selected.idTipoConstancia.idTipoConstancia}"/>
+
+                        <h:outputText value="#{idioma.ViewConstanciaLabel_idPago}"/>
+                        <h:outputText value="#{constanciaController.selected.idPago.idPago}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('ConstanciaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

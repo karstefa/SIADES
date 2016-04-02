@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DonacionMembresiaEditDlg" widgetVar="DonacionMembresiaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditDonacionMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="DonacionMembresiaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{donacionMembresiaController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditDonacionMembresiaLabel_idDonancionMembresia}" for="idDonancionMembresia" />
+                        <h:outputText id="idDonancionMembresia" value="#{donacionMembresiaController.selected.idDonancionMembresia}" />
+
+                        <p:outputLabel value="#{idioma.EditDonacionMembresiaLabel_idDonacion}" for="idDonacion" />
+                        <p:selectOneMenu id="idDonacion" value="#{donacionMembresiaController.selected.idDonacion}" required="true" requiredMessage="#{idioma.EditDonacionMembresiaRequiredMessage_idDonacion}" converter="donacionConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{donacionController.items}"
+                                           var="idDonacionItem"
+                                           itemValue="#{idDonacionItem}"
+                                           itemLabel="#{idDonacionItem.idDonacion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditDonacionMembresiaLabel_idMembresia}" for="idMembresia" />
+                        <p:selectOneMenu id="idMembresia" value="#{donacionMembresiaController.selected.idMembresia}" required="true" requiredMessage="#{idioma.EditDonacionMembresiaRequiredMessage_idMembresia}" converter="membresiaConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{membresiaController.items}"
+                                           var="idMembresiaItem"
+                                           itemValue="#{idMembresiaItem}"
+                                           itemLabel="#{idMembresiaItem.idMembresia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{donacionMembresiaController.save}" value="#{idioma.Save}" update="display,:DonacionMembresiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DonacionMembresiaEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DonacionMembresiaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

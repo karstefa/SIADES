@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProyectoListForm">
+
+        <p:panel header="#{idioma.ListProyectoTitle}">
+            <p:contextMenu id="ProyectoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('ProyectoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('ProyectoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('ProyectoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('ProyectoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.ProyectoMenuItem_necesidadProyectoList}" icon="ui-icon-search"  action="#{proyectoController.navigateNecesidadProyectoList}" disabled="#{empty proyectoController.selected.necesidadProyectoList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.ProyectoMenuItem_idTipoProyecto}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdTipoProyecto}" update=":TipoProyectoViewForm" oncomplete="PF('TipoProyectoViewDialog').show()" disabled="#{empty proyectoController.selected.idTipoProyecto}"/>  
+                <p:menuitem value="#{idioma.ProyectoMenuItem_ordenList}" icon="ui-icon-search"  action="#{proyectoController.navigateOrdenList}" disabled="#{empty proyectoController.selected.ordenList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.ProyectoMenuItem_proyectoSocioList}" icon="ui-icon-search"  action="#{proyectoController.navigateProyectoSocioList}" disabled="#{empty proyectoController.selected.proyectoSocioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{proyectoController.items}"
+                         var="item"
+                         rowKey="#{item.idProyecto}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{proyectoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ProyectoListForm:createButton :ProyectoListForm:viewButton :ProyectoListForm:editButton :ProyectoListForm:deleteButton :ProyectoListForm:ProyectoDataTableContextMenu" listener="#{proyectoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ProyectoListForm:createButton :ProyectoListForm:viewButton :ProyectoListForm:editButton :ProyectoListForm:deleteButton :ProyectoListForm:ProyectoDataTableContextMenu" listener="#{proyectoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProyectoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idProyecto}" filterBy="#{item.idProyecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoTitle_idProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.archivo}" filterBy="#{item.archivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoTitle_archivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.archivo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPersona}" filterBy="#{item.idPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProyectoTitle_idPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPersona}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.idTipoProyecto.descripcion}" filterBy="#{item.idTipoProyecto.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListProyectoTitle_idTipoProyecto}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTipoProyecto.descripcion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{proyectoController.prepareCreate}" update=":ProyectoCreateForm" oncomplete="PF('ProyectoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":ProyectoViewForm" oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":ProyectoEditForm" oncomplete="PF('ProyectoEditDialog').show()" disabled="#{empty proyectoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{proyectoController.delete}" update=":growl,datalist" disabled="#{empty proyectoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

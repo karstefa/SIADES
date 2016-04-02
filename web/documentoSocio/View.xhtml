@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DocumentoSocioViewDlg" widgetVar="DocumentoSocioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewDocumentoSocioTitle}" closeOnEscape="true">
+
+            <h:form id="DocumentoSocioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{documentoSocioController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewDocumentoSocioLabel_idDocumentoSocio}"/>
+                        <h:outputText value="#{documentoSocioController.selected.idDocumentoSocio}" title="#{idioma.ViewDocumentoSocioTitle_idDocumentoSocio}"/>
+
+                        <h:outputText value="#{idioma.ViewDocumentoSocioLabel_estado}"/>
+                        <h:outputText value="#{documentoSocioController.selected.estado}" title="#{idioma.ViewDocumentoSocioTitle_estado}"/>
+
+                        <h:outputText value="#{idioma.ViewDocumentoSocioLabel_valor}"/>
+                        <h:outputText value="#{documentoSocioController.selected.valor}" title="#{idioma.ViewDocumentoSocioTitle_valor}"/>
+
+                        <h:outputText value="#{idioma.ViewDocumentoSocioLabel_idPersona}"/>
+                        <h:outputText value="#{documentoSocioController.selected.idPersona.idPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewDocumentoSocioLabel_idDocumento}"/>
+                        <h:outputText value="#{documentoSocioController.selected.idDocumento.idDocumento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('DocumentoSocioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

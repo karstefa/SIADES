@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DireccionEmpleadoListForm">
+
+        <p:panel header="#{idioma.ListDireccionEmpleadoTitle}">
+            <p:contextMenu id="DireccionEmpleadoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('DireccionEmpleadoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('DireccionEmpleadoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('DireccionEmpleadoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('DireccionEmpleadoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.DireccionEmpleadoMenuItem_idEmpleado}" icon="ui-icon-search"  actionListener="#{direccionEmpleadoController.prepareIdEmpleado}" update=":EmpleadoViewForm" oncomplete="PF('EmpleadoViewDialog').show()" disabled="#{empty direccionEmpleadoController.selected.idEmpleado}"/>  
+                <p:menuitem value="#{idioma.DireccionEmpleadoMenuItem_idDireccion}" icon="ui-icon-search"  actionListener="#{direccionEmpleadoController.prepareIdDireccion}" update=":DireccionViewForm" oncomplete="PF('DireccionViewDialog').show()" disabled="#{empty direccionEmpleadoController.selected.idDireccion}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{direccionEmpleadoController.items}"
+                         var="item"
+                         rowKey="#{item.idDireccionEmpleado}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{direccionEmpleadoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DireccionEmpleadoListForm:createButton :DireccionEmpleadoListForm:viewButton :DireccionEmpleadoListForm:editButton :DireccionEmpleadoListForm:deleteButton :DireccionEmpleadoListForm:DireccionEmpleadoDataTableContextMenu" listener="#{direccionEmpleadoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DireccionEmpleadoListForm:createButton :DireccionEmpleadoListForm:viewButton :DireccionEmpleadoListForm:editButton :DireccionEmpleadoListForm:deleteButton :DireccionEmpleadoListForm:DireccionEmpleadoDataTableContextMenu" listener="#{direccionEmpleadoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DireccionEmpleadoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDireccionEmpleado}" filterBy="#{item.idDireccionEmpleado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDireccionEmpleadoTitle_idDireccionEmpleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDireccionEmpleado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDireccionEmpleadoTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idEmpleado.idEmpleado}" filterBy="#{item.idEmpleado.idEmpleado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDireccionEmpleadoTitle_idEmpleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmpleado.idEmpleado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idDireccion.idDireccion}" filterBy="#{item.idDireccion.idDireccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDireccionEmpleadoTitle_idDireccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDireccion.idDireccion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{direccionEmpleadoController.prepareCreate}" update=":DireccionEmpleadoCreateForm" oncomplete="PF('DireccionEmpleadoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":DireccionEmpleadoViewForm" oncomplete="PF('DireccionEmpleadoViewDialog').show()" disabled="#{empty direccionEmpleadoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":DireccionEmpleadoEditForm" oncomplete="PF('DireccionEmpleadoEditDialog').show()" disabled="#{empty direccionEmpleadoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{direccionEmpleadoController.delete}" update=":growl,datalist" disabled="#{empty direccionEmpleadoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

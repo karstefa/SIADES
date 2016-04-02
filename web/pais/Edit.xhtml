@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PaisEditDlg" widgetVar="PaisEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditPaisTitle}" closeOnEscape="true">
+
+            <h:form id="PaisEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{paisController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditPaisLabel_idPais}" for="idPais" />
+                        <h:outputText id="idPais" value="#{paisController.selected.idPais}" />
+
+                        <p:outputLabel value="#{idioma.EditPaisLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{paisController.selected.nombre}" title="#{idioma.EditPaisTitle_nombre}" required="true" requiredMessage="#{idioma.EditPaisRequiredMessage_nombre}" size="50" maxlength="50"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{paisController.save}" value="#{idioma.Save}" update="display,:PaisListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PaisEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('PaisEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

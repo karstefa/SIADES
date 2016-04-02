@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrdenCreateDlg" widgetVar="OrdenCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateOrdenTitle}" closeOnEscape="true">
+
+            <h:form id="OrdenCreateForm">
+
+                <h:panelGroup id="display" rendered="#{ordenController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateOrdenLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{ordenController.selected.estado}" title="#{idioma.CreateOrdenTitle_estado}" required="true" requiredMessage="#{idioma.CreateOrdenRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.CreateOrdenLabel_idProyecto}" for="idProyecto" />
+                        <p:selectOneMenu id="idProyecto" value="#{ordenController.selected.idProyecto}" required="true" requiredMessage="#{idioma.CreateOrdenRequiredMessage_idProyecto}" converter="proyectoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{proyectoController.items}"
+                                           var="idProyectoItem"
+                                           itemValue="#{idProyectoItem}"
+                                           itemLabel="#{idProyectoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ordenController.saveNew}" value="#{idioma.Save}" update="display,:OrdenListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OrdenCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('OrdenCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TituloEditDlg" widgetVar="TituloEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditTituloTitle}" closeOnEscape="true">
+
+            <h:form id="TituloEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tituloController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditTituloLabel_idTitulo}" for="idTitulo" />
+                        <h:outputText id="idTitulo" value="#{tituloController.selected.idTitulo}" />
+
+                        <p:outputLabel value="#{idioma.EditTituloLabel_valor}" for="valor" />
+                        <p:inputTextarea rows="4" cols="30" id="valor" value="#{tituloController.selected.valor}" title="#{idioma.EditTituloTitle_valor}" required="true" requiredMessage="#{idioma.EditTituloRequiredMessage_valor}"/>
+
+                        <p:outputLabel value="#{idioma.EditTituloLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{tituloController.selected.fecha}" title="#{idioma.EditTituloTitle_fecha}" required="true" requiredMessage="#{idioma.EditTituloRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditTituloLabel_idEstudio}" for="idEstudio" />
+                        <p:selectOneMenu id="idEstudio" value="#{tituloController.selected.idEstudio}" required="true" requiredMessage="#{idioma.EditTituloRequiredMessage_idEstudio}" converter="estudioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{estudioController.items}"
+                                           var="idEstudioItem"
+                                           itemValue="#{idEstudioItem}"
+                                           itemLabel="#{idEstudioItem.idEstudio.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tituloController.save}" value="#{idioma.Save}" update="display,:TituloListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TituloEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('TituloEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

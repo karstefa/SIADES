@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProyectoCreateDlg" widgetVar="ProyectoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="ProyectoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{proyectoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateProyectoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{proyectoController.selected.descripcion}" title="#{idioma.CreateProyectoTitle_descripcion}" required="true" requiredMessage="#{idioma.CreateProyectoRequiredMessage_descripcion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateProyectoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{proyectoController.selected.estado}" title="#{idioma.CreateProyectoTitle_estado}" required="true" requiredMessage="#{idioma.CreateProyectoRequiredMessage_estado}"/>
+
+                        <p:outputLabel value="#{idioma.CreateProyectoLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{proyectoController.selected.fecha}" title="#{idioma.CreateProyectoTitle_fecha}" required="true" requiredMessage="#{idioma.CreateProyectoRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateProyectoLabel_archivo}" for="archivo" />
+                        <p:inputText id="archivo" value="#{proyectoController.selected.archivo}" title="#{idioma.CreateProyectoTitle_archivo}" required="true" requiredMessage="#{idioma.CreateProyectoRequiredMessage_archivo}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateProyectoLabel_idPersona}" for="idPersona" />
+                        <p:inputText id="idPersona" value="#{proyectoController.selected.idPersona}" title="#{idioma.CreateProyectoTitle_idPersona}" required="true" requiredMessage="#{idioma.CreateProyectoRequiredMessage_idPersona}"/>
+
+                        <p:outputLabel value="#{idioma.CreateProyectoLabel_idTipoProyecto}" for="idTipoProyecto" />
+                        <p:selectOneMenu id="idTipoProyecto" value="#{proyectoController.selected.idTipoProyecto}" required="true" requiredMessage="#{idioma.CreateProyectoRequiredMessage_idTipoProyecto}" converter="tipoProyectoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoProyectoController.items}"
+                                           var="idTipoProyectoItem"
+                                           itemValue="#{idTipoProyectoItem}"
+                                           itemLabel="#{idTipoProyectoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{proyectoController.saveNew}" value="#{idioma.Save}" update="display,:ProyectoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProyectoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ProyectoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

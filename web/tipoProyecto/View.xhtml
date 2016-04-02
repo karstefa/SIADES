@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoProyectoViewDlg" widgetVar="TipoProyectoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewTipoProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoProyectoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoProyectoController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewTipoProyectoLabel_idTipoProyecto}"/>
+                        <h:outputText value="#{tipoProyectoController.selected.idTipoProyecto}" title="#{idioma.ViewTipoProyectoTitle_idTipoProyecto}"/>
+
+                        <h:outputText value="#{idioma.ViewTipoProyectoLabel_descripcion}"/>
+                        <h:outputText value="#{tipoProyectoController.selected.descripcion}" title="#{idioma.ViewTipoProyectoTitle_descripcion}"/>
+
+                        <h:outputText value="#{idioma.ViewTipoProyectoLabel_nombre}"/>
+                        <h:outputText value="#{tipoProyectoController.selected.nombre}" title="#{idioma.ViewTipoProyectoTitle_nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('TipoProyectoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

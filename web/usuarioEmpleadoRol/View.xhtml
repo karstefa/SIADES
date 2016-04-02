@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioEmpleadoRolViewDlg" widgetVar="UsuarioEmpleadoRolViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewUsuarioEmpleadoRolTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEmpleadoRolViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{usuarioEmpleadoRolController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewUsuarioEmpleadoRolLabel_idUsuario}"/>
+                        <h:outputText value="#{usuarioEmpleadoRolController.selected.idUsuario}" title="#{idioma.ViewUsuarioEmpleadoRolTitle_idUsuario}"/>
+
+                        <h:outputText value="#{idioma.ViewUsuarioEmpleadoRolLabel_idEmpleado}"/>
+                        <h:outputText value="#{usuarioEmpleadoRolController.selected.idEmpleado.idEmpleado}"/>
+
+                        <h:outputText value="#{idioma.ViewUsuarioEmpleadoRolLabel_idRol}"/>
+                        <h:outputText value="#{usuarioEmpleadoRolController.selected.idRol.idRol}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('UsuarioEmpleadoRolViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

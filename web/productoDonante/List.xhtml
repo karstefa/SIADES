@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProductoDonanteListForm">
+
+        <p:panel header="#{idioma.ListProductoDonanteTitle}">
+            <p:contextMenu id="ProductoDonanteDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('ProductoDonanteListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('ProductoDonanteListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('ProductoDonanteListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('ProductoDonanteListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.ProductoDonanteMenuItem_idDonante}" icon="ui-icon-search"  actionListener="#{productoDonanteController.prepareIdDonante}" update=":DonanteViewForm" oncomplete="PF('DonanteViewDialog').show()" disabled="#{empty productoDonanteController.selected.idDonante}"/>  
+                <p:menuitem value="#{idioma.ProductoDonanteMenuItem_idDonacion}" icon="ui-icon-search"  actionListener="#{productoDonanteController.prepareIdDonacion}" update=":DonacionViewForm" oncomplete="PF('DonacionViewDialog').show()" disabled="#{empty productoDonanteController.selected.idDonacion}"/>  
+                <p:menuitem value="#{idioma.ProductoDonanteMenuItem_detalleProductoDonanteList}" icon="ui-icon-search"  action="#{productoDonanteController.navigateDetalleProductoDonanteList}" disabled="#{empty productoDonanteController.selected.detalleProductoDonanteList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{productoDonanteController.items}"
+                         var="item"
+                         rowKey="#{item.idDetalleProducto}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{productoDonanteController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ProductoDonanteListForm:createButton :ProductoDonanteListForm:viewButton :ProductoDonanteListForm:editButton :ProductoDonanteListForm:deleteButton :ProductoDonanteListForm:ProductoDonanteDataTableContextMenu" listener="#{productoDonanteController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ProductoDonanteListForm:createButton :ProductoDonanteListForm:viewButton :ProductoDonanteListForm:editButton :ProductoDonanteListForm:deleteButton :ProductoDonanteListForm:ProductoDonanteDataTableContextMenu" listener="#{productoDonanteController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProductoDonanteListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDetalleProducto}" filterBy="#{item.idDetalleProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProductoDonanteTitle_idDetalleProducto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDetalleProducto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cantidad}" filterBy="#{item.cantidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProductoDonanteTitle_cantidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cantidad}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProductoDonanteTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tiempoHoras}" filterBy="#{item.tiempoHoras}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProductoDonanteTitle_tiempoHoras}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tiempoHoras}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProductoDonanteTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.serieInicial}" filterBy="#{item.serieInicial}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListProductoDonanteTitle_serieInicial}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.serieInicial}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.serieFinal}" filterBy="#{item.serieFinal}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListProductoDonanteTitle_serieFinal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.serieFinal}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idDonante.idDonante}" filterBy="#{item.idDonante.idDonante}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListProductoDonanteTitle_idDonante}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idDonante.idDonante}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idDonacion.idDonacion}" filterBy="#{item.idDonacion.idDonacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListProductoDonanteTitle_idDonacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idDonacion.idDonacion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{productoDonanteController.prepareCreate}" update=":ProductoDonanteCreateForm" oncomplete="PF('ProductoDonanteCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":ProductoDonanteViewForm" oncomplete="PF('ProductoDonanteViewDialog').show()" disabled="#{empty productoDonanteController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":ProductoDonanteEditForm" oncomplete="PF('ProductoDonanteEditDialog').show()" disabled="#{empty productoDonanteController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{productoDonanteController.delete}" update=":growl,datalist" disabled="#{empty productoDonanteController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

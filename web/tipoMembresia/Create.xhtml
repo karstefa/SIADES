@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoMembresiaCreateDlg" widgetVar="TipoMembresiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateTipoMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMembresiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoMembresiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateTipoMembresiaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoMembresiaController.selected.nombre}" title="#{idioma.CreateTipoMembresiaTitle_nombre}" required="true" requiredMessage="#{idioma.CreateTipoMembresiaRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateTipoMembresiaLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{tipoMembresiaController.selected.estado}" title="#{idioma.CreateTipoMembresiaTitle_estado}" required="true" requiredMessage="#{idioma.CreateTipoMembresiaRequiredMessage_estado}" size="1" maxlength="1"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoMembresiaController.saveNew}" value="#{idioma.Save}" update="display,:TipoMembresiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoMembresiaCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('TipoMembresiaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

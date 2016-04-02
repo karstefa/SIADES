@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MembresiaViewDlg" widgetVar="MembresiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="MembresiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{membresiaController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewMembresiaLabel_idMembresia}"/>
+                        <h:outputText value="#{membresiaController.selected.idMembresia}" title="#{idioma.ViewMembresiaTitle_idMembresia}"/>
+
+                        <h:outputText value="#{idioma.ViewMembresiaLabel_nombre}"/>
+                        <h:outputText value="#{membresiaController.selected.nombre}" title="#{idioma.ViewMembresiaTitle_nombre}"/>
+
+                        <h:outputText value="#{idioma.ViewMembresiaLabel_fechaInicio}"/>
+                        <h:outputText value="#{membresiaController.selected.fechaInicio}" title="#{idioma.ViewMembresiaTitle_fechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewMembresiaLabel_fechaFin}"/>
+                        <h:outputText value="#{membresiaController.selected.fechaFin}" title="#{idioma.ViewMembresiaTitle_fechaFin}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewMembresiaLabel_monto}"/>
+                        <h:outputText value="#{membresiaController.selected.monto}" title="#{idioma.ViewMembresiaTitle_monto}"/>
+
+                        <h:outputText value="#{idioma.ViewMembresiaLabel_terminosCondiciones}"/>
+                        <h:outputText value="#{membresiaController.selected.terminosCondiciones}" title="#{idioma.ViewMembresiaTitle_terminosCondiciones}"/>
+
+                        <h:outputText value="#{idioma.ViewMembresiaLabel_idTipoMembresia}"/>
+                        <h:outputText value="#{membresiaController.selected.idTipoMembresia.idTipoMembresia}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('MembresiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

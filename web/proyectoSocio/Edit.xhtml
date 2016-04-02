@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProyectoSocioEditDlg" widgetVar="ProyectoSocioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditProyectoSocioTitle}" closeOnEscape="true">
+
+            <h:form id="ProyectoSocioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{proyectoSocioController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditProyectoSocioLabel_idProyectoPersona}" for="idProyectoPersona" />
+                        <h:outputText id="idProyectoPersona" value="#{proyectoSocioController.selected.idProyectoPersona}" />
+
+                        <p:outputLabel value="#{idioma.EditProyectoSocioLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{proyectoSocioController.selected.estado}" title="#{idioma.EditProyectoSocioTitle_estado}" required="true" requiredMessage="#{idioma.EditProyectoSocioRequiredMessage_estado}"/>
+
+                        <p:outputLabel value="#{idioma.EditProyectoSocioLabel_idProyecto}" for="idProyecto" />
+                        <p:selectOneMenu id="idProyecto" value="#{proyectoSocioController.selected.idProyecto}" required="true" requiredMessage="#{idioma.EditProyectoSocioRequiredMessage_idProyecto}" converter="proyectoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{proyectoController.items}"
+                                           var="idProyectoItem"
+                                           itemValue="#{idProyectoItem}"
+                                           itemLabel="#{idProyectoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditProyectoSocioLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{proyectoSocioController.selected.idPersona}" required="true" requiredMessage="#{idioma.EditProyectoSocioRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{proyectoSocioController.save}" value="#{idioma.Save}" update="display,:ProyectoSocioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProyectoSocioEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ProyectoSocioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

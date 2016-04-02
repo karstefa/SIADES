@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EstadoEmpleadoEditDlg" widgetVar="EstadoEmpleadoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditEstadoEmpleadoTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoEmpleadoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{estadoEmpleadoController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditEstadoEmpleadoLabel_idEstadoEmpleado}" for="idEstadoEmpleado" />
+                        <h:outputText id="idEstadoEmpleado" value="#{estadoEmpleadoController.selected.idEstadoEmpleado}" />
+
+                        <p:outputLabel value="#{idioma.EditEstadoEmpleadoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{estadoEmpleadoController.selected.nombre}" title="#{idioma.EditEstadoEmpleadoTitle_nombre}" required="true" requiredMessage="#{idioma.EditEstadoEmpleadoRequiredMessage_nombre}" size="50" maxlength="50"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadoEmpleadoController.save}" value="#{idioma.Save}" update="display,:EstadoEmpleadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EstadoEmpleadoEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('EstadoEmpleadoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

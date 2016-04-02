@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmpleadoViewDlg" widgetVar="EmpleadoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewEmpleadoTitle}" closeOnEscape="true">
+
+            <h:form id="EmpleadoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{empleadoController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_idEmpleado}"/>
+                        <h:outputText value="#{empleadoController.selected.idEmpleado}" title="#{idioma.ViewEmpleadoTitle_idEmpleado}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_usuario}"/>
+                        <h:outputText value="#{empleadoController.selected.usuario}" title="#{idioma.ViewEmpleadoTitle_usuario}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_contrasenia}"/>
+                        <h:outputText value="#{empleadoController.selected.contrasenia}" title="#{idioma.ViewEmpleadoTitle_contrasenia}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_nombre}"/>
+                        <h:outputText value="#{empleadoController.selected.nombre}" title="#{idioma.ViewEmpleadoTitle_nombre}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_apellido}"/>
+                        <h:outputText value="#{empleadoController.selected.apellido}" title="#{idioma.ViewEmpleadoTitle_apellido}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_genero}"/>
+                        <h:outputText value="#{empleadoController.selected.genero}" title="#{idioma.ViewEmpleadoTitle_genero}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_fechaNacimiento}"/>
+                        <h:outputText value="#{empleadoController.selected.fechaNacimiento}" title="#{idioma.ViewEmpleadoTitle_fechaNacimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_idEstadoEmpleado}"/>
+                        <h:outputText value="#{empleadoController.selected.idEstadoEmpleado.idEstadoEmpleado}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_idCargo}"/>
+                        <h:outputText value="#{empleadoController.selected.idCargo.idCargo}"/>
+
+                        <h:outputText value="#{idioma.ViewEmpleadoLabel_idTipoEmpleado}"/>
+                        <h:outputText value="#{empleadoController.selected.idTipoEmpleado.idTipoEmpleado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('EmpleadoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

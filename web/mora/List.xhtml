@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MoraListForm">
+
+        <p:panel header="#{idioma.ListMoraTitle}">
+            <p:contextMenu id="MoraDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('MoraListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('MoraListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('MoraListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('MoraListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.MoraMenuItem_idTipoMora}" icon="ui-icon-search"  actionListener="#{moraController.prepareIdTipoMora}" update=":TipoMoraViewForm" oncomplete="PF('TipoMoraViewDialog').show()" disabled="#{empty moraController.selected.idTipoMora}"/>  
+                <p:menuitem value="#{idioma.MoraMenuItem_moraPagoList}" icon="ui-icon-search"  action="#{moraController.navigateMoraPagoList}" disabled="#{empty moraController.selected.moraPagoList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{moraController.items}"
+                         var="item"
+                         rowKey="#{item.idMora}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{moraController.selected}">
+
+                <p:ajax event="rowSelect"   update=":MoraListForm:createButton :MoraListForm:viewButton :MoraListForm:editButton :MoraListForm:deleteButton :MoraListForm:MoraDataTableContextMenu" listener="#{moraController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":MoraListForm:createButton :MoraListForm:viewButton :MoraListForm:editButton :MoraListForm:deleteButton :MoraListForm:MoraDataTableContextMenu" listener="#{moraController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MoraListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idMora}" filterBy="#{item.idMora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraTitle_idMora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.monto}" filterBy="#{item.monto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraTitle_monto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.monto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaMaxima}" filterBy="#{item.fechaMaxima}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraTitle_fechaMaxima}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaMaxima}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idTipoMora.idTipoMora}" filterBy="#{item.idTipoMora.idTipoMora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraTitle_idTipoMora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoMora.idTipoMora}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{moraController.prepareCreate}" update=":MoraCreateForm" oncomplete="PF('MoraCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":MoraViewForm" oncomplete="PF('MoraViewDialog').show()" disabled="#{empty moraController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":MoraEditForm" oncomplete="PF('MoraEditDialog').show()" disabled="#{empty moraController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{moraController.delete}" update=":growl,datalist" disabled="#{empty moraController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

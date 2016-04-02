@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MoraPagoListForm">
+
+        <p:panel header="#{idioma.ListMoraPagoTitle}">
+            <p:contextMenu id="MoraPagoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('MoraPagoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('MoraPagoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('MoraPagoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('MoraPagoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.MoraPagoMenuItem_idMora}" icon="ui-icon-search"  actionListener="#{moraPagoController.prepareIdMora}" update=":MoraViewForm" oncomplete="PF('MoraViewDialog').show()" disabled="#{empty moraPagoController.selected.idMora}"/>  
+                <p:menuitem value="#{idioma.MoraPagoMenuItem_idPago}" icon="ui-icon-search"  actionListener="#{moraPagoController.prepareIdPago}" update=":PagoViewForm" oncomplete="PF('PagoViewDialog').show()" disabled="#{empty moraPagoController.selected.idPago}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{moraPagoController.items}"
+                         var="item"
+                         rowKey="#{item.idMoraPago}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{moraPagoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":MoraPagoListForm:createButton :MoraPagoListForm:viewButton :MoraPagoListForm:editButton :MoraPagoListForm:deleteButton :MoraPagoListForm:MoraPagoDataTableContextMenu" listener="#{moraPagoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":MoraPagoListForm:createButton :MoraPagoListForm:viewButton :MoraPagoListForm:editButton :MoraPagoListForm:deleteButton :MoraPagoListForm:MoraPagoDataTableContextMenu" listener="#{moraPagoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MoraPagoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idMoraPago}" filterBy="#{item.idMoraPago}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraPagoTitle_idMoraPago}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMoraPago}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idMora.idMora}" filterBy="#{item.idMora.idMora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraPagoTitle_idMora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMora.idMora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPago.idPago}" filterBy="#{item.idPago.idPago}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMoraPagoTitle_idPago}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPago.idPago}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{moraPagoController.prepareCreate}" update=":MoraPagoCreateForm" oncomplete="PF('MoraPagoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":MoraPagoViewForm" oncomplete="PF('MoraPagoViewDialog').show()" disabled="#{empty moraPagoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":MoraPagoEditForm" oncomplete="PF('MoraPagoEditDialog').show()" disabled="#{empty moraPagoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{moraPagoController.delete}" update=":growl,datalist" disabled="#{empty moraPagoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

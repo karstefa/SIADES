@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PagoViewDlg" widgetVar="PagoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewPagoTitle}" closeOnEscape="true">
+
+            <h:form id="PagoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{pagoController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewPagoLabel_idPago}"/>
+                        <h:outputText value="#{pagoController.selected.idPago}" title="#{idioma.ViewPagoTitle_idPago}"/>
+
+                        <h:outputText value="#{idioma.ViewPagoLabel_confirmacionPago}"/>
+                        <h:outputText value="#{pagoController.selected.confirmacionPago}" title="#{idioma.ViewPagoTitle_confirmacionPago}"/>
+
+                        <h:outputText value="#{idioma.ViewPagoLabel_pagoFinal}"/>
+                        <h:outputText value="#{pagoController.selected.pagoFinal}" title="#{idioma.ViewPagoTitle_pagoFinal}"/>
+
+                        <h:outputText value="#{idioma.ViewPagoLabel_fechaPago}"/>
+                        <h:outputText value="#{pagoController.selected.fechaPago}" title="#{idioma.ViewPagoTitle_fechaPago}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewPagoLabel_idTipoPago}"/>
+                        <h:outputText value="#{pagoController.selected.idTipoPago.idTipoPago}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('PagoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

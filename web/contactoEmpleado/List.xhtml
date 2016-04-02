@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ContactoEmpleadoListForm">
+
+        <p:panel header="#{idioma.ListContactoEmpleadoTitle}">
+            <p:contextMenu id="ContactoEmpleadoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('ContactoEmpleadoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('ContactoEmpleadoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('ContactoEmpleadoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('ContactoEmpleadoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.ContactoEmpleadoMenuItem_idEmpleado}" icon="ui-icon-search"  actionListener="#{contactoEmpleadoController.prepareIdEmpleado}" update=":EmpleadoViewForm" oncomplete="PF('EmpleadoViewDialog').show()" disabled="#{empty contactoEmpleadoController.selected.idEmpleado}"/>  
+                <p:menuitem value="#{idioma.ContactoEmpleadoMenuItem_idContacto}" icon="ui-icon-search"  actionListener="#{contactoEmpleadoController.prepareIdContacto}" update=":ContactoViewForm" oncomplete="PF('ContactoViewDialog').show()" disabled="#{empty contactoEmpleadoController.selected.idContacto}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{contactoEmpleadoController.items}"
+                         var="item"
+                         rowKey="#{item.idContactoEmpleado}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{contactoEmpleadoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ContactoEmpleadoListForm:createButton :ContactoEmpleadoListForm:viewButton :ContactoEmpleadoListForm:editButton :ContactoEmpleadoListForm:deleteButton :ContactoEmpleadoListForm:ContactoEmpleadoDataTableContextMenu" listener="#{contactoEmpleadoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ContactoEmpleadoListForm:createButton :ContactoEmpleadoListForm:viewButton :ContactoEmpleadoListForm:editButton :ContactoEmpleadoListForm:deleteButton :ContactoEmpleadoListForm:ContactoEmpleadoDataTableContextMenu" listener="#{contactoEmpleadoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ContactoEmpleadoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idContactoEmpleado}" filterBy="#{item.idContactoEmpleado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListContactoEmpleadoTitle_idContactoEmpleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idContactoEmpleado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListContactoEmpleadoTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListContactoEmpleadoTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idEmpleado.idEmpleado}" filterBy="#{item.idEmpleado.idEmpleado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListContactoEmpleadoTitle_idEmpleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmpleado.idEmpleado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idContacto.idContacto}" filterBy="#{item.idContacto.idContacto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListContactoEmpleadoTitle_idContacto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idContacto.idContacto}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{contactoEmpleadoController.prepareCreate}" update=":ContactoEmpleadoCreateForm" oncomplete="PF('ContactoEmpleadoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":ContactoEmpleadoViewForm" oncomplete="PF('ContactoEmpleadoViewDialog').show()" disabled="#{empty contactoEmpleadoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":ContactoEmpleadoEditForm" oncomplete="PF('ContactoEmpleadoEditDialog').show()" disabled="#{empty contactoEmpleadoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{contactoEmpleadoController.delete}" update=":growl,datalist" disabled="#{empty contactoEmpleadoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

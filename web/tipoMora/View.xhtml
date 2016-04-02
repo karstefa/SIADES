@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoMoraViewDlg" widgetVar="TipoMoraViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewTipoMoraTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMoraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoMoraController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewTipoMoraLabel_idTipoMora}"/>
+                        <h:outputText value="#{tipoMoraController.selected.idTipoMora}" title="#{idioma.ViewTipoMoraTitle_idTipoMora}"/>
+
+                        <h:outputText value="#{idioma.ViewTipoMoraLabel_nombre}"/>
+                        <h:outputText value="#{tipoMoraController.selected.nombre}" title="#{idioma.ViewTipoMoraTitle_nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('TipoMoraViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

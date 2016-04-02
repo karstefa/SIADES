@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EstadoSocioListForm">
+
+        <p:panel header="#{idioma.ListEstadoSocioTitle}">
+            <p:contextMenu id="EstadoSocioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('EstadoSocioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('EstadoSocioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('EstadoSocioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('EstadoSocioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.EstadoSocioMenuItem_socioList}" icon="ui-icon-search"  action="#{estadoSocioController.navigateSocioList}" disabled="#{empty estadoSocioController.selected.socioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{estadoSocioController.items}"
+                         var="item"
+                         rowKey="#{item.idEstadoSocio}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{estadoSocioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EstadoSocioListForm:createButton :EstadoSocioListForm:viewButton :EstadoSocioListForm:editButton :EstadoSocioListForm:deleteButton :EstadoSocioListForm:EstadoSocioDataTableContextMenu" listener="#{estadoSocioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EstadoSocioListForm:createButton :EstadoSocioListForm:viewButton :EstadoSocioListForm:editButton :EstadoSocioListForm:deleteButton :EstadoSocioListForm:EstadoSocioDataTableContextMenu" listener="#{estadoSocioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EstadoSocioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEstadoSocio}" filterBy="#{item.idEstadoSocio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEstadoSocioTitle_idEstadoSocio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEstadoSocio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEstadoSocioTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{estadoSocioController.prepareCreate}" update=":EstadoSocioCreateForm" oncomplete="PF('EstadoSocioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":EstadoSocioViewForm" oncomplete="PF('EstadoSocioViewDialog').show()" disabled="#{empty estadoSocioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":EstadoSocioEditForm" oncomplete="PF('EstadoSocioEditDialog').show()" disabled="#{empty estadoSocioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{estadoSocioController.delete}" update=":growl,datalist" disabled="#{empty estadoSocioController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

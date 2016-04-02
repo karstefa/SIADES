@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ExistenciaProductoCreateDlg" widgetVar="ExistenciaProductoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateExistenciaProductoTitle}" closeOnEscape="true">
+
+            <h:form id="ExistenciaProductoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{existenciaProductoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateExistenciaProductoLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{existenciaProductoController.selected.cantidad}" title="#{idioma.CreateExistenciaProductoTitle_cantidad}" required="true" requiredMessage="#{idioma.CreateExistenciaProductoRequiredMessage_cantidad}"/>
+
+                        <p:outputLabel value="#{idioma.CreateExistenciaProductoLabel_idDonacion}" for="idDonacion" />
+                        <p:selectOneMenu id="idDonacion" value="#{existenciaProductoController.selected.idDonacion}" required="true" requiredMessage="#{idioma.CreateExistenciaProductoRequiredMessage_idDonacion}" converter="donacionConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{donacionController.items}"
+                                           var="idDonacionItem"
+                                           itemValue="#{idDonacionItem}"
+                                           itemLabel="#{idDonacionItem.idDonacion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{existenciaProductoController.saveNew}" value="#{idioma.Save}" update="display,:ExistenciaProductoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ExistenciaProductoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ExistenciaProductoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

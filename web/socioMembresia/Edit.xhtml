@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SocioMembresiaEditDlg" widgetVar="SocioMembresiaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditSocioMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="SocioMembresiaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{socioMembresiaController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditSocioMembresiaLabel_idTipoMembresia}" for="idTipoMembresia" />
+                        <h:outputText id="idTipoMembresia" value="#{socioMembresiaController.selected.idTipoMembresia}" />
+
+                        <p:outputLabel value="#{idioma.EditSocioMembresiaLabel_diaPagoProximo}" for="diaPagoProximo" />
+                        <p:calendar id="diaPagoProximo" pattern="MM/dd/yyyy" value="#{socioMembresiaController.selected.diaPagoProximo}" title="#{idioma.EditSocioMembresiaTitle_diaPagoProximo}" required="true" requiredMessage="#{idioma.EditSocioMembresiaRequiredMessage_diaPagoProximo}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioMembresiaLabel_diaPagoAnterior}" for="diaPagoAnterior" />
+                        <p:calendar id="diaPagoAnterior" pattern="MM/dd/yyyy" value="#{socioMembresiaController.selected.diaPagoAnterior}" title="#{idioma.EditSocioMembresiaTitle_diaPagoAnterior}" required="true" requiredMessage="#{idioma.EditSocioMembresiaRequiredMessage_diaPagoAnterior}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioMembresiaLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{socioMembresiaController.selected.idPersona}" required="true" requiredMessage="#{idioma.EditSocioMembresiaRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditSocioMembresiaLabel_idMembresia}" for="idMembresia" />
+                        <p:selectOneMenu id="idMembresia" value="#{socioMembresiaController.selected.idMembresia}" required="true" requiredMessage="#{idioma.EditSocioMembresiaRequiredMessage_idMembresia}" converter="membresiaConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{membresiaController.items}"
+                                           var="idMembresiaItem"
+                                           itemValue="#{idMembresiaItem}"
+                                           itemLabel="#{idMembresiaItem.idMembresia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{socioMembresiaController.save}" value="#{idioma.Save}" update="display,:SocioMembresiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SocioMembresiaEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('SocioMembresiaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

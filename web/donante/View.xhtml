@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DonanteViewDlg" widgetVar="DonanteViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewDonanteTitle}" closeOnEscape="true">
+
+            <h:form id="DonanteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{donanteController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewDonanteLabel_idDonante}"/>
+                        <h:outputText value="#{donanteController.selected.idDonante}" title="#{idioma.ViewDonanteTitle_idDonante}"/>
+
+                        <h:outputText value="#{idioma.ViewDonanteLabel_nombre}"/>
+                        <h:outputText value="#{donanteController.selected.nombre}" title="#{idioma.ViewDonanteTitle_nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('DonanteViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DocumentoSocioEditDlg" widgetVar="DocumentoSocioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditDocumentoSocioTitle}" closeOnEscape="true">
+
+            <h:form id="DocumentoSocioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{documentoSocioController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditDocumentoSocioLabel_idDocumentoSocio}" for="idDocumentoSocio" />
+                        <h:outputText id="idDocumentoSocio" value="#{documentoSocioController.selected.idDocumentoSocio}" />
+
+                        <p:outputLabel value="#{idioma.EditDocumentoSocioLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{documentoSocioController.selected.estado}" title="#{idioma.EditDocumentoSocioTitle_estado}" required="true" requiredMessage="#{idioma.EditDocumentoSocioRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.EditDocumentoSocioLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{documentoSocioController.selected.valor}" title="#{idioma.EditDocumentoSocioTitle_valor}" required="true" requiredMessage="#{idioma.EditDocumentoSocioRequiredMessage_valor}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditDocumentoSocioLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{documentoSocioController.selected.idPersona}" required="true" requiredMessage="#{idioma.EditDocumentoSocioRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditDocumentoSocioLabel_idDocumento}" for="idDocumento" />
+                        <p:selectOneMenu id="idDocumento" value="#{documentoSocioController.selected.idDocumento}" required="true" requiredMessage="#{idioma.EditDocumentoSocioRequiredMessage_idDocumento}" converter="documentoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{documentoController.items}"
+                                           var="idDocumentoItem"
+                                           itemValue="#{idDocumentoItem}"
+                                           itemLabel="#{idDocumentoItem.idDocumento.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{documentoSocioController.save}" value="#{idioma.Save}" update="display,:DocumentoSocioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DocumentoSocioEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DocumentoSocioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

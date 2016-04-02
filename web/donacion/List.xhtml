@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DonacionListForm">
+
+        <p:panel header="#{idioma.ListDonacionTitle}">
+            <p:contextMenu id="DonacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('DonacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('DonacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('DonacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('DonacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.DonacionMenuItem_existenciaProductoList}" icon="ui-icon-search"  action="#{donacionController.navigateExistenciaProductoList}" disabled="#{empty donacionController.selected.existenciaProductoList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.DonacionMenuItem_idTipoDonacion}" icon="ui-icon-search"  actionListener="#{donacionController.prepareIdTipoDonacion}" update=":TipoDonacionViewForm" oncomplete="PF('TipoDonacionViewDialog').show()" disabled="#{empty donacionController.selected.idTipoDonacion}"/>  
+                <p:menuitem value="#{idioma.DonacionMenuItem_ordenDetalleList}" icon="ui-icon-search"  action="#{donacionController.navigateOrdenDetalleList}" disabled="#{empty donacionController.selected.ordenDetalleList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.DonacionMenuItem_donacionMembresiaList}" icon="ui-icon-search"  action="#{donacionController.navigateDonacionMembresiaList}" disabled="#{empty donacionController.selected.donacionMembresiaList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.DonacionMenuItem_productoDonanteList}" icon="ui-icon-search"  action="#{donacionController.navigateProductoDonanteList}" disabled="#{empty donacionController.selected.productoDonanteList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{donacionController.items}"
+                         var="item"
+                         rowKey="#{item.idDonacion}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{donacionController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DonacionListForm:createButton :DonacionListForm:viewButton :DonacionListForm:editButton :DonacionListForm:deleteButton :DonacionListForm:DonacionDataTableContextMenu" listener="#{donacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DonacionListForm:createButton :DonacionListForm:viewButton :DonacionListForm:editButton :DonacionListForm:deleteButton :DonacionListForm:DonacionDataTableContextMenu" listener="#{donacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DonacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDonacion}" filterBy="#{item.idDonacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonacionTitle_idDonacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDonacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonacionTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idTipoDonacion.descripcion}" filterBy="#{item.idTipoDonacion.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonacionTitle_idTipoDonacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoDonacion.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{donacionController.prepareCreate}" update=":DonacionCreateForm" oncomplete="PF('DonacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":DonacionViewForm" oncomplete="PF('DonacionViewDialog').show()" disabled="#{empty donacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":DonacionEditForm" oncomplete="PF('DonacionEditDialog').show()" disabled="#{empty donacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{donacionController.delete}" update=":growl,datalist" disabled="#{empty donacionController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

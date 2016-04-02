@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DireccionPersonaEditDlg" widgetVar="DireccionPersonaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditDireccionPersonaTitle}" closeOnEscape="true">
+
+            <h:form id="DireccionPersonaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{direccionPersonaController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditDireccionPersonaLabel_idDireccionPersona}" for="idDireccionPersona" />
+                        <h:outputText id="idDireccionPersona" value="#{direccionPersonaController.selected.idDireccionPersona}" />
+
+                        <p:outputLabel value="#{idioma.EditDireccionPersonaLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{direccionPersonaController.selected.estado}" title="#{idioma.EditDireccionPersonaTitle_estado}" required="true" requiredMessage="#{idioma.EditDireccionPersonaRequiredMessage_estado}"/>
+
+                        <p:outputLabel value="#{idioma.EditDireccionPersonaLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{direccionPersonaController.selected.idPersona}" required="true" requiredMessage="#{idioma.EditDireccionPersonaRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditDireccionPersonaLabel_idDireccion}" for="idDireccion" />
+                        <p:selectOneMenu id="idDireccion" value="#{direccionPersonaController.selected.idDireccion}" required="true" requiredMessage="#{idioma.EditDireccionPersonaRequiredMessage_idDireccion}" converter="direccionConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{direccionController.items}"
+                                           var="idDireccionItem"
+                                           itemValue="#{idDireccionItem}"
+                                           itemLabel="#{idDireccionItem.idDireccion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{direccionPersonaController.save}" value="#{idioma.Save}" update="display,:DireccionPersonaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DireccionPersonaEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DireccionPersonaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

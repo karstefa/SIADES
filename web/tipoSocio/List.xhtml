@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoSocioListForm">
+
+        <p:panel header="#{idioma.ListTipoSocioTitle}">
+            <p:contextMenu id="TipoSocioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('TipoSocioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('TipoSocioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('TipoSocioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('TipoSocioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.TipoSocioMenuItem_socioList}" icon="ui-icon-search"  action="#{tipoSocioController.navigateSocioList}" disabled="#{empty tipoSocioController.selected.socioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoSocioController.items}"
+                         var="item"
+                         rowKey="#{item.idTipoSocio}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tipoSocioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TipoSocioListForm:createButton :TipoSocioListForm:viewButton :TipoSocioListForm:editButton :TipoSocioListForm:deleteButton :TipoSocioListForm:TipoSocioDataTableContextMenu" listener="#{tipoSocioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TipoSocioListForm:createButton :TipoSocioListForm:viewButton :TipoSocioListForm:editButton :TipoSocioListForm:deleteButton :TipoSocioListForm:TipoSocioDataTableContextMenu" listener="#{tipoSocioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoSocioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTipoSocio}" filterBy="#{item.idTipoSocio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListTipoSocioTitle_idTipoSocio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoSocio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListTipoSocioTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{tipoSocioController.prepareCreate}" update=":TipoSocioCreateForm" oncomplete="PF('TipoSocioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":TipoSocioViewForm" oncomplete="PF('TipoSocioViewDialog').show()" disabled="#{empty tipoSocioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":TipoSocioEditForm" oncomplete="PF('TipoSocioEditDialog').show()" disabled="#{empty tipoSocioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{tipoSocioController.delete}" update=":growl,datalist" disabled="#{empty tipoSocioController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

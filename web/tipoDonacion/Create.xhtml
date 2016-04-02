@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDonacionCreateDlg" widgetVar="TipoDonacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateTipoDonacionTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDonacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoDonacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateTipoDonacionLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoDonacionController.selected.nombre}" title="#{idioma.CreateTipoDonacionTitle_nombre}" required="true" requiredMessage="#{idioma.CreateTipoDonacionRequiredMessage_nombre}" size="200" maxlength="200"/>
+
+                        <p:outputLabel value="#{idioma.CreateTipoDonacionLabel_descripcion}" for="descripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="descripcion" value="#{tipoDonacionController.selected.descripcion}" title="#{idioma.CreateTipoDonacionTitle_descripcion}" required="true" requiredMessage="#{idioma.CreateTipoDonacionRequiredMessage_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDonacionController.saveNew}" value="#{idioma.Save}" update="display,:TipoDonacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoDonacionCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('TipoDonacionCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

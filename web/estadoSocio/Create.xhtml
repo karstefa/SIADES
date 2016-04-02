@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoSocioCreateDlg" widgetVar="EstadoSocioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateEstadoSocioTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoSocioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{estadoSocioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateEstadoSocioLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{estadoSocioController.selected.nombre}" title="#{idioma.CreateEstadoSocioTitle_nombre}" required="true" requiredMessage="#{idioma.CreateEstadoSocioRequiredMessage_nombre}" size="50" maxlength="50"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadoSocioController.saveNew}" value="#{idioma.Save}" update="display,:EstadoSocioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EstadoSocioCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('EstadoSocioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

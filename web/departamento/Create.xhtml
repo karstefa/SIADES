@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DepartamentoCreateDlg" widgetVar="DepartamentoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateDepartamentoTitle}" closeOnEscape="true">
+
+            <h:form id="DepartamentoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{departamentoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateDepartamentoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{departamentoController.selected.nombre}" title="#{idioma.CreateDepartamentoTitle_nombre}" required="true" requiredMessage="#{idioma.CreateDepartamentoRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateDepartamentoLabel_idPais}" for="idPais" />
+                        <p:selectOneMenu id="idPais" value="#{departamentoController.selected.idPais}" required="true" requiredMessage="#{idioma.CreateDepartamentoRequiredMessage_idPais}" converter="paisConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{paisController.items}"
+                                           var="idPaisItem"
+                                           itemValue="#{idPaisItem}"
+                                           itemLabel="#{idPaisItem.idPais.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{departamentoController.saveNew}" value="#{idioma.Save}" update="display,:DepartamentoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DepartamentoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DepartamentoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

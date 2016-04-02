@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EmpleadoListForm">
+
+        <p:panel header="#{idioma.ListEmpleadoTitle}">
+            <p:contextMenu id="EmpleadoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('EmpleadoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('EmpleadoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('EmpleadoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('EmpleadoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.EmpleadoMenuItem_documentoEmpleadoList}" icon="ui-icon-search"  action="#{empleadoController.navigateDocumentoEmpleadoList}" disabled="#{empty empleadoController.selected.documentoEmpleadoList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.EmpleadoMenuItem_contactoEmpleadoList}" icon="ui-icon-search"  action="#{empleadoController.navigateContactoEmpleadoList}" disabled="#{empty empleadoController.selected.contactoEmpleadoList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.EmpleadoMenuItem_direccionEmpleadoList}" icon="ui-icon-search"  action="#{empleadoController.navigateDireccionEmpleadoList}" disabled="#{empty empleadoController.selected.direccionEmpleadoList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.EmpleadoMenuItem_idEstadoEmpleado}" icon="ui-icon-search"  actionListener="#{empleadoController.prepareIdEstadoEmpleado}" update=":EstadoEmpleadoViewForm" oncomplete="PF('EstadoEmpleadoViewDialog').show()" disabled="#{empty empleadoController.selected.idEstadoEmpleado}"/>  
+                <p:menuitem value="#{idioma.EmpleadoMenuItem_idCargo}" icon="ui-icon-search"  actionListener="#{empleadoController.prepareIdCargo}" update=":CargoViewForm" oncomplete="PF('CargoViewDialog').show()" disabled="#{empty empleadoController.selected.idCargo}"/>  
+                <p:menuitem value="#{idioma.EmpleadoMenuItem_idTipoEmpleado}" icon="ui-icon-search"  actionListener="#{empleadoController.prepareIdTipoEmpleado}" update=":TipoEmpleadoViewForm" oncomplete="PF('TipoEmpleadoViewDialog').show()" disabled="#{empty empleadoController.selected.idTipoEmpleado}"/>  
+                <p:menuitem value="#{idioma.EmpleadoMenuItem_usuarioEmpleadoRolList}" icon="ui-icon-search"  action="#{empleadoController.navigateUsuarioEmpleadoRolList}" disabled="#{empty empleadoController.selected.usuarioEmpleadoRolList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{empleadoController.items}"
+                         var="item"
+                         rowKey="#{item.idEmpleado}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{empleadoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EmpleadoListForm:createButton :EmpleadoListForm:viewButton :EmpleadoListForm:editButton :EmpleadoListForm:deleteButton :EmpleadoListForm:EmpleadoDataTableContextMenu" listener="#{empleadoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EmpleadoListForm:createButton :EmpleadoListForm:viewButton :EmpleadoListForm:editButton :EmpleadoListForm:deleteButton :EmpleadoListForm:EmpleadoDataTableContextMenu" listener="#{empleadoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EmpleadoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEmpleado}" filterBy="#{item.idEmpleado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEmpleadoTitle_idEmpleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmpleado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuario}" filterBy="#{item.usuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEmpleadoTitle_usuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contrasenia}" filterBy="#{item.contrasenia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEmpleadoTitle_contrasenia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contrasenia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEmpleadoTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.apellido}" filterBy="#{item.apellido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEmpleadoTitle_apellido}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.apellido}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.genero}" filterBy="#{item.genero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEmpleadoTitle_genero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.genero}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.fechaNacimiento}" filterBy="#{item.fechaNacimiento}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListEmpleadoTitle_fechaNacimiento}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaNacimiento}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idEstadoEmpleado.idEstadoEmpleado}" filterBy="#{item.idEstadoEmpleado.idEstadoEmpleado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListEmpleadoTitle_idEstadoEmpleado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idEstadoEmpleado.idEstadoEmpleado}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idCargo.idCargo}" filterBy="#{item.idCargo.idCargo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListEmpleadoTitle_idCargo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idCargo.idCargo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idTipoEmpleado.idTipoEmpleado}" filterBy="#{item.idTipoEmpleado.idTipoEmpleado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListEmpleadoTitle_idTipoEmpleado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTipoEmpleado.idTipoEmpleado}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{empleadoController.prepareCreate}" update=":EmpleadoCreateForm" oncomplete="PF('EmpleadoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":EmpleadoViewForm" oncomplete="PF('EmpleadoViewDialog').show()" disabled="#{empty empleadoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":EmpleadoEditForm" oncomplete="PF('EmpleadoEditDialog').show()" disabled="#{empty empleadoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{empleadoController.delete}" update=":growl,datalist" disabled="#{empty empleadoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MunicipioListForm">
+
+        <p:panel header="#{idioma.ListMunicipioTitle}">
+            <p:contextMenu id="MunicipioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('MunicipioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('MunicipioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('MunicipioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('MunicipioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.MunicipioMenuItem_direccionList}" icon="ui-icon-search"  action="#{municipioController.navigateDireccionList}" disabled="#{empty municipioController.selected.direccionList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.MunicipioMenuItem_idDepartamento}" icon="ui-icon-search"  actionListener="#{municipioController.prepareIdDepartamento}" update=":DepartamentoViewForm" oncomplete="PF('DepartamentoViewDialog').show()" disabled="#{empty municipioController.selected.idDepartamento}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{municipioController.items}"
+                         var="item"
+                         rowKey="#{item.idMunicipio}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{municipioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":MunicipioListForm:createButton :MunicipioListForm:viewButton :MunicipioListForm:editButton :MunicipioListForm:deleteButton :MunicipioListForm:MunicipioDataTableContextMenu" listener="#{municipioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":MunicipioListForm:createButton :MunicipioListForm:viewButton :MunicipioListForm:editButton :MunicipioListForm:deleteButton :MunicipioListForm:MunicipioDataTableContextMenu" listener="#{municipioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MunicipioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idMunicipio}" filterBy="#{item.idMunicipio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMunicipioTitle_idMunicipio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMunicipio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMunicipioTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idDepartamento.idDepartamento}" filterBy="#{item.idDepartamento.idDepartamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMunicipioTitle_idDepartamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDepartamento.idDepartamento}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{municipioController.prepareCreate}" update=":MunicipioCreateForm" oncomplete="PF('MunicipioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":MunicipioViewForm" oncomplete="PF('MunicipioViewDialog').show()" disabled="#{empty municipioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":MunicipioEditForm" oncomplete="PF('MunicipioEditDialog').show()" disabled="#{empty municipioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{municipioController.delete}" update=":growl,datalist" disabled="#{empty municipioController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

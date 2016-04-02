@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MoraEditDlg" widgetVar="MoraEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditMoraTitle}" closeOnEscape="true">
+
+            <h:form id="MoraEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{moraController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditMoraLabel_idMora}" for="idMora" />
+                        <h:outputText id="idMora" value="#{moraController.selected.idMora}" />
+
+                        <p:outputLabel value="#{idioma.EditMoraLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{moraController.selected.monto}" title="#{idioma.EditMoraTitle_monto}" required="true" requiredMessage="#{idioma.EditMoraRequiredMessage_monto}"/>
+
+                        <p:outputLabel value="#{idioma.EditMoraLabel_fechaMaxima}" for="fechaMaxima" />
+                        <p:calendar id="fechaMaxima" pattern="MM/dd/yyyy" value="#{moraController.selected.fechaMaxima}" title="#{idioma.EditMoraTitle_fechaMaxima}" required="true" requiredMessage="#{idioma.EditMoraRequiredMessage_fechaMaxima}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditMoraLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{moraController.selected.estado}" title="#{idioma.EditMoraTitle_estado}" required="true" requiredMessage="#{idioma.EditMoraRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.EditMoraLabel_idTipoMora}" for="idTipoMora" />
+                        <p:selectOneMenu id="idTipoMora" value="#{moraController.selected.idTipoMora}" required="true" requiredMessage="#{idioma.EditMoraRequiredMessage_idTipoMora}" converter="tipoMoraConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoMoraController.items}"
+                                           var="idTipoMoraItem"
+                                           itemValue="#{idTipoMoraItem}"
+                                           itemLabel="#{idTipoMoraItem.idTipoMora.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{moraController.save}" value="#{idioma.Save}" update="display,:MoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MoraEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('MoraEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

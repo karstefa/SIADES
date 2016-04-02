@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EstudioListForm">
+
+        <p:panel header="#{idioma.ListEstudioTitle}">
+            <p:contextMenu id="EstudioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('EstudioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('EstudioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('EstudioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('EstudioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.EstudioMenuItem_idPersona}" icon="ui-icon-search"  actionListener="#{estudioController.prepareIdPersona}" update=":SocioViewForm" oncomplete="PF('SocioViewDialog').show()" disabled="#{empty estudioController.selected.idPersona}"/>  
+                <p:menuitem value="#{idioma.EstudioMenuItem_tituloList}" icon="ui-icon-search"  action="#{estudioController.navigateTituloList}" disabled="#{empty estudioController.selected.tituloList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{estudioController.items}"
+                         var="item"
+                         rowKey="#{item.idEstudio}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{estudioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EstudioListForm:createButton :EstudioListForm:viewButton :EstudioListForm:editButton :EstudioListForm:deleteButton :EstudioListForm:EstudioDataTableContextMenu" listener="#{estudioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EstudioListForm:createButton :EstudioListForm:viewButton :EstudioListForm:editButton :EstudioListForm:deleteButton :EstudioListForm:EstudioDataTableContextMenu" listener="#{estudioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EstudioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEstudio}" filterBy="#{item.idEstudio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEstudioTitle_idEstudio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEstudio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estudioRealizados}" filterBy="#{item.estudioRealizados}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEstudioTitle_estudioRealizados}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estudioRealizados}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.anioInicio}" filterBy="#{item.anioInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEstudioTitle_anioInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.anioInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.anioFinalizado}" filterBy="#{item.anioFinalizado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEstudioTitle_anioFinalizado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.anioFinalizado}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPersona.idPersona}" filterBy="#{item.idPersona.idPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListEstudioTitle_idPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPersona.idPersona}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{estudioController.prepareCreate}" update=":EstudioCreateForm" oncomplete="PF('EstudioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":EstudioViewForm" oncomplete="PF('EstudioViewDialog').show()" disabled="#{empty estudioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":EstudioEditForm" oncomplete="PF('EstudioEditDialog').show()" disabled="#{empty estudioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{estudioController.delete}" update=":growl,datalist" disabled="#{empty estudioController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

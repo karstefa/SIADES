@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleProductoDonanteCreateDlg" widgetVar="DetalleProductoDonanteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateDetalleProductoDonanteTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleProductoDonanteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{detalleProductoDonanteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateDetalleProductoDonanteLabel_estadoInventario}" for="estadoInventario" />
+                        <p:inputText id="estadoInventario" value="#{detalleProductoDonanteController.selected.estadoInventario}" title="#{idioma.CreateDetalleProductoDonanteTitle_estadoInventario}" required="true" requiredMessage="#{idioma.CreateDetalleProductoDonanteRequiredMessage_estadoInventario}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.CreateDetalleProductoDonanteLabel_fechaExpiracion}" for="fechaExpiracion" />
+                        <p:calendar id="fechaExpiracion" pattern="MM/dd/yyyy" value="#{detalleProductoDonanteController.selected.fechaExpiracion}" title="#{idioma.CreateDetalleProductoDonanteTitle_fechaExpiracion}" required="true" requiredMessage="#{idioma.CreateDetalleProductoDonanteRequiredMessage_fechaExpiracion}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateDetalleProductoDonanteLabel_idDetalleProducto}" for="idDetalleProducto" />
+                        <p:selectOneMenu id="idDetalleProducto" value="#{detalleProductoDonanteController.selected.idDetalleProducto}" required="true" requiredMessage="#{idioma.CreateDetalleProductoDonanteRequiredMessage_idDetalleProducto}" converter="productoDonanteConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoDonanteController.items}"
+                                           var="idDetalleProductoItem"
+                                           itemValue="#{idDetalleProductoItem}"
+                                           itemLabel="#{idDetalleProductoItem.idDetalleProducto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleProductoDonanteController.saveNew}" value="#{idioma.Save}" update="display,:DetalleProductoDonanteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleProductoDonanteCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DetalleProductoDonanteCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

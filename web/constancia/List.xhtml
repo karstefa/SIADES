@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ConstanciaListForm">
+
+        <p:panel header="#{idioma.ListConstanciaTitle}">
+            <p:contextMenu id="ConstanciaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('ConstanciaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('ConstanciaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('ConstanciaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('ConstanciaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.ConstanciaMenuItem_idTipoConstancia}" icon="ui-icon-search"  actionListener="#{constanciaController.prepareIdTipoConstancia}" update=":TipoConstanciaViewForm" oncomplete="PF('TipoConstanciaViewDialog').show()" disabled="#{empty constanciaController.selected.idTipoConstancia}"/>  
+                <p:menuitem value="#{idioma.ConstanciaMenuItem_idPago}" icon="ui-icon-search"  actionListener="#{constanciaController.prepareIdPago}" update=":PagoViewForm" oncomplete="PF('PagoViewDialog').show()" disabled="#{empty constanciaController.selected.idPago}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{constanciaController.items}"
+                         var="item"
+                         rowKey="#{item.idConstancia}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{constanciaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ConstanciaListForm:createButton :ConstanciaListForm:viewButton :ConstanciaListForm:editButton :ConstanciaListForm:deleteButton :ConstanciaListForm:ConstanciaDataTableContextMenu" listener="#{constanciaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ConstanciaListForm:createButton :ConstanciaListForm:viewButton :ConstanciaListForm:editButton :ConstanciaListForm:deleteButton :ConstanciaListForm:ConstanciaDataTableContextMenu" listener="#{constanciaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ConstanciaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idConstancia}" filterBy="#{item.idConstancia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListConstanciaTitle_idConstancia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idConstancia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaEmision}" filterBy="#{item.fechaEmision}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListConstanciaTitle_fechaEmision}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaEmision}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListConstanciaTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cantidad}" filterBy="#{item.cantidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListConstanciaTitle_cantidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cantidad}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idTipoConstancia.idTipoConstancia}" filterBy="#{item.idTipoConstancia.idTipoConstancia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListConstanciaTitle_idTipoConstancia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoConstancia.idTipoConstancia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPago.idPago}" filterBy="#{item.idPago.idPago}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListConstanciaTitle_idPago}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPago.idPago}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{constanciaController.prepareCreate}" update=":ConstanciaCreateForm" oncomplete="PF('ConstanciaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":ConstanciaViewForm" oncomplete="PF('ConstanciaViewDialog').show()" disabled="#{empty constanciaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":ConstanciaEditForm" oncomplete="PF('ConstanciaEditDialog').show()" disabled="#{empty constanciaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{constanciaController.delete}" update=":growl,datalist" disabled="#{empty constanciaController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

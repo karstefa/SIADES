@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EmpleadoEditDlg" widgetVar="EmpleadoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditEmpleadoTitle}" closeOnEscape="true">
+
+            <h:form id="EmpleadoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{empleadoController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditEmpleadoLabel_idEmpleado}" for="idEmpleado" />
+                        <h:outputText id="idEmpleado" value="#{empleadoController.selected.idEmpleado}" />
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{empleadoController.selected.usuario}" title="#{idioma.EditEmpleadoTitle_usuario}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_usuario}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_contrasenia}" for="contrasenia" />
+                        <p:inputText id="contrasenia" value="#{empleadoController.selected.contrasenia}" title="#{idioma.EditEmpleadoTitle_contrasenia}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_contrasenia}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{empleadoController.selected.nombre}" title="#{idioma.EditEmpleadoTitle_nombre}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_apellido}" for="apellido" />
+                        <p:inputText id="apellido" value="#{empleadoController.selected.apellido}" title="#{idioma.EditEmpleadoTitle_apellido}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_apellido}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_genero}" for="genero" />
+                        <p:inputText id="genero" value="#{empleadoController.selected.genero}" title="#{idioma.EditEmpleadoTitle_genero}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_genero}"/>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{empleadoController.selected.fechaNacimiento}" title="#{idioma.EditEmpleadoTitle_fechaNacimiento}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_fechaNacimiento}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_idEstadoEmpleado}" for="idEstadoEmpleado" />
+                        <p:selectOneMenu id="idEstadoEmpleado" value="#{empleadoController.selected.idEstadoEmpleado}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_idEstadoEmpleado}" converter="estadoEmpleadoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadoEmpleadoController.items}"
+                                           var="idEstadoEmpleadoItem"
+                                           itemValue="#{idEstadoEmpleadoItem}"
+                                           itemLabel="#{idEstadoEmpleadoItem.idEstadoEmpleado.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_idCargo}" for="idCargo" />
+                        <p:selectOneMenu id="idCargo" value="#{empleadoController.selected.idCargo}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_idCargo}" converter="cargoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{cargoController.items}"
+                                           var="idCargoItem"
+                                           itemValue="#{idCargoItem}"
+                                           itemLabel="#{idCargoItem.idCargo.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditEmpleadoLabel_idTipoEmpleado}" for="idTipoEmpleado" />
+                        <p:selectOneMenu id="idTipoEmpleado" value="#{empleadoController.selected.idTipoEmpleado}" required="true" requiredMessage="#{idioma.EditEmpleadoRequiredMessage_idTipoEmpleado}" converter="tipoEmpleadoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoEmpleadoController.items}"
+                                           var="idTipoEmpleadoItem"
+                                           itemValue="#{idTipoEmpleadoItem}"
+                                           itemLabel="#{idTipoEmpleadoItem.idTipoEmpleado.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{empleadoController.save}" value="#{idioma.Save}" update="display,:EmpleadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpleadoEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('EmpleadoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

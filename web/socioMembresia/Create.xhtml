@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SocioMembresiaCreateDlg" widgetVar="SocioMembresiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateSocioMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="SocioMembresiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{socioMembresiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateSocioMembresiaLabel_diaPagoProximo}" for="diaPagoProximo" />
+                        <p:calendar id="diaPagoProximo" pattern="MM/dd/yyyy" value="#{socioMembresiaController.selected.diaPagoProximo}" title="#{idioma.CreateSocioMembresiaTitle_diaPagoProximo}" required="true" requiredMessage="#{idioma.CreateSocioMembresiaRequiredMessage_diaPagoProximo}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateSocioMembresiaLabel_diaPagoAnterior}" for="diaPagoAnterior" />
+                        <p:calendar id="diaPagoAnterior" pattern="MM/dd/yyyy" value="#{socioMembresiaController.selected.diaPagoAnterior}" title="#{idioma.CreateSocioMembresiaTitle_diaPagoAnterior}" required="true" requiredMessage="#{idioma.CreateSocioMembresiaRequiredMessage_diaPagoAnterior}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateSocioMembresiaLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{socioMembresiaController.selected.idPersona}" required="true" requiredMessage="#{idioma.CreateSocioMembresiaRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.CreateSocioMembresiaLabel_idMembresia}" for="idMembresia" />
+                        <p:selectOneMenu id="idMembresia" value="#{socioMembresiaController.selected.idMembresia}" required="true" requiredMessage="#{idioma.CreateSocioMembresiaRequiredMessage_idMembresia}" converter="membresiaConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{membresiaController.items}"
+                                           var="idMembresiaItem"
+                                           itemValue="#{idMembresiaItem}"
+                                           itemLabel="#{idMembresiaItem.idMembresia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{socioMembresiaController.saveNew}" value="#{idioma.Save}" update="display,:SocioMembresiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SocioMembresiaCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('SocioMembresiaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

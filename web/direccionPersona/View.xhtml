@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DireccionPersonaViewDlg" widgetVar="DireccionPersonaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewDireccionPersonaTitle}" closeOnEscape="true">
+
+            <h:form id="DireccionPersonaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{direccionPersonaController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewDireccionPersonaLabel_idDireccionPersona}"/>
+                        <h:outputText value="#{direccionPersonaController.selected.idDireccionPersona}" title="#{idioma.ViewDireccionPersonaTitle_idDireccionPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewDireccionPersonaLabel_estado}"/>
+                        <h:outputText value="#{direccionPersonaController.selected.estado}" title="#{idioma.ViewDireccionPersonaTitle_estado}"/>
+
+                        <h:outputText value="#{idioma.ViewDireccionPersonaLabel_idPersona}"/>
+                        <h:outputText value="#{direccionPersonaController.selected.idPersona.idPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewDireccionPersonaLabel_idDireccion}"/>
+                        <h:outputText value="#{direccionPersonaController.selected.idDireccion.idDireccion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('DireccionPersonaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DireccionListForm">
+
+        <p:panel header="#{idioma.ListDireccionTitle}">
+            <p:contextMenu id="DireccionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('DireccionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('DireccionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('DireccionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('DireccionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.DireccionMenuItem_idMunicipio}" icon="ui-icon-search"  actionListener="#{direccionController.prepareIdMunicipio}" update=":MunicipioViewForm" oncomplete="PF('MunicipioViewDialog').show()" disabled="#{empty direccionController.selected.idMunicipio}"/>  
+                <p:menuitem value="#{idioma.DireccionMenuItem_direccionPersonaList}" icon="ui-icon-search"  action="#{direccionController.navigateDireccionPersonaList}" disabled="#{empty direccionController.selected.direccionPersonaList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.DireccionMenuItem_direccionEmpleadoList}" icon="ui-icon-search"  action="#{direccionController.navigateDireccionEmpleadoList}" disabled="#{empty direccionController.selected.direccionEmpleadoList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{direccionController.items}"
+                         var="item"
+                         rowKey="#{item.idDireccion}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{direccionController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DireccionListForm:createButton :DireccionListForm:viewButton :DireccionListForm:editButton :DireccionListForm:deleteButton :DireccionListForm:DireccionDataTableContextMenu" listener="#{direccionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DireccionListForm:createButton :DireccionListForm:viewButton :DireccionListForm:editButton :DireccionListForm:deleteButton :DireccionListForm:DireccionDataTableContextMenu" listener="#{direccionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DireccionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDireccion}" filterBy="#{item.idDireccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDireccionTitle_idDireccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDireccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.direccion}" filterBy="#{item.direccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDireccionTitle_direccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idMunicipio.idMunicipio}" filterBy="#{item.idMunicipio.idMunicipio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDireccionTitle_idMunicipio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMunicipio.idMunicipio}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{direccionController.prepareCreate}" update=":DireccionCreateForm" oncomplete="PF('DireccionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":DireccionViewForm" oncomplete="PF('DireccionViewDialog').show()" disabled="#{empty direccionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":DireccionEditForm" oncomplete="PF('DireccionEditDialog').show()" disabled="#{empty direccionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{direccionController.delete}" update=":growl,datalist" disabled="#{empty direccionController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

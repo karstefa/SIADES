@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContactoPersonaCreateDlg" widgetVar="ContactoPersonaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateContactoPersonaTitle}" closeOnEscape="true">
+
+            <h:form id="ContactoPersonaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{contactoPersonaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateContactoPersonaLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{contactoPersonaController.selected.estado}" title="#{idioma.CreateContactoPersonaTitle_estado}" required="true" requiredMessage="#{idioma.CreateContactoPersonaRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.CreateContactoPersonaLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{contactoPersonaController.selected.valor}" title="#{idioma.CreateContactoPersonaTitle_valor}" required="true" requiredMessage="#{idioma.CreateContactoPersonaRequiredMessage_valor}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{idioma.CreateContactoPersonaLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{contactoPersonaController.selected.idPersona}" required="true" requiredMessage="#{idioma.CreateContactoPersonaRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.CreateContactoPersonaLabel_idContacto}" for="idContacto" />
+                        <p:selectOneMenu id="idContacto" value="#{contactoPersonaController.selected.idContacto}" required="true" requiredMessage="#{idioma.CreateContactoPersonaRequiredMessage_idContacto}" converter="contactoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{contactoController.items}"
+                                           var="idContactoItem"
+                                           itemValue="#{idContactoItem}"
+                                           itemLabel="#{idContactoItem.idContacto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contactoPersonaController.saveNew}" value="#{idioma.Save}" update="display,:ContactoPersonaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ContactoPersonaCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ContactoPersonaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

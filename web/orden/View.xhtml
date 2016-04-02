@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrdenViewDlg" widgetVar="OrdenViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewOrdenTitle}" closeOnEscape="true">
+
+            <h:form id="OrdenViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{ordenController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewOrdenLabel_idOrden}"/>
+                        <h:outputText value="#{ordenController.selected.idOrden}" title="#{idioma.ViewOrdenTitle_idOrden}"/>
+
+                        <h:outputText value="#{idioma.ViewOrdenLabel_estado}"/>
+                        <h:outputText value="#{ordenController.selected.estado}" title="#{idioma.ViewOrdenTitle_estado}"/>
+
+                        <h:outputText value="#{idioma.ViewOrdenLabel_idProyecto}"/>
+                        <h:outputText value="#{ordenController.selected.idProyecto.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('OrdenViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

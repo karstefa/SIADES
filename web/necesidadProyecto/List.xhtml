@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="NecesidadProyectoListForm">
+
+        <p:panel header="#{idioma.ListNecesidadProyectoTitle}">
+            <p:contextMenu id="NecesidadProyectoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('NecesidadProyectoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('NecesidadProyectoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('NecesidadProyectoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('NecesidadProyectoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.NecesidadProyectoMenuItem_idNecesidad}" icon="ui-icon-search"  actionListener="#{necesidadProyectoController.prepareIdNecesidad}" update=":NecesidadViewForm" oncomplete="PF('NecesidadViewDialog').show()" disabled="#{empty necesidadProyectoController.selected.idNecesidad}"/>  
+                <p:menuitem value="#{idioma.NecesidadProyectoMenuItem_idProyecto}" icon="ui-icon-search"  actionListener="#{necesidadProyectoController.prepareIdProyecto}" update=":ProyectoViewForm" oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty necesidadProyectoController.selected.idProyecto}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{necesidadProyectoController.items}"
+                         var="item"
+                         rowKey="#{item.idNecesidadProyecto}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{necesidadProyectoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":NecesidadProyectoListForm:createButton :NecesidadProyectoListForm:viewButton :NecesidadProyectoListForm:editButton :NecesidadProyectoListForm:deleteButton :NecesidadProyectoListForm:NecesidadProyectoDataTableContextMenu" listener="#{necesidadProyectoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":NecesidadProyectoListForm:createButton :NecesidadProyectoListForm:viewButton :NecesidadProyectoListForm:editButton :NecesidadProyectoListForm:deleteButton :NecesidadProyectoListForm:NecesidadProyectoDataTableContextMenu" listener="#{necesidadProyectoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('NecesidadProyectoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idNecesidadProyecto}" filterBy="#{item.idNecesidadProyecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListNecesidadProyectoTitle_idNecesidadProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idNecesidadProyecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idNecesidad.descripcion}" filterBy="#{item.idNecesidad.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListNecesidadProyectoTitle_idNecesidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idNecesidad.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idProyecto.descripcion}" filterBy="#{item.idProyecto.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListNecesidadProyectoTitle_idProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyecto.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{necesidadProyectoController.prepareCreate}" update=":NecesidadProyectoCreateForm" oncomplete="PF('NecesidadProyectoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":NecesidadProyectoViewForm" oncomplete="PF('NecesidadProyectoViewDialog').show()" disabled="#{empty necesidadProyectoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":NecesidadProyectoEditForm" oncomplete="PF('NecesidadProyectoEditDialog').show()" disabled="#{empty necesidadProyectoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{necesidadProyectoController.delete}" update=":growl,datalist" disabled="#{empty necesidadProyectoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DireccionEmpleadoEditDlg" widgetVar="DireccionEmpleadoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditDireccionEmpleadoTitle}" closeOnEscape="true">
+
+            <h:form id="DireccionEmpleadoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{direccionEmpleadoController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditDireccionEmpleadoLabel_idDireccionEmpleado}" for="idDireccionEmpleado" />
+                        <h:outputText id="idDireccionEmpleado" value="#{direccionEmpleadoController.selected.idDireccionEmpleado}" />
+
+                        <p:outputLabel value="#{idioma.EditDireccionEmpleadoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{direccionEmpleadoController.selected.estado}" title="#{idioma.EditDireccionEmpleadoTitle_estado}" required="true" requiredMessage="#{idioma.EditDireccionEmpleadoRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.EditDireccionEmpleadoLabel_idEmpleado}" for="idEmpleado" />
+                        <p:selectOneMenu id="idEmpleado" value="#{direccionEmpleadoController.selected.idEmpleado}" required="true" requiredMessage="#{idioma.EditDireccionEmpleadoRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadoController.items}"
+                                           var="idEmpleadoItem"
+                                           itemValue="#{idEmpleadoItem}"
+                                           itemLabel="#{idEmpleadoItem.idEmpleado.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditDireccionEmpleadoLabel_idDireccion}" for="idDireccion" />
+                        <p:selectOneMenu id="idDireccion" value="#{direccionEmpleadoController.selected.idDireccion}" required="true" requiredMessage="#{idioma.EditDireccionEmpleadoRequiredMessage_idDireccion}" converter="direccionConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{direccionController.items}"
+                                           var="idDireccionItem"
+                                           itemValue="#{idDireccionItem}"
+                                           itemLabel="#{idDireccionItem.idDireccion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{direccionEmpleadoController.save}" value="#{idioma.Save}" update="display,:DireccionEmpleadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DireccionEmpleadoEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DireccionEmpleadoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

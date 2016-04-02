@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SocioListForm">
+
+        <p:panel header="#{idioma.ListSocioTitle}">
+            <p:contextMenu id="SocioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('SocioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('SocioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('SocioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('SocioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.SocioMenuItem_idTipoSocio}" icon="ui-icon-search"  actionListener="#{socioController.prepareIdTipoSocio}" update=":TipoSocioViewForm" oncomplete="PF('TipoSocioViewDialog').show()" disabled="#{empty socioController.selected.idTipoSocio}"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_idEstadoSocio}" icon="ui-icon-search"  actionListener="#{socioController.prepareIdEstadoSocio}" update=":EstadoSocioViewForm" oncomplete="PF('EstadoSocioViewDialog').show()" disabled="#{empty socioController.selected.idEstadoSocio}"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_socioMembresiaList}" icon="ui-icon-search"  action="#{socioController.navigateSocioMembresiaList}" disabled="#{empty socioController.selected.socioMembresiaList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_documentoSocioList}" icon="ui-icon-search"  action="#{socioController.navigateDocumentoSocioList}" disabled="#{empty socioController.selected.documentoSocioList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_estudioList}" icon="ui-icon-search"  action="#{socioController.navigateEstudioList}" disabled="#{empty socioController.selected.estudioList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_direccionPersonaList}" icon="ui-icon-search"  action="#{socioController.navigateDireccionPersonaList}" disabled="#{empty socioController.selected.direccionPersonaList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_usuarioSocioRolList}" icon="ui-icon-search"  action="#{socioController.navigateUsuarioSocioRolList}" disabled="#{empty socioController.selected.usuarioSocioRolList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_proyectoSocioList}" icon="ui-icon-search"  action="#{socioController.navigateProyectoSocioList}" disabled="#{empty socioController.selected.proyectoSocioList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.SocioMenuItem_contactoPersonaList}" icon="ui-icon-search"  action="#{socioController.navigateContactoPersonaList}" disabled="#{empty socioController.selected.contactoPersonaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{socioController.items}"
+                         var="item"
+                         rowKey="#{item.idPersona}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{socioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":SocioListForm:createButton :SocioListForm:viewButton :SocioListForm:editButton :SocioListForm:deleteButton :SocioListForm:SocioDataTableContextMenu" listener="#{socioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":SocioListForm:createButton :SocioListForm:viewButton :SocioListForm:editButton :SocioListForm:deleteButton :SocioListForm:SocioDataTableContextMenu" listener="#{socioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SocioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPersona}" filterBy="#{item.idPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioTitle_idPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPersona}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contrasenia}" filterBy="#{item.contrasenia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioTitle_contrasenia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contrasenia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuario}" filterBy="#{item.usuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioTitle_usuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.apellido}" filterBy="#{item.apellido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioTitle_apellido}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.apellido}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.genero}" filterBy="#{item.genero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioTitle_genero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.genero}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.fechaNacimiento}" filterBy="#{item.fechaNacimiento}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListSocioTitle_fechaNacimiento}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.fechaNacimiento}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idTipoSocio.idTipoSocio}" filterBy="#{item.idTipoSocio.idTipoSocio}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListSocioTitle_idTipoSocio}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTipoSocio.idTipoSocio}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idEstadoSocio.idEstadoSocio}" filterBy="#{item.idEstadoSocio.idEstadoSocio}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListSocioTitle_idEstadoSocio}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idEstadoSocio.idEstadoSocio}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{socioController.prepareCreate}" update=":SocioCreateForm" oncomplete="PF('SocioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":SocioViewForm" oncomplete="PF('SocioViewDialog').show()" disabled="#{empty socioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":SocioEditForm" oncomplete="PF('SocioEditDialog').show()" disabled="#{empty socioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{socioController.delete}" update=":growl,datalist" disabled="#{empty socioController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

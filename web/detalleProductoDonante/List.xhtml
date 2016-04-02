@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DetalleProductoDonanteListForm">
+
+        <p:panel header="#{idioma.ListDetalleProductoDonanteTitle}">
+            <p:contextMenu id="DetalleProductoDonanteDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('DetalleProductoDonanteListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('DetalleProductoDonanteListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('DetalleProductoDonanteListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('DetalleProductoDonanteListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.DetalleProductoDonanteMenuItem_idDetalleProducto}" icon="ui-icon-search"  actionListener="#{detalleProductoDonanteController.prepareIdDetalleProducto}" update=":ProductoDonanteViewForm" oncomplete="PF('ProductoDonanteViewDialog').show()" disabled="#{empty detalleProductoDonanteController.selected.idDetalleProducto}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{detalleProductoDonanteController.items}"
+                         var="item"
+                         rowKey="#{item.idDetalleProductoDonante}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{detalleProductoDonanteController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DetalleProductoDonanteListForm:createButton :DetalleProductoDonanteListForm:viewButton :DetalleProductoDonanteListForm:editButton :DetalleProductoDonanteListForm:deleteButton :DetalleProductoDonanteListForm:DetalleProductoDonanteDataTableContextMenu" listener="#{detalleProductoDonanteController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DetalleProductoDonanteListForm:createButton :DetalleProductoDonanteListForm:viewButton :DetalleProductoDonanteListForm:editButton :DetalleProductoDonanteListForm:deleteButton :DetalleProductoDonanteListForm:DetalleProductoDonanteDataTableContextMenu" listener="#{detalleProductoDonanteController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DetalleProductoDonanteListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDetalleProductoDonante}" filterBy="#{item.idDetalleProductoDonante}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDetalleProductoDonanteTitle_idDetalleProductoDonante}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDetalleProductoDonante}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estadoInventario}" filterBy="#{item.estadoInventario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDetalleProductoDonanteTitle_estadoInventario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estadoInventario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaExpiracion}" filterBy="#{item.fechaExpiracion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDetalleProductoDonanteTitle_fechaExpiracion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaExpiracion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idDetalleProducto.idDetalleProducto}" filterBy="#{item.idDetalleProducto.idDetalleProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDetalleProductoDonanteTitle_idDetalleProducto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDetalleProducto.idDetalleProducto}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{detalleProductoDonanteController.prepareCreate}" update=":DetalleProductoDonanteCreateForm" oncomplete="PF('DetalleProductoDonanteCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":DetalleProductoDonanteViewForm" oncomplete="PF('DetalleProductoDonanteViewDialog').show()" disabled="#{empty detalleProductoDonanteController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":DetalleProductoDonanteEditForm" oncomplete="PF('DetalleProductoDonanteEditDialog').show()" disabled="#{empty detalleProductoDonanteController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{detalleProductoDonanteController.delete}" update=":growl,datalist" disabled="#{empty detalleProductoDonanteController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

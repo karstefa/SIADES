@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SocioViewDlg" widgetVar="SocioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewSocioTitle}" closeOnEscape="true">
+
+            <h:form id="SocioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{socioController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_idPersona}"/>
+                        <h:outputText value="#{socioController.selected.idPersona}" title="#{idioma.ViewSocioTitle_idPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_contrasenia}"/>
+                        <h:outputText value="#{socioController.selected.contrasenia}" title="#{idioma.ViewSocioTitle_contrasenia}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_usuario}"/>
+                        <h:outputText value="#{socioController.selected.usuario}" title="#{idioma.ViewSocioTitle_usuario}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_nombre}"/>
+                        <h:outputText value="#{socioController.selected.nombre}" title="#{idioma.ViewSocioTitle_nombre}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_apellido}"/>
+                        <h:outputText value="#{socioController.selected.apellido}" title="#{idioma.ViewSocioTitle_apellido}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_genero}"/>
+                        <h:outputText value="#{socioController.selected.genero}" title="#{idioma.ViewSocioTitle_genero}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_fechaNacimiento}"/>
+                        <h:outputText value="#{socioController.selected.fechaNacimiento}" title="#{idioma.ViewSocioTitle_fechaNacimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_idTipoSocio}"/>
+                        <h:outputText value="#{socioController.selected.idTipoSocio.idTipoSocio}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioLabel_idEstadoSocio}"/>
+                        <h:outputText value="#{socioController.selected.idEstadoSocio.idEstadoSocio}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('SocioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

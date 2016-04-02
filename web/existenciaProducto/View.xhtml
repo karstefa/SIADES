@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ExistenciaProductoViewDlg" widgetVar="ExistenciaProductoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewExistenciaProductoTitle}" closeOnEscape="true">
+
+            <h:form id="ExistenciaProductoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{existenciaProductoController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewExistenciaProductoLabel_idExistenciaDonacion}"/>
+                        <h:outputText value="#{existenciaProductoController.selected.idExistenciaDonacion}" title="#{idioma.ViewExistenciaProductoTitle_idExistenciaDonacion}"/>
+
+                        <h:outputText value="#{idioma.ViewExistenciaProductoLabel_cantidad}"/>
+                        <h:outputText value="#{existenciaProductoController.selected.cantidad}" title="#{idioma.ViewExistenciaProductoTitle_cantidad}"/>
+
+                        <h:outputText value="#{idioma.ViewExistenciaProductoLabel_idDonacion}"/>
+                        <h:outputText value="#{existenciaProductoController.selected.idDonacion.idDonacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('ExistenciaProductoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

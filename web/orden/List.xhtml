@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="OrdenListForm">
+
+        <p:panel header="#{idioma.ListOrdenTitle}">
+            <p:contextMenu id="OrdenDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('OrdenListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('OrdenListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('OrdenListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('OrdenListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.OrdenMenuItem_ordenDetalleList}" icon="ui-icon-search"  action="#{ordenController.navigateOrdenDetalleList}" disabled="#{empty ordenController.selected.ordenDetalleList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.OrdenMenuItem_idProyecto}" icon="ui-icon-search"  actionListener="#{ordenController.prepareIdProyecto}" update=":ProyectoViewForm" oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty ordenController.selected.idProyecto}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{ordenController.items}"
+                         var="item"
+                         rowKey="#{item.idOrden}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{ordenController.selected}">
+
+                <p:ajax event="rowSelect"   update=":OrdenListForm:createButton :OrdenListForm:viewButton :OrdenListForm:editButton :OrdenListForm:deleteButton :OrdenListForm:OrdenDataTableContextMenu" listener="#{ordenController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":OrdenListForm:createButton :OrdenListForm:viewButton :OrdenListForm:editButton :OrdenListForm:deleteButton :OrdenListForm:OrdenDataTableContextMenu" listener="#{ordenController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('OrdenListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idOrden}" filterBy="#{item.idOrden}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListOrdenTitle_idOrden}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idOrden}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListOrdenTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idProyecto.descripcion}" filterBy="#{item.idProyecto.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListOrdenTitle_idProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyecto.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{ordenController.prepareCreate}" update=":OrdenCreateForm" oncomplete="PF('OrdenCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":OrdenViewForm" oncomplete="PF('OrdenViewDialog').show()" disabled="#{empty ordenController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":OrdenEditForm" oncomplete="PF('OrdenEditDialog').show()" disabled="#{empty ordenController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{ordenController.delete}" update=":growl,datalist" disabled="#{empty ordenController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

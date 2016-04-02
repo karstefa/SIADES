@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MembresiaCreateDlg" widgetVar="MembresiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="MembresiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{membresiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateMembresiaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{membresiaController.selected.nombre}" title="#{idioma.CreateMembresiaTitle_nombre}" required="true" requiredMessage="#{idioma.CreateMembresiaRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateMembresiaLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{membresiaController.selected.fechaInicio}" title="#{idioma.CreateMembresiaTitle_fechaInicio}" required="true" requiredMessage="#{idioma.CreateMembresiaRequiredMessage_fechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateMembresiaLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{membresiaController.selected.fechaFin}" title="#{idioma.CreateMembresiaTitle_fechaFin}" required="true" requiredMessage="#{idioma.CreateMembresiaRequiredMessage_fechaFin}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateMembresiaLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{membresiaController.selected.monto}" title="#{idioma.CreateMembresiaTitle_monto}" required="true" requiredMessage="#{idioma.CreateMembresiaRequiredMessage_monto}"/>
+
+                        <p:outputLabel value="#{idioma.CreateMembresiaLabel_terminosCondiciones}" for="terminosCondiciones" />
+                        <p:inputTextarea rows="4" cols="30" id="terminosCondiciones" value="#{membresiaController.selected.terminosCondiciones}" title="#{idioma.CreateMembresiaTitle_terminosCondiciones}" required="true" requiredMessage="#{idioma.CreateMembresiaRequiredMessage_terminosCondiciones}"/>
+
+                        <p:outputLabel value="#{idioma.CreateMembresiaLabel_idTipoMembresia}" for="idTipoMembresia" />
+                        <p:selectOneMenu id="idTipoMembresia" value="#{membresiaController.selected.idTipoMembresia}" required="true" requiredMessage="#{idioma.CreateMembresiaRequiredMessage_idTipoMembresia}" converter="tipoMembresiaConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoMembresiaController.items}"
+                                           var="idTipoMembresiaItem"
+                                           itemValue="#{idTipoMembresiaItem}"
+                                           itemLabel="#{idTipoMembresiaItem.idTipoMembresia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{membresiaController.saveNew}" value="#{idioma.Save}" update="display,:MembresiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MembresiaCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('MembresiaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

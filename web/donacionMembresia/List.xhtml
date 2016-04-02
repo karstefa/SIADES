@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DonacionMembresiaListForm">
+
+        <p:panel header="#{idioma.ListDonacionMembresiaTitle}">
+            <p:contextMenu id="DonacionMembresiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('DonacionMembresiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('DonacionMembresiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('DonacionMembresiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('DonacionMembresiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.DonacionMembresiaMenuItem_idDonacion}" icon="ui-icon-search"  actionListener="#{donacionMembresiaController.prepareIdDonacion}" update=":DonacionViewForm" oncomplete="PF('DonacionViewDialog').show()" disabled="#{empty donacionMembresiaController.selected.idDonacion}"/>  
+                <p:menuitem value="#{idioma.DonacionMembresiaMenuItem_idMembresia}" icon="ui-icon-search"  actionListener="#{donacionMembresiaController.prepareIdMembresia}" update=":MembresiaViewForm" oncomplete="PF('MembresiaViewDialog').show()" disabled="#{empty donacionMembresiaController.selected.idMembresia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{donacionMembresiaController.items}"
+                         var="item"
+                         rowKey="#{item.idDonancionMembresia}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{donacionMembresiaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DonacionMembresiaListForm:createButton :DonacionMembresiaListForm:viewButton :DonacionMembresiaListForm:editButton :DonacionMembresiaListForm:deleteButton :DonacionMembresiaListForm:DonacionMembresiaDataTableContextMenu" listener="#{donacionMembresiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DonacionMembresiaListForm:createButton :DonacionMembresiaListForm:viewButton :DonacionMembresiaListForm:editButton :DonacionMembresiaListForm:deleteButton :DonacionMembresiaListForm:DonacionMembresiaDataTableContextMenu" listener="#{donacionMembresiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DonacionMembresiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDonancionMembresia}" filterBy="#{item.idDonancionMembresia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonacionMembresiaTitle_idDonancionMembresia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDonancionMembresia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idDonacion.idDonacion}" filterBy="#{item.idDonacion.idDonacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonacionMembresiaTitle_idDonacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDonacion.idDonacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idMembresia.idMembresia}" filterBy="#{item.idMembresia.idMembresia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonacionMembresiaTitle_idMembresia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMembresia.idMembresia}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{donacionMembresiaController.prepareCreate}" update=":DonacionMembresiaCreateForm" oncomplete="PF('DonacionMembresiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":DonacionMembresiaViewForm" oncomplete="PF('DonacionMembresiaViewDialog').show()" disabled="#{empty donacionMembresiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":DonacionMembresiaEditForm" oncomplete="PF('DonacionMembresiaEditDialog').show()" disabled="#{empty donacionMembresiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{donacionMembresiaController.delete}" update=":growl,datalist" disabled="#{empty donacionMembresiaController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

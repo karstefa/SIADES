@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MembresiaListForm">
+
+        <p:panel header="#{idioma.ListMembresiaTitle}">
+            <p:contextMenu id="MembresiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('MembresiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('MembresiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('MembresiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('MembresiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.MembresiaMenuItem_pagoMembresiaList}" icon="ui-icon-search"  action="#{membresiaController.navigatePagoMembresiaList}" disabled="#{empty membresiaController.selected.pagoMembresiaList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.MembresiaMenuItem_socioMembresiaList}" icon="ui-icon-search"  action="#{membresiaController.navigateSocioMembresiaList}" disabled="#{empty membresiaController.selected.socioMembresiaList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.MembresiaMenuItem_donacionMembresiaList}" icon="ui-icon-search"  action="#{membresiaController.navigateDonacionMembresiaList}" disabled="#{empty membresiaController.selected.donacionMembresiaList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.MembresiaMenuItem_idTipoMembresia}" icon="ui-icon-search"  actionListener="#{membresiaController.prepareIdTipoMembresia}" update=":TipoMembresiaViewForm" oncomplete="PF('TipoMembresiaViewDialog').show()" disabled="#{empty membresiaController.selected.idTipoMembresia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{membresiaController.items}"
+                         var="item"
+                         rowKey="#{item.idMembresia}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{membresiaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":MembresiaListForm:createButton :MembresiaListForm:viewButton :MembresiaListForm:editButton :MembresiaListForm:deleteButton :MembresiaListForm:MembresiaDataTableContextMenu" listener="#{membresiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":MembresiaListForm:createButton :MembresiaListForm:viewButton :MembresiaListForm:editButton :MembresiaListForm:deleteButton :MembresiaListForm:MembresiaDataTableContextMenu" listener="#{membresiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MembresiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idMembresia}" filterBy="#{item.idMembresia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMembresiaTitle_idMembresia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMembresia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMembresiaTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaInicio}" filterBy="#{item.fechaInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMembresiaTitle_fechaInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaFin}" filterBy="#{item.fechaFin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMembresiaTitle_fechaFin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaFin}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.monto}" filterBy="#{item.monto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMembresiaTitle_monto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.monto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminosCondiciones}" filterBy="#{item.terminosCondiciones}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListMembresiaTitle_terminosCondiciones}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminosCondiciones}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.idTipoMembresia.idTipoMembresia}" filterBy="#{item.idTipoMembresia.idTipoMembresia}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{idioma.ListMembresiaTitle_idTipoMembresia}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTipoMembresia.idTipoMembresia}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{membresiaController.prepareCreate}" update=":MembresiaCreateForm" oncomplete="PF('MembresiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":MembresiaViewForm" oncomplete="PF('MembresiaViewDialog').show()" disabled="#{empty membresiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":MembresiaEditForm" oncomplete="PF('MembresiaEditDialog').show()" disabled="#{empty membresiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{membresiaController.delete}" update=":growl,datalist" disabled="#{empty membresiaController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

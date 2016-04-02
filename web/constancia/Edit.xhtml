@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ConstanciaEditDlg" widgetVar="ConstanciaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditConstanciaTitle}" closeOnEscape="true">
+
+            <h:form id="ConstanciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{constanciaController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditConstanciaLabel_idConstancia}" for="idConstancia" />
+                        <h:outputText id="idConstancia" value="#{constanciaController.selected.idConstancia}" />
+
+                        <p:outputLabel value="#{idioma.EditConstanciaLabel_fechaEmision}" for="fechaEmision" />
+                        <p:calendar id="fechaEmision" pattern="MM/dd/yyyy" value="#{constanciaController.selected.fechaEmision}" title="#{idioma.EditConstanciaTitle_fechaEmision}" required="true" requiredMessage="#{idioma.EditConstanciaRequiredMessage_fechaEmision}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditConstanciaLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{constanciaController.selected.descripcion}" title="#{idioma.EditConstanciaTitle_descripcion}" required="true" requiredMessage="#{idioma.EditConstanciaRequiredMessage_descripcion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditConstanciaLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{constanciaController.selected.cantidad}" title="#{idioma.EditConstanciaTitle_cantidad}" required="true" requiredMessage="#{idioma.EditConstanciaRequiredMessage_cantidad}"/>
+
+                        <p:outputLabel value="#{idioma.EditConstanciaLabel_idTipoConstancia}" for="idTipoConstancia" />
+                        <p:selectOneMenu id="idTipoConstancia" value="#{constanciaController.selected.idTipoConstancia}" required="true" requiredMessage="#{idioma.EditConstanciaRequiredMessage_idTipoConstancia}" converter="tipoConstanciaConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoConstanciaController.items}"
+                                           var="idTipoConstanciaItem"
+                                           itemValue="#{idTipoConstanciaItem}"
+                                           itemLabel="#{idTipoConstanciaItem.idTipoConstancia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditConstanciaLabel_idPago}" for="idPago" />
+                        <p:selectOneMenu id="idPago" value="#{constanciaController.selected.idPago}" required="true" requiredMessage="#{idioma.EditConstanciaRequiredMessage_idPago}" converter="pagoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{pagoController.items}"
+                                           var="idPagoItem"
+                                           itemValue="#{idPagoItem}"
+                                           itemLabel="#{idPagoItem.idPago.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{constanciaController.save}" value="#{idioma.Save}" update="display,:ConstanciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ConstanciaEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ConstanciaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

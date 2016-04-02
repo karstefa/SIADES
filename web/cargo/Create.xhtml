@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargoCreateDlg" widgetVar="CargoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateCargoTitle}" closeOnEscape="true">
+
+            <h:form id="CargoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cargoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateCargoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{cargoController.selected.nombre}" title="#{idioma.CreateCargoTitle_nombre}" required="true" requiredMessage="#{idioma.CreateCargoRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateCargoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{cargoController.selected.estado}" title="#{idioma.CreateCargoTitle_estado}" required="true" requiredMessage="#{idioma.CreateCargoRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.CreateCargoLabel_parentidcargo}" for="parentidcargo" />
+                        <p:selectOneMenu id="parentidcargo" value="#{cargoController.selected.parentidcargo}" required="true" requiredMessage="#{idioma.CreateCargoRequiredMessage_parentidcargo}" converter="cargoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{cargoController.items}"
+                                           var="parentidcargoItem"
+                                           itemValue="#{parentidcargoItem}"
+                                           itemLabel="#{parentidcargoItem.idCargo.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargoController.saveNew}" value="#{idioma.Save}" update="display,:CargoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('CargoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

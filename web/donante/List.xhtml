@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DonanteListForm">
+
+        <p:panel header="#{idioma.ListDonanteTitle}">
+            <p:contextMenu id="DonanteDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('DonanteListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('DonanteListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('DonanteListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('DonanteListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.DonanteMenuItem_productoDonanteList}" icon="ui-icon-search"  action="#{donanteController.navigateProductoDonanteList}" disabled="#{empty donanteController.selected.productoDonanteList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{donanteController.items}"
+                         var="item"
+                         rowKey="#{item.idDonante}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{donanteController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DonanteListForm:createButton :DonanteListForm:viewButton :DonanteListForm:editButton :DonanteListForm:deleteButton :DonanteListForm:DonanteDataTableContextMenu" listener="#{donanteController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DonanteListForm:createButton :DonanteListForm:viewButton :DonanteListForm:editButton :DonanteListForm:deleteButton :DonanteListForm:DonanteDataTableContextMenu" listener="#{donanteController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DonanteListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDonante}" filterBy="#{item.idDonante}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonanteTitle_idDonante}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDonante}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDonanteTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{donanteController.prepareCreate}" update=":DonanteCreateForm" oncomplete="PF('DonanteCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":DonanteViewForm" oncomplete="PF('DonanteViewDialog').show()" disabled="#{empty donanteController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":DonanteEditForm" oncomplete="PF('DonanteEditDialog').show()" disabled="#{empty donanteController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{donanteController.delete}" update=":growl,datalist" disabled="#{empty donanteController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

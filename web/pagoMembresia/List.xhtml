@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PagoMembresiaListForm">
+
+        <p:panel header="#{idioma.ListPagoMembresiaTitle}">
+            <p:contextMenu id="PagoMembresiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('PagoMembresiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('PagoMembresiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('PagoMembresiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('PagoMembresiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.PagoMembresiaMenuItem_idPago}" icon="ui-icon-search"  actionListener="#{pagoMembresiaController.prepareIdPago}" update=":PagoViewForm" oncomplete="PF('PagoViewDialog').show()" disabled="#{empty pagoMembresiaController.selected.idPago}"/>  
+                <p:menuitem value="#{idioma.PagoMembresiaMenuItem_idMembresia}" icon="ui-icon-search"  actionListener="#{pagoMembresiaController.prepareIdMembresia}" update=":MembresiaViewForm" oncomplete="PF('MembresiaViewDialog').show()" disabled="#{empty pagoMembresiaController.selected.idMembresia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{pagoMembresiaController.items}"
+                         var="item"
+                         rowKey="#{item.idPagoMembresia}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{pagoMembresiaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":PagoMembresiaListForm:createButton :PagoMembresiaListForm:viewButton :PagoMembresiaListForm:editButton :PagoMembresiaListForm:deleteButton :PagoMembresiaListForm:PagoMembresiaDataTableContextMenu" listener="#{pagoMembresiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":PagoMembresiaListForm:createButton :PagoMembresiaListForm:viewButton :PagoMembresiaListForm:editButton :PagoMembresiaListForm:deleteButton :PagoMembresiaListForm:PagoMembresiaDataTableContextMenu" listener="#{pagoMembresiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PagoMembresiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPagoMembresia}" filterBy="#{item.idPagoMembresia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListPagoMembresiaTitle_idPagoMembresia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPagoMembresia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPago.idPago}" filterBy="#{item.idPago.idPago}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListPagoMembresiaTitle_idPago}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPago.idPago}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idMembresia.idMembresia}" filterBy="#{item.idMembresia.idMembresia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListPagoMembresiaTitle_idMembresia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMembresia.idMembresia}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{pagoMembresiaController.prepareCreate}" update=":PagoMembresiaCreateForm" oncomplete="PF('PagoMembresiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":PagoMembresiaViewForm" oncomplete="PF('PagoMembresiaViewDialog').show()" disabled="#{empty pagoMembresiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":PagoMembresiaEditForm" oncomplete="PF('PagoMembresiaEditDialog').show()" disabled="#{empty pagoMembresiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{pagoMembresiaController.delete}" update=":growl,datalist" disabled="#{empty pagoMembresiaController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

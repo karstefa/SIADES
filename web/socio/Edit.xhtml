@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SocioEditDlg" widgetVar="SocioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditSocioTitle}" closeOnEscape="true">
+
+            <h:form id="SocioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{socioController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditSocioLabel_idPersona}" for="idPersona" />
+                        <h:outputText id="idPersona" value="#{socioController.selected.idPersona}" />
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_contrasenia}" for="contrasenia" />
+                        <p:inputText id="contrasenia" value="#{socioController.selected.contrasenia}" title="#{idioma.EditSocioTitle_contrasenia}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_contrasenia}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{socioController.selected.usuario}" title="#{idioma.EditSocioTitle_usuario}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_usuario}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{socioController.selected.nombre}" title="#{idioma.EditSocioTitle_nombre}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_apellido}" for="apellido" />
+                        <p:inputText id="apellido" value="#{socioController.selected.apellido}" title="#{idioma.EditSocioTitle_apellido}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_apellido}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_genero}" for="genero" />
+                        <p:inputText id="genero" value="#{socioController.selected.genero}" title="#{idioma.EditSocioTitle_genero}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_genero}"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{socioController.selected.fechaNacimiento}" title="#{idioma.EditSocioTitle_fechaNacimiento}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_fechaNacimiento}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_idTipoSocio}" for="idTipoSocio" />
+                        <p:selectOneMenu id="idTipoSocio" value="#{socioController.selected.idTipoSocio}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_idTipoSocio}" converter="tipoSocioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoSocioController.items}"
+                                           var="idTipoSocioItem"
+                                           itemValue="#{idTipoSocioItem}"
+                                           itemLabel="#{idTipoSocioItem.idTipoSocio.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditSocioLabel_idEstadoSocio}" for="idEstadoSocio" />
+                        <p:selectOneMenu id="idEstadoSocio" value="#{socioController.selected.idEstadoSocio}" required="true" requiredMessage="#{idioma.EditSocioRequiredMessage_idEstadoSocio}" converter="estadoSocioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadoSocioController.items}"
+                                           var="idEstadoSocioItem"
+                                           itemValue="#{idEstadoSocioItem}"
+                                           itemLabel="#{idEstadoSocioItem.idEstadoSocio.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{socioController.save}" value="#{idioma.Save}" update="display,:SocioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SocioEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('SocioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

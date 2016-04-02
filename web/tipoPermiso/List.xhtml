@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoPermisoListForm">
+
+        <p:panel header="#{idioma.ListTipoPermisoTitle}">
+            <p:contextMenu id="TipoPermisoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('TipoPermisoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('TipoPermisoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('TipoPermisoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('TipoPermisoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.TipoPermisoMenuItem_permisoList}" icon="ui-icon-search"  action="#{tipoPermisoController.navigatePermisoList}" disabled="#{empty tipoPermisoController.selected.permisoList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoPermisoController.items}"
+                         var="item"
+                         rowKey="#{item.idTipoPermiso}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{tipoPermisoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TipoPermisoListForm:createButton :TipoPermisoListForm:viewButton :TipoPermisoListForm:editButton :TipoPermisoListForm:deleteButton :TipoPermisoListForm:TipoPermisoDataTableContextMenu" listener="#{tipoPermisoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TipoPermisoListForm:createButton :TipoPermisoListForm:viewButton :TipoPermisoListForm:editButton :TipoPermisoListForm:deleteButton :TipoPermisoListForm:TipoPermisoDataTableContextMenu" listener="#{tipoPermisoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoPermisoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTipoPermiso}" filterBy="#{item.idTipoPermiso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListTipoPermisoTitle_idTipoPermiso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoPermiso}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListTipoPermisoTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{tipoPermisoController.prepareCreate}" update=":TipoPermisoCreateForm" oncomplete="PF('TipoPermisoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":TipoPermisoViewForm" oncomplete="PF('TipoPermisoViewDialog').show()" disabled="#{empty tipoPermisoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":TipoPermisoEditForm" oncomplete="PF('TipoPermisoEditDialog').show()" disabled="#{empty tipoPermisoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{tipoPermisoController.delete}" update=":growl,datalist" disabled="#{empty tipoPermisoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SocioMembresiaListForm">
+
+        <p:panel header="#{idioma.ListSocioMembresiaTitle}">
+            <p:contextMenu id="SocioMembresiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('SocioMembresiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('SocioMembresiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('SocioMembresiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('SocioMembresiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.SocioMembresiaMenuItem_idPersona}" icon="ui-icon-search"  actionListener="#{socioMembresiaController.prepareIdPersona}" update=":SocioViewForm" oncomplete="PF('SocioViewDialog').show()" disabled="#{empty socioMembresiaController.selected.idPersona}"/>  
+                <p:menuitem value="#{idioma.SocioMembresiaMenuItem_idMembresia}" icon="ui-icon-search"  actionListener="#{socioMembresiaController.prepareIdMembresia}" update=":MembresiaViewForm" oncomplete="PF('MembresiaViewDialog').show()" disabled="#{empty socioMembresiaController.selected.idMembresia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{socioMembresiaController.items}"
+                         var="item"
+                         rowKey="#{item.idTipoMembresia}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{socioMembresiaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":SocioMembresiaListForm:createButton :SocioMembresiaListForm:viewButton :SocioMembresiaListForm:editButton :SocioMembresiaListForm:deleteButton :SocioMembresiaListForm:SocioMembresiaDataTableContextMenu" listener="#{socioMembresiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":SocioMembresiaListForm:createButton :SocioMembresiaListForm:viewButton :SocioMembresiaListForm:editButton :SocioMembresiaListForm:deleteButton :SocioMembresiaListForm:SocioMembresiaDataTableContextMenu" listener="#{socioMembresiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SocioMembresiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTipoMembresia}" filterBy="#{item.idTipoMembresia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioMembresiaTitle_idTipoMembresia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoMembresia}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.diaPagoProximo}" filterBy="#{item.diaPagoProximo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioMembresiaTitle_diaPagoProximo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diaPagoProximo}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.diaPagoAnterior}" filterBy="#{item.diaPagoAnterior}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioMembresiaTitle_diaPagoAnterior}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.diaPagoAnterior}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPersona.idPersona}" filterBy="#{item.idPersona.idPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioMembresiaTitle_idPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPersona.idPersona}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idMembresia.idMembresia}" filterBy="#{item.idMembresia.idMembresia}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListSocioMembresiaTitle_idMembresia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMembresia.idMembresia}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{socioMembresiaController.prepareCreate}" update=":SocioMembresiaCreateForm" oncomplete="PF('SocioMembresiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":SocioMembresiaViewForm" oncomplete="PF('SocioMembresiaViewDialog').show()" disabled="#{empty socioMembresiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":SocioMembresiaEditForm" oncomplete="PF('SocioMembresiaEditDialog').show()" disabled="#{empty socioMembresiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{socioMembresiaController.delete}" update=":growl,datalist" disabled="#{empty socioMembresiaController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

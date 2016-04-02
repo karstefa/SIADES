@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ContactoEmpleadoEditDlg" widgetVar="ContactoEmpleadoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditContactoEmpleadoTitle}" closeOnEscape="true">
+
+            <h:form id="ContactoEmpleadoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{contactoEmpleadoController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditContactoEmpleadoLabel_idContactoEmpleado}" for="idContactoEmpleado" />
+                        <h:outputText id="idContactoEmpleado" value="#{contactoEmpleadoController.selected.idContactoEmpleado}" />
+
+                        <p:outputLabel value="#{idioma.EditContactoEmpleadoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{contactoEmpleadoController.selected.estado}" title="#{idioma.EditContactoEmpleadoTitle_estado}" required="true" requiredMessage="#{idioma.EditContactoEmpleadoRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.EditContactoEmpleadoLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{contactoEmpleadoController.selected.valor}" title="#{idioma.EditContactoEmpleadoTitle_valor}" required="true" requiredMessage="#{idioma.EditContactoEmpleadoRequiredMessage_valor}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{idioma.EditContactoEmpleadoLabel_idEmpleado}" for="idEmpleado" />
+                        <p:selectOneMenu id="idEmpleado" value="#{contactoEmpleadoController.selected.idEmpleado}" required="true" requiredMessage="#{idioma.EditContactoEmpleadoRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadoController.items}"
+                                           var="idEmpleadoItem"
+                                           itemValue="#{idEmpleadoItem}"
+                                           itemLabel="#{idEmpleadoItem.idEmpleado.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditContactoEmpleadoLabel_idContacto}" for="idContacto" />
+                        <p:selectOneMenu id="idContacto" value="#{contactoEmpleadoController.selected.idContacto}" required="true" requiredMessage="#{idioma.EditContactoEmpleadoRequiredMessage_idContacto}" converter="contactoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{contactoController.items}"
+                                           var="idContactoItem"
+                                           itemValue="#{idContactoItem}"
+                                           itemLabel="#{idContactoItem.idContacto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contactoEmpleadoController.save}" value="#{idioma.Save}" update="display,:ContactoEmpleadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ContactoEmpleadoEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ContactoEmpleadoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

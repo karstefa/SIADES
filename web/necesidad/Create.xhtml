@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NecesidadCreateDlg" widgetVar="NecesidadCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateNecesidadTitle}" closeOnEscape="true">
+
+            <h:form id="NecesidadCreateForm">
+
+                <h:panelGroup id="display" rendered="#{necesidadController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateNecesidadLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{necesidadController.selected.nombre}" title="#{idioma.CreateNecesidadTitle_nombre}" required="true" requiredMessage="#{idioma.CreateNecesidadRequiredMessage_nombre}" size="75" maxlength="75"/>
+
+                        <p:outputLabel value="#{idioma.CreateNecesidadLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{necesidadController.selected.descripcion}" title="#{idioma.CreateNecesidadTitle_descripcion}" required="true" requiredMessage="#{idioma.CreateNecesidadRequiredMessage_descripcion}" size="200" maxlength="200"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{necesidadController.saveNew}" value="#{idioma.Save}" update="display,:NecesidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('NecesidadCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('NecesidadCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

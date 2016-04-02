@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UsuarioEmpleadoRolListForm">
+
+        <p:panel header="#{idioma.ListUsuarioEmpleadoRolTitle}">
+            <p:contextMenu id="UsuarioEmpleadoRolDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('UsuarioEmpleadoRolListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('UsuarioEmpleadoRolListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('UsuarioEmpleadoRolListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('UsuarioEmpleadoRolListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.UsuarioEmpleadoRolMenuItem_autorizacionUsuarioEmpleadoList}" icon="ui-icon-search"  action="#{usuarioEmpleadoRolController.navigateAutorizacionUsuarioEmpleadoList}" disabled="#{empty usuarioEmpleadoRolController.selected.autorizacionUsuarioEmpleadoList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.UsuarioEmpleadoRolMenuItem_idEmpleado}" icon="ui-icon-search"  actionListener="#{usuarioEmpleadoRolController.prepareIdEmpleado}" update=":EmpleadoViewForm" oncomplete="PF('EmpleadoViewDialog').show()" disabled="#{empty usuarioEmpleadoRolController.selected.idEmpleado}"/>  
+                <p:menuitem value="#{idioma.UsuarioEmpleadoRolMenuItem_idRol}" icon="ui-icon-search"  actionListener="#{usuarioEmpleadoRolController.prepareIdRol}" update=":RolViewForm" oncomplete="PF('RolViewDialog').show()" disabled="#{empty usuarioEmpleadoRolController.selected.idRol}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{usuarioEmpleadoRolController.items}"
+                         var="item"
+                         rowKey="#{item.idUsuario}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{usuarioEmpleadoRolController.selected}">
+
+                <p:ajax event="rowSelect"   update=":UsuarioEmpleadoRolListForm:createButton :UsuarioEmpleadoRolListForm:viewButton :UsuarioEmpleadoRolListForm:editButton :UsuarioEmpleadoRolListForm:deleteButton :UsuarioEmpleadoRolListForm:UsuarioEmpleadoRolDataTableContextMenu" listener="#{usuarioEmpleadoRolController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":UsuarioEmpleadoRolListForm:createButton :UsuarioEmpleadoRolListForm:viewButton :UsuarioEmpleadoRolListForm:editButton :UsuarioEmpleadoRolListForm:deleteButton :UsuarioEmpleadoRolListForm:UsuarioEmpleadoRolDataTableContextMenu" listener="#{usuarioEmpleadoRolController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UsuarioEmpleadoRolListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idUsuario}" filterBy="#{item.idUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListUsuarioEmpleadoRolTitle_idUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idEmpleado.idEmpleado}" filterBy="#{item.idEmpleado.idEmpleado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListUsuarioEmpleadoRolTitle_idEmpleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmpleado.idEmpleado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRol.idRol}" filterBy="#{item.idRol.idRol}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListUsuarioEmpleadoRolTitle_idRol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRol.idRol}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{usuarioEmpleadoRolController.prepareCreate}" update=":UsuarioEmpleadoRolCreateForm" oncomplete="PF('UsuarioEmpleadoRolCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":UsuarioEmpleadoRolViewForm" oncomplete="PF('UsuarioEmpleadoRolViewDialog').show()" disabled="#{empty usuarioEmpleadoRolController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":UsuarioEmpleadoRolEditForm" oncomplete="PF('UsuarioEmpleadoRolEditDialog').show()" disabled="#{empty usuarioEmpleadoRolController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{usuarioEmpleadoRolController.delete}" update=":growl,datalist" disabled="#{empty usuarioEmpleadoRolController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

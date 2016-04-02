@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PermisoCreateDlg" widgetVar="PermisoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreatePermisoTitle}" closeOnEscape="true">
+
+            <h:form id="PermisoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{permisoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreatePermisoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{permisoController.selected.nombre}" title="#{idioma.CreatePermisoTitle_nombre}" required="true" requiredMessage="#{idioma.CreatePermisoRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreatePermisoLabel_idTipoPermiso}" for="idTipoPermiso" />
+                        <p:selectOneMenu id="idTipoPermiso" value="#{permisoController.selected.idTipoPermiso}" required="true" requiredMessage="#{idioma.CreatePermisoRequiredMessage_idTipoPermiso}" converter="tipoPermisoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoPermisoController.items}"
+                                           var="idTipoPermisoItem"
+                                           itemValue="#{idTipoPermisoItem}"
+                                           itemLabel="#{idTipoPermisoItem.idTipoPermiso.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{permisoController.saveNew}" value="#{idioma.Save}" update="display,:PermisoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PermisoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('PermisoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

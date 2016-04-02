@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoMoraEditDlg" widgetVar="TipoMoraEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditTipoMoraTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMoraEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoMoraController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditTipoMoraLabel_idTipoMora}" for="idTipoMora" />
+                        <h:outputText id="idTipoMora" value="#{tipoMoraController.selected.idTipoMora}" />
+
+                        <p:outputLabel value="#{idioma.EditTipoMoraLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoMoraController.selected.nombre}" title="#{idioma.EditTipoMoraTitle_nombre}" required="true" requiredMessage="#{idioma.EditTipoMoraRequiredMessage_nombre}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoMoraController.save}" value="#{idioma.Save}" update="display,:TipoMoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoMoraEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('TipoMoraEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

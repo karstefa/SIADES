@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AutorizacionUsuarioEmpleadoCreateDlg" widgetVar="AutorizacionUsuarioEmpleadoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateAutorizacionUsuarioEmpleadoTitle}" closeOnEscape="true">
+
+            <h:form id="AutorizacionUsuarioEmpleadoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{autorizacionUsuarioEmpleadoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateAutorizacionUsuarioEmpleadoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{autorizacionUsuarioEmpleadoController.selected.estado}" title="#{idioma.CreateAutorizacionUsuarioEmpleadoTitle_estado}" required="true" requiredMessage="#{idioma.CreateAutorizacionUsuarioEmpleadoRequiredMessage_estado}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{idioma.CreateAutorizacionUsuarioEmpleadoLabel_sqlEjecutar}" for="sqlEjecutar" />
+                        <p:inputTextarea rows="4" cols="30" id="sqlEjecutar" value="#{autorizacionUsuarioEmpleadoController.selected.sqlEjecutar}" title="#{idioma.CreateAutorizacionUsuarioEmpleadoTitle_sqlEjecutar}" required="true" requiredMessage="#{idioma.CreateAutorizacionUsuarioEmpleadoRequiredMessage_sqlEjecutar}"/>
+
+                        <p:outputLabel value="#{idioma.CreateAutorizacionUsuarioEmpleadoLabel_idUsuario}" for="idUsuario" />
+                        <p:selectOneMenu id="idUsuario" value="#{autorizacionUsuarioEmpleadoController.selected.idUsuario}" required="true" requiredMessage="#{idioma.CreateAutorizacionUsuarioEmpleadoRequiredMessage_idUsuario}" converter="usuarioEmpleadoRolConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioEmpleadoRolController.items}"
+                                           var="idUsuarioItem"
+                                           itemValue="#{idUsuarioItem}"
+                                           itemLabel="#{idUsuarioItem.idUsuario.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{autorizacionUsuarioEmpleadoController.saveNew}" value="#{idioma.Save}" update="display,:AutorizacionUsuarioEmpleadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AutorizacionUsuarioEmpleadoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('AutorizacionUsuarioEmpleadoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrdenDetalleCreateDlg" widgetVar="OrdenDetalleCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateOrdenDetalleTitle}" closeOnEscape="true">
+
+            <h:form id="OrdenDetalleCreateForm">
+
+                <h:panelGroup id="display" rendered="#{ordenDetalleController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateOrdenDetalleLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{ordenDetalleController.selected.cantidad}" title="#{idioma.CreateOrdenDetalleTitle_cantidad}" required="true" requiredMessage="#{idioma.CreateOrdenDetalleRequiredMessage_cantidad}"/>
+
+                        <p:outputLabel value="#{idioma.CreateOrdenDetalleLabel_ubicacion}" for="ubicacion" />
+                        <p:inputText id="ubicacion" value="#{ordenDetalleController.selected.ubicacion}" title="#{idioma.CreateOrdenDetalleTitle_ubicacion}" required="true" requiredMessage="#{idioma.CreateOrdenDetalleRequiredMessage_ubicacion}" size="150" maxlength="150"/>
+
+                        <p:outputLabel value="#{idioma.CreateOrdenDetalleLabel_idDonacion}" for="idDonacion" />
+                        <p:selectOneMenu id="idDonacion" value="#{ordenDetalleController.selected.idDonacion}" required="true" requiredMessage="#{idioma.CreateOrdenDetalleRequiredMessage_idDonacion}" converter="donacionConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{donacionController.items}"
+                                           var="idDonacionItem"
+                                           itemValue="#{idDonacionItem}"
+                                           itemLabel="#{idDonacionItem.idDonacion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.CreateOrdenDetalleLabel_idOrden}" for="idOrden" />
+                        <p:selectOneMenu id="idOrden" value="#{ordenDetalleController.selected.idOrden}" required="true" requiredMessage="#{idioma.CreateOrdenDetalleRequiredMessage_idOrden}" converter="ordenConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{ordenController.items}"
+                                           var="idOrdenItem"
+                                           itemValue="#{idOrdenItem}"
+                                           itemLabel="#{idOrdenItem.idOrden.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ordenDetalleController.saveNew}" value="#{idioma.Save}" update="display,:OrdenDetalleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OrdenDetalleCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('OrdenDetalleCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

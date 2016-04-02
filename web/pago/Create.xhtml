@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PagoCreateDlg" widgetVar="PagoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreatePagoTitle}" closeOnEscape="true">
+
+            <h:form id="PagoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{pagoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreatePagoLabel_confirmacionPago}" for="confirmacionPago" />
+                        <p:inputText id="confirmacionPago" value="#{pagoController.selected.confirmacionPago}" title="#{idioma.CreatePagoTitle_confirmacionPago}" required="true" requiredMessage="#{idioma.CreatePagoRequiredMessage_confirmacionPago}"/>
+
+                        <p:outputLabel value="#{idioma.CreatePagoLabel_pagoFinal}" for="pagoFinal" />
+                        <p:inputText id="pagoFinal" value="#{pagoController.selected.pagoFinal}" title="#{idioma.CreatePagoTitle_pagoFinal}" required="true" requiredMessage="#{idioma.CreatePagoRequiredMessage_pagoFinal}"/>
+
+                        <p:outputLabel value="#{idioma.CreatePagoLabel_fechaPago}" for="fechaPago" />
+                        <p:calendar id="fechaPago" pattern="MM/dd/yyyy" value="#{pagoController.selected.fechaPago}" title="#{idioma.CreatePagoTitle_fechaPago}" required="true" requiredMessage="#{idioma.CreatePagoRequiredMessage_fechaPago}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreatePagoLabel_idTipoPago}" for="idTipoPago" />
+                        <p:selectOneMenu id="idTipoPago" value="#{pagoController.selected.idTipoPago}" required="true" requiredMessage="#{idioma.CreatePagoRequiredMessage_idTipoPago}" converter="tipoPagoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoPagoController.items}"
+                                           var="idTipoPagoItem"
+                                           itemValue="#{idTipoPagoItem}"
+                                           itemLabel="#{idTipoPagoItem.idTipoPago.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pagoController.saveNew}" value="#{idioma.Save}" update="display,:PagoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PagoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('PagoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

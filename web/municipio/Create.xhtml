@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MunicipioCreateDlg" widgetVar="MunicipioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateMunicipioTitle}" closeOnEscape="true">
+
+            <h:form id="MunicipioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{municipioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateMunicipioLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{municipioController.selected.nombre}" title="#{idioma.CreateMunicipioTitle_nombre}" required="true" requiredMessage="#{idioma.CreateMunicipioRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateMunicipioLabel_idDepartamento}" for="idDepartamento" />
+                        <p:selectOneMenu id="idDepartamento" value="#{municipioController.selected.idDepartamento}" required="true" requiredMessage="#{idioma.CreateMunicipioRequiredMessage_idDepartamento}" converter="departamentoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{departamentoController.items}"
+                                           var="idDepartamentoItem"
+                                           itemValue="#{idDepartamentoItem}"
+                                           itemLabel="#{idDepartamentoItem.idDepartamento.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{municipioController.saveNew}" value="#{idioma.Save}" update="display,:MunicipioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MunicipioCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('MunicipioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

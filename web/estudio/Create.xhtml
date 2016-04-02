@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstudioCreateDlg" widgetVar="EstudioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateEstudioTitle}" closeOnEscape="true">
+
+            <h:form id="EstudioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{estudioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateEstudioLabel_estudioRealizados}" for="estudioRealizados" />
+                        <p:inputText id="estudioRealizados" value="#{estudioController.selected.estudioRealizados}" title="#{idioma.CreateEstudioTitle_estudioRealizados}" required="true" requiredMessage="#{idioma.CreateEstudioRequiredMessage_estudioRealizados}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateEstudioLabel_anioInicio}" for="anioInicio" />
+                        <p:calendar id="anioInicio" pattern="MM/dd/yyyy" value="#{estudioController.selected.anioInicio}" title="#{idioma.CreateEstudioTitle_anioInicio}" required="true" requiredMessage="#{idioma.CreateEstudioRequiredMessage_anioInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateEstudioLabel_anioFinalizado}" for="anioFinalizado" />
+                        <p:calendar id="anioFinalizado" pattern="MM/dd/yyyy" value="#{estudioController.selected.anioFinalizado}" title="#{idioma.CreateEstudioTitle_anioFinalizado}" required="true" requiredMessage="#{idioma.CreateEstudioRequiredMessage_anioFinalizado}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.CreateEstudioLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{estudioController.selected.idPersona}" required="true" requiredMessage="#{idioma.CreateEstudioRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estudioController.saveNew}" value="#{idioma.Save}" update="display,:EstudioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EstudioCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('EstudioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

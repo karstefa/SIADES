@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductoDonanteViewDlg" widgetVar="ProductoDonanteViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewProductoDonanteTitle}" closeOnEscape="true">
+
+            <h:form id="ProductoDonanteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{productoDonanteController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_idDetalleProducto}"/>
+                        <h:outputText value="#{productoDonanteController.selected.idDetalleProducto}" title="#{idioma.ViewProductoDonanteTitle_idDetalleProducto}"/>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_cantidad}"/>
+                        <h:outputText value="#{productoDonanteController.selected.cantidad}" title="#{idioma.ViewProductoDonanteTitle_cantidad}"/>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_valor}"/>
+                        <h:outputText value="#{productoDonanteController.selected.valor}" title="#{idioma.ViewProductoDonanteTitle_valor}"/>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_tiempoHoras}"/>
+                        <h:outputText value="#{productoDonanteController.selected.tiempoHoras}" title="#{idioma.ViewProductoDonanteTitle_tiempoHoras}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_fecha}"/>
+                        <h:outputText value="#{productoDonanteController.selected.fecha}" title="#{idioma.ViewProductoDonanteTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_serieInicial}"/>
+                        <h:outputText value="#{productoDonanteController.selected.serieInicial}" title="#{idioma.ViewProductoDonanteTitle_serieInicial}"/>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_serieFinal}"/>
+                        <h:outputText value="#{productoDonanteController.selected.serieFinal}" title="#{idioma.ViewProductoDonanteTitle_serieFinal}"/>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_idDonante}"/>
+                        <h:outputText value="#{productoDonanteController.selected.idDonante.idDonante}"/>
+
+                        <h:outputText value="#{idioma.ViewProductoDonanteLabel_idDonacion}"/>
+                        <h:outputText value="#{productoDonanteController.selected.idDonacion.idDonacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('ProductoDonanteViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

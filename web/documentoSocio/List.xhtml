@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DocumentoSocioListForm">
+
+        <p:panel header="#{idioma.ListDocumentoSocioTitle}">
+            <p:contextMenu id="DocumentoSocioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('DocumentoSocioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('DocumentoSocioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('DocumentoSocioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('DocumentoSocioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.DocumentoSocioMenuItem_idPersona}" icon="ui-icon-search"  actionListener="#{documentoSocioController.prepareIdPersona}" update=":SocioViewForm" oncomplete="PF('SocioViewDialog').show()" disabled="#{empty documentoSocioController.selected.idPersona}"/>  
+                <p:menuitem value="#{idioma.DocumentoSocioMenuItem_idDocumento}" icon="ui-icon-search"  actionListener="#{documentoSocioController.prepareIdDocumento}" update=":DocumentoViewForm" oncomplete="PF('DocumentoViewDialog').show()" disabled="#{empty documentoSocioController.selected.idDocumento}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{documentoSocioController.items}"
+                         var="item"
+                         rowKey="#{item.idDocumentoSocio}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{documentoSocioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DocumentoSocioListForm:createButton :DocumentoSocioListForm:viewButton :DocumentoSocioListForm:editButton :DocumentoSocioListForm:deleteButton :DocumentoSocioListForm:DocumentoSocioDataTableContextMenu" listener="#{documentoSocioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DocumentoSocioListForm:createButton :DocumentoSocioListForm:viewButton :DocumentoSocioListForm:editButton :DocumentoSocioListForm:deleteButton :DocumentoSocioListForm:DocumentoSocioDataTableContextMenu" listener="#{documentoSocioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DocumentoSocioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDocumentoSocio}" filterBy="#{item.idDocumentoSocio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDocumentoSocioTitle_idDocumentoSocio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDocumentoSocio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDocumentoSocioTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDocumentoSocioTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPersona.idPersona}" filterBy="#{item.idPersona.idPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDocumentoSocioTitle_idPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPersona.idPersona}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idDocumento.idDocumento}" filterBy="#{item.idDocumento.idDocumento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListDocumentoSocioTitle_idDocumento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDocumento.idDocumento}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{documentoSocioController.prepareCreate}" update=":DocumentoSocioCreateForm" oncomplete="PF('DocumentoSocioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":DocumentoSocioViewForm" oncomplete="PF('DocumentoSocioViewDialog').show()" disabled="#{empty documentoSocioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":DocumentoSocioEditForm" oncomplete="PF('DocumentoSocioEditDialog').show()" disabled="#{empty documentoSocioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{documentoSocioController.delete}" update=":growl,datalist" disabled="#{empty documentoSocioController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

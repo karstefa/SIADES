@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ExistenciaProductoListForm">
+
+        <p:panel header="#{idioma.ListExistenciaProductoTitle}">
+            <p:contextMenu id="ExistenciaProductoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('ExistenciaProductoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('ExistenciaProductoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('ExistenciaProductoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('ExistenciaProductoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.ExistenciaProductoMenuItem_idDonacion}" icon="ui-icon-search"  actionListener="#{existenciaProductoController.prepareIdDonacion}" update=":DonacionViewForm" oncomplete="PF('DonacionViewDialog').show()" disabled="#{empty existenciaProductoController.selected.idDonacion}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{existenciaProductoController.items}"
+                         var="item"
+                         rowKey="#{item.idExistenciaDonacion}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{existenciaProductoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ExistenciaProductoListForm:createButton :ExistenciaProductoListForm:viewButton :ExistenciaProductoListForm:editButton :ExistenciaProductoListForm:deleteButton :ExistenciaProductoListForm:ExistenciaProductoDataTableContextMenu" listener="#{existenciaProductoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ExistenciaProductoListForm:createButton :ExistenciaProductoListForm:viewButton :ExistenciaProductoListForm:editButton :ExistenciaProductoListForm:deleteButton :ExistenciaProductoListForm:ExistenciaProductoDataTableContextMenu" listener="#{existenciaProductoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ExistenciaProductoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idExistenciaDonacion}" filterBy="#{item.idExistenciaDonacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListExistenciaProductoTitle_idExistenciaDonacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idExistenciaDonacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cantidad}" filterBy="#{item.cantidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListExistenciaProductoTitle_cantidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cantidad}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idDonacion.idDonacion}" filterBy="#{item.idDonacion.idDonacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListExistenciaProductoTitle_idDonacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDonacion.idDonacion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{existenciaProductoController.prepareCreate}" update=":ExistenciaProductoCreateForm" oncomplete="PF('ExistenciaProductoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":ExistenciaProductoViewForm" oncomplete="PF('ExistenciaProductoViewDialog').show()" disabled="#{empty existenciaProductoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":ExistenciaProductoEditForm" oncomplete="PF('ExistenciaProductoEditDialog').show()" disabled="#{empty existenciaProductoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{existenciaProductoController.delete}" update=":growl,datalist" disabled="#{empty existenciaProductoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

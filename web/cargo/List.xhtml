@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CargoListForm">
+
+        <p:panel header="#{idioma.ListCargoTitle}">
+            <p:contextMenu id="CargoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('CargoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('CargoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('CargoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('CargoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.CargoMenuItem_cargoList}" icon="ui-icon-search"  action="#{cargoController.navigateCargoList}" disabled="#{empty cargoController.selected.cargoList}" ajax="false"/>  
+                <p:menuitem value="#{idioma.CargoMenuItem_parentidcargo}" icon="ui-icon-search"  actionListener="#{cargoController.prepareParentidcargo}" update=":CargoViewForm" oncomplete="PF('CargoViewDialog').show()" disabled="#{empty cargoController.selected.parentidcargo}"/>  
+                <p:menuitem value="#{idioma.CargoMenuItem_empleadoList}" icon="ui-icon-search"  action="#{cargoController.navigateEmpleadoList}" disabled="#{empty cargoController.selected.empleadoList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cargoController.items}"
+                         var="item"
+                         rowKey="#{item.idCargo}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{cargoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":CargoListForm:createButton :CargoListForm:viewButton :CargoListForm:editButton :CargoListForm:deleteButton :CargoListForm:CargoDataTableContextMenu" listener="#{cargoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":CargoListForm:createButton :CargoListForm:viewButton :CargoListForm:editButton :CargoListForm:deleteButton :CargoListForm:CargoDataTableContextMenu" listener="#{cargoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CargoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCargo}" filterBy="#{item.idCargo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListCargoTitle_idCargo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCargo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListCargoTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListCargoTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.parentidcargo.idCargo}" filterBy="#{item.parentidcargo.idCargo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListCargoTitle_parentidcargo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.parentidcargo.idCargo}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{cargoController.prepareCreate}" update=":CargoCreateForm" oncomplete="PF('CargoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":CargoViewForm" oncomplete="PF('CargoViewDialog').show()" disabled="#{empty cargoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":CargoEditForm" oncomplete="PF('CargoEditDialog').show()" disabled="#{empty cargoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{cargoController.delete}" update=":growl,datalist" disabled="#{empty cargoController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

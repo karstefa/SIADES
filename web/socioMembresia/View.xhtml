@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SocioMembresiaViewDlg" widgetVar="SocioMembresiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewSocioMembresiaTitle}" closeOnEscape="true">
+
+            <h:form id="SocioMembresiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{socioMembresiaController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewSocioMembresiaLabel_idTipoMembresia}"/>
+                        <h:outputText value="#{socioMembresiaController.selected.idTipoMembresia}" title="#{idioma.ViewSocioMembresiaTitle_idTipoMembresia}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioMembresiaLabel_diaPagoProximo}"/>
+                        <h:outputText value="#{socioMembresiaController.selected.diaPagoProximo}" title="#{idioma.ViewSocioMembresiaTitle_diaPagoProximo}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewSocioMembresiaLabel_diaPagoAnterior}"/>
+                        <h:outputText value="#{socioMembresiaController.selected.diaPagoAnterior}" title="#{idioma.ViewSocioMembresiaTitle_diaPagoAnterior}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewSocioMembresiaLabel_idPersona}"/>
+                        <h:outputText value="#{socioMembresiaController.selected.idPersona.idPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewSocioMembresiaLabel_idMembresia}"/>
+                        <h:outputText value="#{socioMembresiaController.selected.idMembresia.idMembresia}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('SocioMembresiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

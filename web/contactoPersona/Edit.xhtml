@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ContactoPersonaEditDlg" widgetVar="ContactoPersonaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditContactoPersonaTitle}" closeOnEscape="true">
+
+            <h:form id="ContactoPersonaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{contactoPersonaController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditContactoPersonaLabel_idContactoPersona}" for="idContactoPersona" />
+                        <h:outputText id="idContactoPersona" value="#{contactoPersonaController.selected.idContactoPersona}" />
+
+                        <p:outputLabel value="#{idioma.EditContactoPersonaLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{contactoPersonaController.selected.estado}" title="#{idioma.EditContactoPersonaTitle_estado}" required="true" requiredMessage="#{idioma.EditContactoPersonaRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.EditContactoPersonaLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{contactoPersonaController.selected.valor}" title="#{idioma.EditContactoPersonaTitle_valor}" required="true" requiredMessage="#{idioma.EditContactoPersonaRequiredMessage_valor}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{idioma.EditContactoPersonaLabel_idPersona}" for="idPersona" />
+                        <p:selectOneMenu id="idPersona" value="#{contactoPersonaController.selected.idPersona}" required="true" requiredMessage="#{idioma.EditContactoPersonaRequiredMessage_idPersona}" converter="socioConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{socioController.items}"
+                                           var="idPersonaItem"
+                                           itemValue="#{idPersonaItem}"
+                                           itemLabel="#{idPersonaItem.idPersona.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditContactoPersonaLabel_idContacto}" for="idContacto" />
+                        <p:selectOneMenu id="idContacto" value="#{contactoPersonaController.selected.idContacto}" required="true" requiredMessage="#{idioma.EditContactoPersonaRequiredMessage_idContacto}" converter="contactoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{contactoController.items}"
+                                           var="idContactoItem"
+                                           itemValue="#{idContactoItem}"
+                                           itemLabel="#{idContactoItem.idContacto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contactoPersonaController.save}" value="#{idioma.Save}" update="display,:ContactoPersonaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ContactoPersonaEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ContactoPersonaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

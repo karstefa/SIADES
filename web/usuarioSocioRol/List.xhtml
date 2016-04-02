@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UsuarioSocioRolListForm">
+
+        <p:panel header="#{idioma.ListUsuarioSocioRolTitle}">
+            <p:contextMenu id="UsuarioSocioRolDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{idioma.Create}" onclick="document.getElementById('UsuarioSocioRolListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{idioma.View}" onclick="document.getElementById('UsuarioSocioRolListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{idioma.Edit}" onclick="document.getElementById('UsuarioSocioRolListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{idioma.Delete}" onclick="document.getElementById('UsuarioSocioRolListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{idioma.UsuarioSocioRolMenuItem_idPersona}" icon="ui-icon-search"  actionListener="#{usuarioSocioRolController.prepareIdPersona}" update=":SocioViewForm" oncomplete="PF('SocioViewDialog').show()" disabled="#{empty usuarioSocioRolController.selected.idPersona}"/>  
+                <p:menuitem value="#{idioma.UsuarioSocioRolMenuItem_idRol}" icon="ui-icon-search"  actionListener="#{usuarioSocioRolController.prepareIdRol}" update=":RolViewForm" oncomplete="PF('RolViewDialog').show()" disabled="#{empty usuarioSocioRolController.selected.idRol}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{usuarioSocioRolController.items}"
+                         var="item"
+                         rowKey="#{item.idUsuarioSocioRol}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{usuarioSocioRolController.selected}">
+
+                <p:ajax event="rowSelect"   update=":UsuarioSocioRolListForm:createButton :UsuarioSocioRolListForm:viewButton :UsuarioSocioRolListForm:editButton :UsuarioSocioRolListForm:deleteButton :UsuarioSocioRolListForm:UsuarioSocioRolDataTableContextMenu" listener="#{usuarioSocioRolController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":UsuarioSocioRolListForm:createButton :UsuarioSocioRolListForm:viewButton :UsuarioSocioRolListForm:editButton :UsuarioSocioRolListForm:deleteButton :UsuarioSocioRolListForm:UsuarioSocioRolDataTableContextMenu" listener="#{usuarioSocioRolController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UsuarioSocioRolListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idUsuarioSocioRol}" filterBy="#{item.idUsuarioSocioRol}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListUsuarioSocioRolTitle_idUsuarioSocioRol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuarioSocioRol}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPersona.idPersona}" filterBy="#{item.idPersona.idPersona}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListUsuarioSocioRolTitle_idPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPersona.idPersona}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRol.idRol}" filterBy="#{item.idRol.idRol}">
+                    <f:facet name="header">
+                        <h:outputText value="#{idioma.ListUsuarioSocioRolTitle_idRol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRol.idRol}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{idioma.Create}" actionListener="#{usuarioSocioRolController.prepareCreate}" update=":UsuarioSocioRolCreateForm" oncomplete="PF('UsuarioSocioRolCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{idioma.View}" update=":UsuarioSocioRolViewForm" oncomplete="PF('UsuarioSocioRolViewDialog').show()" disabled="#{empty usuarioSocioRolController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{idioma.Edit}" update=":UsuarioSocioRolEditForm" oncomplete="PF('UsuarioSocioRolEditDialog').show()" disabled="#{empty usuarioSocioRolController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{idioma.Delete}" actionListener="#{usuarioSocioRolController.delete}" update=":growl,datalist" disabled="#{empty usuarioSocioRolController.selected}">
+                <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

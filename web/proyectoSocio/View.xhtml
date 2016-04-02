@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProyectoSocioViewDlg" widgetVar="ProyectoSocioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewProyectoSocioTitle}" closeOnEscape="true">
+
+            <h:form id="ProyectoSocioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{proyectoSocioController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewProyectoSocioLabel_idProyectoPersona}"/>
+                        <h:outputText value="#{proyectoSocioController.selected.idProyectoPersona}" title="#{idioma.ViewProyectoSocioTitle_idProyectoPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewProyectoSocioLabel_estado}"/>
+                        <h:outputText value="#{proyectoSocioController.selected.estado}" title="#{idioma.ViewProyectoSocioTitle_estado}"/>
+
+                        <h:outputText value="#{idioma.ViewProyectoSocioLabel_idProyecto}"/>
+                        <h:outputText value="#{proyectoSocioController.selected.idProyecto.descripcion}"/>
+
+                        <h:outputText value="#{idioma.ViewProyectoSocioLabel_idPersona}"/>
+                        <h:outputText value="#{proyectoSocioController.selected.idPersona.idPersona}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('ProyectoSocioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

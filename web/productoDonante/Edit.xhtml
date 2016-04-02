@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProductoDonanteEditDlg" widgetVar="ProductoDonanteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditProductoDonanteTitle}" closeOnEscape="true">
+
+            <h:form id="ProductoDonanteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{productoDonanteController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditProductoDonanteLabel_idDetalleProducto}" for="idDetalleProducto" />
+                        <h:outputText id="idDetalleProducto" value="#{productoDonanteController.selected.idDetalleProducto}" />
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{productoDonanteController.selected.cantidad}" title="#{idioma.EditProductoDonanteTitle_cantidad}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_cantidad}"/>
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{productoDonanteController.selected.valor}" title="#{idioma.EditProductoDonanteTitle_valor}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_valor}"/>
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_tiempoHoras}" for="tiempoHoras" />
+                        <p:calendar id="tiempoHoras" pattern="HH:mm:ss" value="#{productoDonanteController.selected.tiempoHoras}" title="#{idioma.EditProductoDonanteTitle_tiempoHoras}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_tiempoHoras}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{productoDonanteController.selected.fecha}" title="#{idioma.EditProductoDonanteTitle_fecha}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_serieInicial}" for="serieInicial" />
+                        <p:inputText id="serieInicial" value="#{productoDonanteController.selected.serieInicial}" title="#{idioma.EditProductoDonanteTitle_serieInicial}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_serieInicial}"/>
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_serieFinal}" for="serieFinal" />
+                        <p:inputText id="serieFinal" value="#{productoDonanteController.selected.serieFinal}" title="#{idioma.EditProductoDonanteTitle_serieFinal}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_serieFinal}"/>
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_idDonante}" for="idDonante" />
+                        <p:selectOneMenu id="idDonante" value="#{productoDonanteController.selected.idDonante}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_idDonante}" converter="donanteConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{donanteController.items}"
+                                           var="idDonanteItem"
+                                           itemValue="#{idDonanteItem}"
+                                           itemLabel="#{idDonanteItem.idDonante.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.EditProductoDonanteLabel_idDonacion}" for="idDonacion" />
+                        <p:selectOneMenu id="idDonacion" value="#{productoDonanteController.selected.idDonacion}" required="true" requiredMessage="#{idioma.EditProductoDonanteRequiredMessage_idDonacion}" converter="donacionConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{donacionController.items}"
+                                           var="idDonacionItem"
+                                           itemValue="#{idDonacionItem}"
+                                           itemLabel="#{idDonacionItem.idDonacion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productoDonanteController.save}" value="#{idioma.Save}" update="display,:ProductoDonanteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProductoDonanteEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('ProductoDonanteEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

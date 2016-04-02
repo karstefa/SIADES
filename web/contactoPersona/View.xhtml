@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContactoPersonaViewDlg" widgetVar="ContactoPersonaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewContactoPersonaTitle}" closeOnEscape="true">
+
+            <h:form id="ContactoPersonaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{contactoPersonaController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewContactoPersonaLabel_idContactoPersona}"/>
+                        <h:outputText value="#{contactoPersonaController.selected.idContactoPersona}" title="#{idioma.ViewContactoPersonaTitle_idContactoPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewContactoPersonaLabel_estado}"/>
+                        <h:outputText value="#{contactoPersonaController.selected.estado}" title="#{idioma.ViewContactoPersonaTitle_estado}"/>
+
+                        <h:outputText value="#{idioma.ViewContactoPersonaLabel_valor}"/>
+                        <h:outputText value="#{contactoPersonaController.selected.valor}" title="#{idioma.ViewContactoPersonaTitle_valor}"/>
+
+                        <h:outputText value="#{idioma.ViewContactoPersonaLabel_idPersona}"/>
+                        <h:outputText value="#{contactoPersonaController.selected.idPersona.idPersona}"/>
+
+                        <h:outputText value="#{idioma.ViewContactoPersonaLabel_idContacto}"/>
+                        <h:outputText value="#{contactoPersonaController.selected.idContacto.idContacto}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('ContactoPersonaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

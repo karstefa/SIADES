@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DireccionEmpleadoCreateDlg" widgetVar="DireccionEmpleadoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{idioma.CreateDireccionEmpleadoTitle}" closeOnEscape="true">
+
+            <h:form id="DireccionEmpleadoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{direccionEmpleadoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{idioma.CreateDireccionEmpleadoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{direccionEmpleadoController.selected.estado}" title="#{idioma.CreateDireccionEmpleadoTitle_estado}" required="true" requiredMessage="#{idioma.CreateDireccionEmpleadoRequiredMessage_estado}" size="1" maxlength="1"/>
+
+                        <p:outputLabel value="#{idioma.CreateDireccionEmpleadoLabel_idEmpleado}" for="idEmpleado" />
+                        <p:selectOneMenu id="idEmpleado" value="#{direccionEmpleadoController.selected.idEmpleado}" required="true" requiredMessage="#{idioma.CreateDireccionEmpleadoRequiredMessage_idEmpleado}" converter="empleadoConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadoController.items}"
+                                           var="idEmpleadoItem"
+                                           itemValue="#{idEmpleadoItem}"
+                                           itemLabel="#{idEmpleadoItem.idEmpleado.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{idioma.CreateDireccionEmpleadoLabel_idDireccion}" for="idDireccion" />
+                        <p:selectOneMenu id="idDireccion" value="#{direccionEmpleadoController.selected.idDireccion}" required="true" requiredMessage="#{idioma.CreateDireccionEmpleadoRequiredMessage_idDireccion}" converter="direccionConverter">
+                            <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
+                            <f:selectItems value="#{direccionController.items}"
+                                           var="idDireccionItem"
+                                           itemValue="#{idDireccionItem}"
+                                           itemLabel="#{idDireccionItem.idDireccion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{direccionEmpleadoController.saveNew}" value="#{idioma.Save}" update="display,:DireccionEmpleadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DireccionEmpleadoCreateDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DireccionEmpleadoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

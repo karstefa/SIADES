@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MoraPagoViewDlg" widgetVar="MoraPagoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewMoraPagoTitle}" closeOnEscape="true">
+
+            <h:form id="MoraPagoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{moraPagoController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewMoraPagoLabel_idMoraPago}"/>
+                        <h:outputText value="#{moraPagoController.selected.idMoraPago}" title="#{idioma.ViewMoraPagoTitle_idMoraPago}"/>
+
+                        <h:outputText value="#{idioma.ViewMoraPagoLabel_idMora}"/>
+                        <h:outputText value="#{moraPagoController.selected.idMora.idMora}"/>
+
+                        <h:outputText value="#{idioma.ViewMoraPagoLabel_idPago}"/>
+                        <h:outputText value="#{moraPagoController.selected.idPago.idPago}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('MoraPagoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

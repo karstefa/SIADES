@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DonanteEditDlg" widgetVar="DonanteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.EditDonanteTitle}" closeOnEscape="true">
+
+            <h:form id="DonanteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{donanteController.selected != null}">
+
+
+                        <h:outputLabel value="#{idioma.EditDonanteLabel_idDonante}" for="idDonante" />
+                        <h:outputText id="idDonante" value="#{donanteController.selected.idDonante}" />
+
+                        <p:outputLabel value="#{idioma.EditDonanteLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{donanteController.selected.nombre}" title="#{idioma.EditDonanteTitle_nombre}" required="true" requiredMessage="#{idioma.EditDonanteRequiredMessage_nombre}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{donanteController.save}" value="#{idioma.Save}" update="display,:DonanteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DonanteEditDialog'));">
+                        <p:confirm header="#{idioma.ConfirmationHeader}" message="#{idioma.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{idioma.Cancel}" onclick="PF('DonanteEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

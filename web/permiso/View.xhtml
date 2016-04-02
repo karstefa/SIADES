@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PermisoViewDlg" widgetVar="PermisoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewPermisoTitle}" closeOnEscape="true">
+
+            <h:form id="PermisoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{permisoController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewPermisoLabel_idPermiso}"/>
+                        <h:outputText value="#{permisoController.selected.idPermiso}" title="#{idioma.ViewPermisoTitle_idPermiso}"/>
+
+                        <h:outputText value="#{idioma.ViewPermisoLabel_nombre}"/>
+                        <h:outputText value="#{permisoController.selected.nombre}" title="#{idioma.ViewPermisoTitle_nombre}"/>
+
+                        <h:outputText value="#{idioma.ViewPermisoLabel_idTipoPermiso}"/>
+                        <h:outputText value="#{permisoController.selected.idTipoPermiso.idTipoPermiso}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('PermisoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstudioViewDlg" widgetVar="EstudioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{idioma.ViewEstudioTitle}" closeOnEscape="true">
+
+            <h:form id="EstudioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{estudioController.selected != null}">
+
+                        <h:outputText value="#{idioma.ViewEstudioLabel_idEstudio}"/>
+                        <h:outputText value="#{estudioController.selected.idEstudio}" title="#{idioma.ViewEstudioTitle_idEstudio}"/>
+
+                        <h:outputText value="#{idioma.ViewEstudioLabel_estudioRealizados}"/>
+                        <h:outputText value="#{estudioController.selected.estudioRealizados}" title="#{idioma.ViewEstudioTitle_estudioRealizados}"/>
+
+                        <h:outputText value="#{idioma.ViewEstudioLabel_anioInicio}"/>
+                        <h:outputText value="#{estudioController.selected.anioInicio}" title="#{idioma.ViewEstudioTitle_anioInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewEstudioLabel_anioFinalizado}"/>
+                        <h:outputText value="#{estudioController.selected.anioFinalizado}" title="#{idioma.ViewEstudioTitle_anioFinalizado}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{idioma.ViewEstudioLabel_idPersona}"/>
+                        <h:outputText value="#{estudioController.selected.idPersona.idPersona}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{idioma.Close}" onclick="PF('EstudioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
