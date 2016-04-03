@@ -12,59 +12,65 @@
         <h:form id="menuForm">
             <p:menubar>
                 <p:menuitem value="#{idioma.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{idioma.Menu}">
+                    <p:menuitem value="Contro de Socios"  />
+                    <p:menuitem value="Pagos" />
+                    <p:menuitem value="Inventario"  />
+                    <p:menuitem value="Reporteria" outcome="/reporteria/baseReporte"/>                    
+                </p:submenu>
                 <p:submenu label="#{idioma.Maintenance}">
-                    <p:menuitem value="#{idioma.AutorizacionUsuarioEmpleadoHeading}..." outcome="/autorizacionUsuarioEmpleado/index" />
-                    <p:menuitem value="#{idioma.CargoHeading}..." outcome="/cargo/index" />
-                    <p:menuitem value="#{idioma.ConstanciaHeading}..." outcome="/constancia/index" />
-                    <p:menuitem value="#{idioma.ContactoHeading}..." outcome="/contacto/index" />
-                    <p:menuitem value="#{idioma.ContactoEmpleadoHeading}..." outcome="/contactoEmpleado/index" />
-                    <p:menuitem value="#{idioma.ContactoPersonaHeading}..." outcome="/contactoPersona/index" />
-                    <p:menuitem value="#{idioma.DepartamentoHeading}..." outcome="/departamento/index" />
-                    <p:menuitem value="#{idioma.DetalleProductoDonanteHeading}..." outcome="/detalleProductoDonante/index" />
-                    <p:menuitem value="#{idioma.DireccionHeading}..." outcome="/direccion/index" />
-                    <p:menuitem value="#{idioma.DireccionEmpleadoHeading}..." outcome="/direccionEmpleado/index" />
-                    <p:menuitem value="#{idioma.DireccionPersonaHeading}..." outcome="/direccionPersona/index" />
-                    <p:menuitem value="#{idioma.DocumentoHeading}..." outcome="/documento/index" />
-                    <p:menuitem value="#{idioma.DocumentoEmpleadoHeading}..." outcome="/documentoEmpleado/index" />
-                    <p:menuitem value="#{idioma.DocumentoSocioHeading}..." outcome="/documentoSocio/index" />
-                    <p:menuitem value="#{idioma.DonacionHeading}..." outcome="/donacion/index" />
-                    <p:menuitem value="#{idioma.DonacionMembresiaHeading}..." outcome="/donacionMembresia/index" />
-                    <p:menuitem value="#{idioma.DonanteHeading}..." outcome="/donante/index" />
-                    <p:menuitem value="#{idioma.EmpleadoHeading}..." outcome="/empleado/index" />
-                    <p:menuitem value="#{idioma.EstadoEmpleadoHeading}..." outcome="/estadoEmpleado/index" />
-                    <p:menuitem value="#{idioma.EstadoSocioHeading}..." outcome="/estadoSocio/index" />
-                    <p:menuitem value="#{idioma.EstudioHeading}..." outcome="/estudio/index" />
-                    <p:menuitem value="#{idioma.ExistenciaProductoHeading}..." outcome="/existenciaProducto/index" />
-                    <p:menuitem value="#{idioma.MembresiaHeading}..." outcome="/membresia/index" />
-                    <p:menuitem value="#{idioma.MoraHeading}..." outcome="/mora/index" />
-                    <p:menuitem value="#{idioma.MoraPagoHeading}..." outcome="/moraPago/index" />
-                    <p:menuitem value="#{idioma.MunicipioHeading}..." outcome="/municipio/index" />
-                    <p:menuitem value="#{idioma.NecesidadHeading}..." outcome="/necesidad/index" />
-                    <p:menuitem value="#{idioma.NecesidadProyectoHeading}..." outcome="/necesidadProyecto/index" />
-                    <p:menuitem value="#{idioma.OrdenHeading}..." outcome="/orden/index" />
-                    <p:menuitem value="#{idioma.OrdenDetalleHeading}..." outcome="/ordenDetalle/index" />
-                    <p:menuitem value="#{idioma.PagoHeading}..." outcome="/pago/index" />
-                    <p:menuitem value="#{idioma.PagoMembresiaHeading}..." outcome="/pagoMembresia/index" />
-                    <p:menuitem value="#{idioma.PaisHeading}..." outcome="/pais/index" />
-                    <p:menuitem value="#{idioma.PermisoHeading}..." outcome="/permiso/index" />
-                    <p:menuitem value="#{idioma.ProductoDonanteHeading}..." outcome="/productoDonante/index" />
-                    <p:menuitem value="#{idioma.ProyectoHeading}..." outcome="/proyecto/index" />
-                    <p:menuitem value="#{idioma.ProyectoSocioHeading}..." outcome="/proyectoSocio/index" />
-                    <p:menuitem value="#{idioma.RolHeading}..." outcome="/rol/index" />
-                    <p:menuitem value="#{idioma.SocioHeading}..." outcome="/socio/index" />
-                    <p:menuitem value="#{idioma.SocioMembresiaHeading}..." outcome="/socioMembresia/index" />
-                    <p:menuitem value="#{idioma.TipoConstanciaHeading}..." outcome="/tipoConstancia/index" />
-                    <p:menuitem value="#{idioma.TipoDonacionHeading}..." outcome="/tipoDonacion/index" />
-                    <p:menuitem value="#{idioma.TipoEmpleadoHeading}..." outcome="/tipoEmpleado/index" />
-                    <p:menuitem value="#{idioma.TipoMembresiaHeading}..." outcome="/tipoMembresia/index" />
-                    <p:menuitem value="#{idioma.TipoMoraHeading}..." outcome="/tipoMora/index" />
-                    <p:menuitem value="#{idioma.TipoPagoHeading}..." outcome="/tipoPago/index" />
-                    <p:menuitem value="#{idioma.TipoPermisoHeading}..." outcome="/tipoPermiso/index" />
-                    <p:menuitem value="#{idioma.TipoProyectoHeading}..." outcome="/tipoProyecto/index" />
-                    <p:menuitem value="#{idioma.TipoSocioHeading}..." outcome="/tipoSocio/index" />
-                    <p:menuitem value="#{idioma.TituloHeading}..." outcome="/titulo/index" />
-                    <p:menuitem value="#{idioma.UsuarioEmpleadoRolHeading}..." outcome="/usuarioEmpleadoRol/index" />
-                    <p:menuitem value="#{idioma.UsuarioSocioRolHeading}..." outcome="/usuarioSocioRol/index" />
+                    <p:menuitem value="#{idioma.AutorizacionUsuarioEmpleadoHeading}..." outcome="/mantenimientos/autorizacionUsuarioEmpleado/index" />
+                    <p:menuitem value="#{idioma.CargoHeading}..." outcome="/mantenimientos/cargo/index" />
+                    <p:menuitem value="#{idioma.ConstanciaHeading}..." outcome="/mantenimientos/constancia/index" />
+                    <p:menuitem value="#{idioma.ContactoHeading}..." outcome="/mantenimientos/contacto/index" />
+                    <p:menuitem value="#{idioma.ContactoEmpleadoHeading}..." outcome="/mantenimientos/contactoEmpleado/index" />
+                    <p:menuitem value="#{idioma.ContactoPersonaHeading}..." outcome="/mantenimientos/contactoPersona/index" />
+                    <p:menuitem value="#{idioma.DepartamentoHeading}..." outcome="/mantenimientos/departamento/index" />
+                    <p:menuitem value="#{idioma.DetalleProductoDonanteHeading}..." outcome="/mantenimientos/detalleProductoDonante/index" />
+                    <p:menuitem value="#{idioma.DireccionHeading}..." outcome="/mantenimientos/direccion/index" />
+                    <p:menuitem value="#{idioma.DireccionEmpleadoHeading}..." outcome="/mantenimientos/direccionEmpleado/index" />
+                    <p:menuitem value="#{idioma.DireccionPersonaHeading}..." outcome="/mantenimientos/direccionPersona/index" />
+                    <p:menuitem value="#{idioma.DocumentoHeading}..." outcome="/mantenimientos/documento/index" />
+                    <p:menuitem value="#{idioma.DocumentoEmpleadoHeading}..." outcome="/mantenimientos/documentoEmpleado/index" />
+                    <p:menuitem value="#{idioma.DocumentoSocioHeading}..." outcome="/mantenimientos/documentoSocio/index" />
+                    <p:menuitem value="#{idioma.DonacionHeading}..." outcome="/mantenimientos/donacion/index" />
+                    <p:menuitem value="#{idioma.DonacionMembresiaHeading}..." outcome="/mantenimientos/donacionMembresia/index" />
+                    <p:menuitem value="#{idioma.DonanteHeading}..." outcome="/mantenimientos/donante/index" />
+                    <p:menuitem value="#{idioma.EmpleadoHeading}..." outcome="/mantenimientos/empleado/index" />
+                    <p:menuitem value="#{idioma.EstadoEmpleadoHeading}..." outcome="/mantenimientos/estadoEmpleado/index" />
+                    <p:menuitem value="#{idioma.EstadoSocioHeading}..." outcome="/mantenimientos/estadoSocio/index" />
+                    <p:menuitem value="#{idioma.EstudioHeading}..." outcome="/mantenimientos/estudio/index" />
+                    <p:menuitem value="#{idioma.ExistenciaProductoHeading}..." outcome="/mantenimientos/existenciaProducto/index" />
+                    <p:menuitem value="#{idioma.MembresiaHeading}..." outcome="/mantenimientos/membresia/index" />
+                    <p:menuitem value="#{idioma.MoraHeading}..." outcome="/mantenimientos/mora/index" />
+                    <p:menuitem value="#{idioma.MoraPagoHeading}..." outcome="/mantenimientos/moraPago/index" />
+                    <p:menuitem value="#{idioma.MunicipioHeading}..." outcome="/mantenimientos/municipio/index" />
+                    <p:menuitem value="#{idioma.NecesidadHeading}..." outcome="/mantenimientos/necesidad/index" />
+                    <p:menuitem value="#{idioma.NecesidadProyectoHeading}..." outcome="/mantenimientos/necesidadProyecto/index" />
+                    <p:menuitem value="#{idioma.OrdenHeading}..." outcome="/mantenimientos/orden/index" />
+                    <p:menuitem value="#{idioma.OrdenDetalleHeading}..." outcome="/mantenimientos/ordenDetalle/index" />
+                    <p:menuitem value="#{idioma.PagoHeading}..." outcome="/mantenimientos/pago/index" />
+                    <p:menuitem value="#{idioma.PagoMembresiaHeading}..." outcome="/mantenimientos/pagoMembresia/index" />
+                    <p:menuitem value="#{idioma.PaisHeading}..." outcome="/mantenimientos/pais/index" />
+                    <p:menuitem value="#{idioma.PermisoHeading}..." outcome="/mantenimientos/permiso/index" />
+                    <p:menuitem value="#{idioma.ProductoDonanteHeading}..." outcome="/mantenimientos/productoDonante/index" />
+                    <p:menuitem value="#{idioma.ProyectoHeading}..." outcome="/mantenimientos/proyecto/index" />
+                    <p:menuitem value="#{idioma.ProyectoSocioHeading}..." outcome="/mantenimientos/proyectoSocio/index" />
+                    <p:menuitem value="#{idioma.RolHeading}..." outcome="/mantenimientos/rol/index" />
+                    <p:menuitem value="#{idioma.SocioHeading}..." outcome="/mantenimientos/socio/index" />
+                    <p:menuitem value="#{idioma.SocioMembresiaHeading}..." outcome="/mantenimientos/socioMembresia/index" />
+                    <p:menuitem value="#{idioma.TipoConstanciaHeading}..." outcome="/mantenimientos/tipoConstancia/index" />
+                    <p:menuitem value="#{idioma.TipoDonacionHeading}..." outcome="/mantenimientos/tipoDonacion/index" />
+                    <p:menuitem value="#{idioma.TipoEmpleadoHeading}..." outcome="/mantenimientos/tipoEmpleado/index" />
+                    <p:menuitem value="#{idioma.TipoMembresiaHeading}..." outcome="/mantenimientos/tipoMembresia/index" />
+                    <p:menuitem value="#{idioma.TipoMoraHeading}..." outcome="/mantenimientos/tipoMora/index" />
+                    <p:menuitem value="#{idioma.TipoPagoHeading}..." outcome="/mantenimientos/tipoPago/index" />
+                    <p:menuitem value="#{idioma.TipoPermisoHeading}..." outcome="/mantenimientos/tipoPermiso/index" />
+                    <p:menuitem value="#{idioma.TipoProyectoHeading}..." outcome="/mantenimientos/tipoProyecto/index" />
+                    <p:menuitem value="#{idioma.TipoSocioHeading}..." outcome="/mantenimientos/tipoSocio/index" />
+                    <p:menuitem value="#{idioma.TituloHeading}..." outcome="/mantenimientos/titulo/index" />
+                    <p:menuitem value="#{idioma.UsuarioEmpleadoRolHeading}..." outcome="/mantenimientos/usuarioEmpleadoRol/index" />
+                    <p:menuitem value="#{idioma.UsuarioSocioRolHeading}..." outcome="/mantenimientos/usuarioSocioRol/index" />
                 </p:submenu>
             </p:menubar>
             
