@@ -11,6 +11,192 @@
     </ui:define>
 
     <ui:define name="body">
+        <p:tabView>
+            <p:tab title="${idioma.registroSociosTitle}">
+                <h:outputLabel value="Agregar socio"/>
+                <center>
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="${idioma.registroNombreTitle}"/>
+                    <p:inputText value="Juan Antonio"/>
+                    <h:outputLabel value="${idioma.registroApellidosTitle}"/>
+                    <p:inputText value="Perez"/>
+                    <h:outputLabel value="${idioma.registroFechaNacimientoTitle}"/>
+                    <p:calendar />
+                    <h:outputLabel value="${idioma.registroDireccionTitle}"/>
+                    <p:commandButton value="${idioma.registroAgregarDireccionTitle}" onclick="PF('dialogDireccion').show()"/>
+                    <h:outputLabel value="${idioma.registroContactoTitle}"/>
+                    <p:commandButton value="${idioma.registroAgregarContactoTitle}" onclick="PF('dialogContacto').show()"/>
+                    <h:outputLabel value="${idioma.registroDocumentoTitle}"/>
+                    <p:commandButton value="${idioma.registroAgregarDocumentoTitle}" onclick="PF('dialogDocumentos').show()"/>
+                </p:panelGrid>
+                <p:commandButton value="${idioma.agregarSocioTitle}"/>
+                </center>
+            </p:tab>
+            <p:tab title="${idioma.membresiaTitle}">
+                <h:outputLabel value="Agregar afiliación"/>
+                <center>
+                <p:panelGrid columns="2">
+                    <h:outputLabel value="Nombre de socio"/>
+                    <p:inputText/>
+                    <h:outputLabel value="Tipo de Membresia"/>
+                    <p:selectOneMenu>
+                        <f:selectItem itemLabel="Socio mayoritario"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Fecha Pago"/>
+                    <p:calendar/>
+                    <h:outputLabel value="Modalidad de Pago"/>
+                    <p:selectOneMenu>
+                        <f:selectItem itemLabel="Mensual"/>
+                    </p:selectOneMenu>
+
+                </p:panelGrid>
+                <p:commandButton value="Registrar afiliación"/>
+                </center>
+            </p:tab>
+            <p:tab title="${idioma.listadoSociosTitle}">
+                <h:outputLabel value="Listado de socios"/>
+                <center>
+                    <p:panelGrid columns="2">
+                        <h:outputLabel value="Fecha Inicial"/>
+                        <p:calendar/>
+                        <h:outputLabel value="Fecha Final"/>
+                        <p:calendar/>
+                        <h:outputLabel value="Categoria"/>
+                        <p:selectOneMenu>
+                            <f:selectItem itemLabel="Inactivo"/>
+                            <f:selectItem itemLabel="Activo"/>
+                        </p:selectOneMenu>
+                        <p:commandButton value="Buscar"/>
+                    </p:panelGrid>
+                    <p:dataTable>
+                        <f:facet name="header">
+                            <h:outputLabel value="Detalle de socios"/>
+                        </f:facet>
+                        <p:column headerText="Nombres">
+                            <h:outputLabel/>
+                        </p:column>
+                        <p:column headerText="Apellidos">
+                            <h:outputLabel/>
+                        </p:column>
+                        <p:column headerText="Tipo socio">
+                            <h:outputLabel/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputLabel/>
+                        </p:column>
+                        <p:column headerText="Acción">
+                            <h:outputLabel/>
+                        </p:column>
+                    </p:dataTable>
+                </center>
+            </p:tab>
+        </p:tabView>
+        
+        
+        
+        
+        <p:dialog id="idDialogDireccion" widgetVar="dialogDireccion" header="Ingrese Direcciones" modal="false"
+                  width="400px" height="300px">
+            <p:panelGrid columns="2">
+                <h:outputLabel value="Dirección"/>
+                <p:inputText/>
+                <h:outputLabel value="País"/>
+                <p:selectOneMenu>
+                    <f:selectItem itemLabel="El Salvador"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="Departamento"/>
+                <p:selectOneMenu>
+                    <f:selectItem itemLabel="San Salvador"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="Municipio"/>
+                <p:selectOneMenu>
+                    <f:selectItem itemLabel="San Salvador"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="Estado"/>
+                <p:selectBooleanButton  offLabel="Inactivo" onLabel="Activo"/>
+                
+            </p:panelGrid>
+            <p:commandButton value="Guardar Dirección"/>
+            <br/>
+            <br/>
+            <p:dataTable >
+                 <f:facet name="header">
+                     Direcciones agregadas
+                </f:facet>
+                <p:column headerText="Dirección">
+                    <h:outputText value="Colonia Flor Blanca"/>
+                </p:column>
+                <p:column headerText="Estado">
+                    <h:outputText value="Activo"/>
+                </p:column>
+                <p:column headerText="Acción">
+                    <p:commandLink value="Modificar"/>
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+        
+        <p:dialog id="idDialogContacto" widgetVar="dialogContacto" header="Ingrese Contactos" modal="false"
+                  width="400px" height="200px">
+            <p:panelGrid columns="2">
+                <h:outputLabel value="Nombre"/>
+                <p:selectOneMenu>
+                    <f:selectItem itemLabel="Telefono"/>
+                    <f:selectItem itemLabel="Celular"/>
+                    <f:selectItem itemLabel="Facebook"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="Valor"/>
+                <p:inputText/>
+            </p:panelGrid>
+            <p:commandButton value="Guardar Contacto"/>
+            <br/>
+            <br/>
+            <p:dataTable >
+                 <f:facet name="header">
+                     Contactos agregados
+                </f:facet>
+                <p:column headerText="Nombre">
+                    <h:outputText value=""/>
+                </p:column>
+                <p:column headerText="Valor">
+                    <h:outputText value=""/>
+                </p:column>
+                <p:column headerText="Acción">
+                    <p:commandLink value="Modificar"/>
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+        
+        <p:dialog id="idDialogDocumentos" widgetVar="dialogDocumentos" header="Ingrese Documentos" modal="false"
+                  width="400px" height="200px">
+            <p:panelGrid columns="2">
+                <h:outputLabel value="Documento"/>
+                <p:selectOneMenu>
+                    <f:selectItem itemLabel="DUI"/>
+                    <f:selectItem itemLabel="NIT"/>
+                    <f:selectItem itemLabel="Pasaporte"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="Valor"/>
+                <p:inputText/>
+            </p:panelGrid>
+            <p:commandButton value="Guardar Documento"/>
+            <br/>
+            <br/>
+            <p:dataTable >
+                 <f:facet name="header">
+                     Documentos agregados
+                </f:facet>
+                <p:column headerText="Nombre">
+                    <h:outputText value=""/>
+                </p:column>
+                <p:column headerText="Valor">
+                    <h:outputText value=""/>
+                </p:column>
+                <p:column headerText="Acción">
+                    <p:commandLink value="Modificar"/>
+                </p:column>
+            </p:dataTable>
+        </p:dialog>
+        
         
         
     </ui:define>
