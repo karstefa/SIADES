@@ -9,6 +9,7 @@ package sv.edu.entidades.controladores;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.edu.entidades.Socio;
 
 /**
@@ -23,6 +24,13 @@ public class SocioFacade extends AbstractFacade<Socio> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    
+    public Socio obtenerSocioPorUsuarioContrasenia(String usuario, String contrasenia){
+        String jpql = "select s from Socio s where s.usuario = :usuario and s.contrasenia= :contrasenia";
+        Query q  = getEntityManager().createQuery("");
+        return null;
     }
 
     public SocioFacade() {

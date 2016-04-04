@@ -19,7 +19,10 @@
                         <p:inputText id="usuario" value="#{empleadoController.selected.usuario}" title="#{idioma.CreateEmpleadoTitle_usuario}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_usuario}" size="50" maxlength="50"/>
 
                         <p:outputLabel value="#{idioma.CreateEmpleadoLabel_contrasenia}" for="contrasenia" />
-                        <p:inputText id="contrasenia" value="#{empleadoController.selected.contrasenia}" title="#{idioma.CreateEmpleadoTitle_contrasenia}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_contrasenia}" size="50" maxlength="50"/>
+                        <p:password id="contrasenia" value="#{empleadoController.selected.contrasenia}" title="#{idioma.CreateEmpleadoTitle_contrasenia}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_contrasenia}" match="confirmcontrasenia" size="50" maxlength="50"/>
+                        
+                        <p:outputLabel value="#{idioma.CreateEmpleadoLabel_confirmcontrasenia}" for="confirmcontrasenia" />
+                        <p:password id="confirmcontrasenia" value="#{empleadoController.selected.contrasenia}" title="#{idioma.CreateEmpleadoTitle_contrasenia}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_contrasenia}" size="50" maxlength="50"/>
 
                         <p:outputLabel value="#{idioma.CreateEmpleadoLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{empleadoController.selected.nombre}" title="#{idioma.CreateEmpleadoTitle_nombre}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_nombre}" size="50" maxlength="50"/>
@@ -28,10 +31,13 @@
                         <p:inputText id="apellido" value="#{empleadoController.selected.apellido}" title="#{idioma.CreateEmpleadoTitle_apellido}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_apellido}" size="50" maxlength="50"/>
 
                         <p:outputLabel value="#{idioma.CreateEmpleadoLabel_genero}" for="genero" />
-                        <p:inputText id="genero" value="#{empleadoController.selected.genero}" title="#{idioma.CreateEmpleadoTitle_genero}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_genero}"/>
+                        <p:selectOneMenu id="genero" value="#{empleadoController.selected.genero}" title="#{idioma.CreateEmpleadoTitle_genero}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_genero}">
+                            <f:selectItem itemLabel="Femenino" itemValue="0"/>
+                            <f:selectItem itemLabel="Masculino" itemValue="1"/>
+                        </p:selectOneMenu>
 
                         <p:outputLabel value="#{idioma.CreateEmpleadoLabel_fechaNacimiento}" for="fechaNacimiento" />
-                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{empleadoController.selected.fechaNacimiento}" title="#{idioma.CreateEmpleadoTitle_fechaNacimiento}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_fechaNacimiento}" showOn="button"/>
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" navigator="true" value="#{empleadoController.selected.fechaNacimiento}" title="#{idioma.CreateEmpleadoTitle_fechaNacimiento}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_fechaNacimiento}" showOn="button"/>
 
                         <p:outputLabel value="#{idioma.CreateEmpleadoLabel_idEstadoEmpleado}" for="idEstadoEmpleado" />
                         <p:selectOneMenu id="idEstadoEmpleado" value="#{empleadoController.selected.idEstadoEmpleado}" required="true" requiredMessage="#{idioma.CreateEmpleadoRequiredMessage_idEstadoEmpleado}" converter="estadoEmpleadoConverter">
@@ -39,7 +45,7 @@
                             <f:selectItems value="#{estadoEmpleadoController.items}"
                                            var="idEstadoEmpleadoItem"
                                            itemValue="#{idEstadoEmpleadoItem}"
-                                           itemLabel="#{idEstadoEmpleadoItem.idEstadoEmpleado.toString()}"
+                                           itemLabel="#{idEstadoEmpleadoItem.nombre}"
                                            />
 
                         </p:selectOneMenu>
@@ -50,7 +56,7 @@
                             <f:selectItems value="#{cargoController.items}"
                                            var="idCargoItem"
                                            itemValue="#{idCargoItem}"
-                                           itemLabel="#{idCargoItem.idCargo.toString()}"
+                                           itemLabel="#{idCargoItem.nombre}"
                                            />
 
                         </p:selectOneMenu>
@@ -61,7 +67,7 @@
                             <f:selectItems value="#{tipoEmpleadoController.items}"
                                            var="idTipoEmpleadoItem"
                                            itemValue="#{idTipoEmpleadoItem}"
-                                           itemLabel="#{idTipoEmpleadoItem.idTipoEmpleado.toString()}"
+                                           itemLabel="#{idTipoEmpleadoItem.nombre}"
                                            />
 
                         </p:selectOneMenu>

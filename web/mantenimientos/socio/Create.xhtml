@@ -14,12 +14,15 @@
 
                 <h:panelGroup id="display" rendered="#{socioController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
-
-                        <p:outputLabel value="#{idioma.CreateSocioLabel_contrasenia}" for="contrasenia" />
-                        <p:inputText id="contrasenia" value="#{socioController.selected.contrasenia}" title="#{idioma.CreateSocioTitle_contrasenia}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_contrasenia}" size="50" maxlength="50"/>
-
+                        
                         <p:outputLabel value="#{idioma.CreateSocioLabel_usuario}" for="usuario" />
                         <p:inputText id="usuario" value="#{socioController.selected.usuario}" title="#{idioma.CreateSocioTitle_usuario}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_usuario}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{idioma.CreateSocioLabel_contrasenia}" for="contrasenia" />
+                        <p:password id="contrasenia" value="#{socioController.selected.contrasenia}" title="#{idioma.CreateSocioTitle_contrasenia}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_contrasenia}" match="confirmcontrasenia" size="50" maxlength="50"/>
+                        
+                        <p:outputLabel value="#{idioma.CreateSocioLabel_confirmcontrasenia}" for="confirmcontrasenia" />
+                        <p:password id="confirmcontrasenia" value="#{socioController.selected.contrasenia}" title="#{idioma.CreateSocioTitle_contrasenia}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_contrasenia}"  size="50" maxlength="50"/>
 
                         <p:outputLabel value="#{idioma.CreateSocioLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{socioController.selected.nombre}" title="#{idioma.CreateSocioTitle_nombre}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_nombre}" size="50" maxlength="50"/>
@@ -28,10 +31,13 @@
                         <p:inputText id="apellido" value="#{socioController.selected.apellido}" title="#{idioma.CreateSocioTitle_apellido}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_apellido}" size="50" maxlength="50"/>
 
                         <p:outputLabel value="#{idioma.CreateSocioLabel_genero}" for="genero" />
-                        <p:inputText id="genero" value="#{socioController.selected.genero}" title="#{idioma.CreateSocioTitle_genero}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_genero}"/>
+                        <p:selectOneMenu id="genero" value="#{socioController.selected.genero}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_genero}">
+                            <f:selectItem itemLabel="Femenino" itemValue="0"/>
+                            <f:selectItem itemLabel="Masculino" itemValue="1"/>
+                        </p:selectOneMenu>
 
                         <p:outputLabel value="#{idioma.CreateSocioLabel_fechaNacimiento}" for="fechaNacimiento" />
-                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{socioController.selected.fechaNacimiento}" title="#{idioma.CreateSocioTitle_fechaNacimiento}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_fechaNacimiento}" showOn="button"/>
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" navigator="true" value="#{socioController.selected.fechaNacimiento}" title="#{idioma.CreateSocioTitle_fechaNacimiento}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_fechaNacimiento}" showOn="button"/>
 
                         <p:outputLabel value="#{idioma.CreateSocioLabel_idTipoSocio}" for="idTipoSocio" />
                         <p:selectOneMenu id="idTipoSocio" value="#{socioController.selected.idTipoSocio}" required="true" requiredMessage="#{idioma.CreateSocioRequiredMessage_idTipoSocio}" converter="tipoSocioConverter">
@@ -39,7 +45,7 @@
                             <f:selectItems value="#{tipoSocioController.items}"
                                            var="idTipoSocioItem"
                                            itemValue="#{idTipoSocioItem}"
-                                           itemLabel="#{idTipoSocioItem.idTipoSocio.toString()}"
+                                           itemLabel="#{idTipoSocioItem.nombre}"
                                            />
 
                         </p:selectOneMenu>
@@ -50,7 +56,7 @@
                             <f:selectItems value="#{estadoSocioController.items}"
                                            var="idEstadoSocioItem"
                                            itemValue="#{idEstadoSocioItem}"
-                                           itemLabel="#{idEstadoSocioItem.idEstadoSocio.toString()}"
+                                           itemLabel="#{idEstadoSocioItem.nombre}"
                                            />
 
                         </p:selectOneMenu>
