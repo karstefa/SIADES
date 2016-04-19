@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>
@@ -11,10 +12,24 @@
         <h:outputScript library="scripts" name="pfcrud.js"/>
     </h:head>
 
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{usuarioController.validarSesion()}"/>
+    </f:metadata> 
+    
     <h:body>
 
         <p:growl id="growl" showDetail="true" showSummary="true" life="5000" autoUpdate="true"/>
 
+        <h:form>
+            <p:idleMonitor onactive="sessionTimeOutDialog.show();" timeout="#{session.maxInactiveInterval * 1000-500}" />
+            <p:dialog header="Sesión expira" widgetVar="sessionTimeOutDialog" 
+			 modal="true" closable="false" width="400" visible="false">
+			     <h:outputText value="Sesión ha expirado" />
+			     <input id="confirmBackToLogin" type="button" value="#{msg['error.sessionTimeOut.button']}"
+			        onclick="window.location='#{facesContext.externalContext.requestContextPath}/inicioSesion.ufg';" />
+            </p:dialog>
+        </h:form>
+        
         <p:layout fullPage="true">
             <p:layoutUnit position="north" size="100" header="#{idioma.AppName}">
                 <!-- Menu here. Also a layout and a way to log a user out -->
@@ -30,8 +45,72 @@
                 <ui:insert name="body"/>
             </p:layoutUnit>
 
+                   <p:dialog id="timeoutSession"
+     header="#{msg['session.expire']}"
+     widgetVar="timeoutDialog"
+     showEffect="fade" hideEffect="fade"
+     modal="true"
+     width="400"
+     height="110"
+     closable="false"
+     draggable="false"
+     resizable="false"
+     onHide="stopCount()"
+     onShow="doTimer()">
+     <br />
+     <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 8px 8px 0;"/>
+        <p:panel>
+           #{msg['logoff.soon.1']}
+           <span id="dialog-countdown" style="font-weight: bold"></span>
+           #{msg['logoff.soon.2']}
+        </p:panel>
+     </p>
+     <br />
+     <p style="font-weight: bold;">#{msg['move.cursor']}</p>
+      </p:dialog>
         </p:layout>
 
+         <script type="text/javascript">
+      var TIME = 120; // in seconds
+      var countTimer = TIME;
+      var processTimer;
+      var timer_is_on = 0;
+      var redirectPage = "#{request.contextPath}/auth/j_verinice_timeout";
+
+      var countDownDiv = "dialog-countdown";
+      var txtCountDown = null;
+      if (!txtCountDown)
+        txtCountDown = document.getElementById(countDownDiv);
+
+      function startIdleMonitor() {
+        countTimer = TIME;
+        txtCountDown.innerHTML = countTimer;
+        timeoutDialog.show();
+      }
+      function timedCount() {
+        txtCountDown.innerHTML = countTimer;
+        if (countTimer == 0) {
+            stopCount();
+            window.location.href = redirectPage;
+            return;
+        }
+        countTimer = countTimer - 1;
+        processTimer = setTimeout("timedCount()", 1000);
+      }
+      function doTimer() {
+        if (!timer_is_on) {
+            timer_is_on = 1;
+            timedCount();
+        }
+      }
+      function stopCount() {
+        clearTimeout(processTimer);
+        timer_is_on = 0;
+        keepAlive();
+      }
+      </script>
+         
     </h:body>
 
 </html>

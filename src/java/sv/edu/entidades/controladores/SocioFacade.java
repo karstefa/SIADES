@@ -27,10 +27,19 @@ public class SocioFacade extends AbstractFacade<Socio> {
     }
     
     
-    public Socio obtenerSocioPorUsuarioContrasenia(String usuario, String contrasenia){
+    public Socio obtenerPorUsuarioContrasenia(String usuario, String contrasenia){
         String jpql = "select s from Socio s where s.usuario = :usuario and s.contrasenia= :contrasenia";
-        Query q  = getEntityManager().createQuery("");
-        return null;
+        Socio s = null;
+        try{
+            Query q  = getEntityManager().createQuery(jpql);
+            q.setParameter("usuario", usuario);
+            q.setParameter("contrasenia", contrasenia);
+            s=(Socio)q.getSingleResult();
+        }catch(javax.persistence.NoResultException ne){}
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return s;
     }
 
     public SocioFacade() {
