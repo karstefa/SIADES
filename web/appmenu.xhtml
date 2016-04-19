@@ -75,9 +75,10 @@
             </p:menubar>
             
             <div style="text-align: right">
-                    <p:outputLabel value="Bienvenido Karina Stefanny"/>
-                    <p:outputLabel value="--------"/>
-                    <p:commandButton value="${idioma.cerrarSesion}"/>    
+                <p:outputLabel value="Bienvenido "/>
+                <h:outputText value="${usuarioController.usuarioEnSesion.usuario}"/>
+                <p:outputLabel value="--------"/>
+                <p:commandButton value="${idioma.cerrarSesion}"/>    
             </div>
         </h:form>
     </ui:composition>
