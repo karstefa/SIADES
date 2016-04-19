@@ -22,7 +22,7 @@
                         <p:inputText id="estado" value="#{cargoController.selected.estado}" title="#{idioma.CreateCargoTitle_estado}" required="true" requiredMessage="#{idioma.CreateCargoRequiredMessage_estado}" size="1" maxlength="1"/>
 
                         <p:outputLabel value="#{idioma.CreateCargoLabel_parentidcargo}" for="parentidcargo" />
-                        <p:selectOneMenu id="parentidcargo" value="#{cargoController.selected.parentidcargo}" required="true" requiredMessage="#{idioma.CreateCargoRequiredMessage_parentidcargo}" converter="cargoConverter">
+                        <p:selectOneMenu id="parentidcargo" value="#{cargoController.selected.parentidcargo}" converter="cargoConverter">
                             <f:selectItem itemLabel="#{idioma.SelectOneMessage}"/>
                             <f:selectItems value="#{cargoController.items}"
                                            var="parentidcargoItem"

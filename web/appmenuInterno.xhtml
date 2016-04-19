@@ -6,14 +6,14 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    
-    
+
+
     <ui:composition>
         <h:form id="menuForm">
             <p:menubar>
                 <p:menuitem value="#{idioma.Home}" outcome="/index" icon="ui-icon-home"/>
                 <p:submenu label="#{idioma.Menu}">
-                    <p:menuitem value="Contro de Socios"  />
+                    <p:menuitem value="Control de Socios"  />
                     <p:menuitem value="Pagos" />
                     <p:menuitem value="Inventario"  />
                     <p:menuitem value="Reporteria" outcome="/reporteria/baseReporte"/>                    
@@ -73,11 +73,9 @@
                     <p:menuitem value="#{idioma.UsuarioSocioRolHeading}..." outcome="/mantenimientos/usuarioSocioRol/index" />
                 </p:submenu>
             </p:menubar>
-            
+
             <div style="text-align: right">
-                    <p:outputLabel value="Bienvenido Karina Stefanny"/>
-                    <p:outputLabel value="--------"/>
-                    <p:commandButton value="${idioma.cerrarSesion}"/>    
+                <p:commandButton value="${idioma.cerrarSesion}"/>    
             </div>
         </h:form>
     </ui:composition>
